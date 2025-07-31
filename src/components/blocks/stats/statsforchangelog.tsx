@@ -18,11 +18,11 @@ export function StatsForChangelog() {
             collision and dark mode.
           </p>
           <Image
-            src="https://assets.aceternity.com/templates/startup-1.webp"
+            src="/images/projects/1/dashboard.png"
             height="2000"
             width="2000"
             className="w-full rounded-xl object-cover object-left-top md:rounded-3xl"
-            alt="Startup template image"
+            alt="Project dashboard"
             fetchPriority="high"
           />
         </div>
@@ -39,11 +39,11 @@ export function StatsForChangelog() {
             Beautiful template with modern design and minimal animations.
           </p>
           <Image
-            src="https://assets.aceternity.com/templates/startup-2.webp"
+            src="/images/projects/1/clients.png"
             height="2000"
             width="2000"
             className="w-full rounded-xl object-cover object-left-top md:rounded-3xl"
-            alt="Startup template image"
+            alt="Client management interface"
             fetchPriority="high"
           />
         </div>
@@ -60,11 +60,11 @@ export function StatsForChangelog() {
             Minor bug fixes in the template
           </p>
           <Image
-            src="https://assets.aceternity.com/templates/startup-3.webp"
+            src="/images/projects/1/cession.png"
             height="2000"
             width="2000"
             className="w-full rounded-xl object-cover object-left-top md:rounded-3xl"
-            alt="Startup template image"
+            alt="Cession management system"
             fetchPriority="high"
           />
         </div>
@@ -81,11 +81,11 @@ export function StatsForChangelog() {
             Minor bug fixes in the template
           </p>
           <Image
-            src="https://assets.aceternity.com/templates/startup-4.webp"
+            src="/images/projects/1/Settings.png"
             height="2000"
             width="2000"
             className="w-full rounded-xl object-cover object-left-top md:rounded-3xl"
-            alt="Startup template image"
+            alt="Application settings"
             fetchPriority="high"
           />
         </div>

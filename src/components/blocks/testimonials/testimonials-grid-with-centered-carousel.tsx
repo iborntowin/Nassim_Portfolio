@@ -3,17 +3,17 @@ import React from "react";
 import { cn } from "@/lib/utils";
 import { useState, useRef, useEffect } from "react";
 import Image, { StaticImageData } from "next/image";
-import { Transition } from "@headlessui/react";
+import { motion, AnimatePresence } from "motion/react";
 
 export function TestimonialsGridWithCenteredCarousel() {
   return (
     <div className="relative w-full max-w-7xl mx-auto px-4 md:px-8 pt-20 overflow-hidden h-full ">
       <div className="pb-20">
         <h1 className="pt-4 font-bold text-black text-lg md:text-2xl dark:text-white">
-          Used by builders around the world
+          Trusted by teams worldwide
         </h1>
         <p className="text-base text-neutral-600 dark:text-neutral-200">
-          Proactiv is used by serial entrepreneurs and overachievers.
+          Nassim has delivered exceptional results for companies across various industries.
         </p>
       </div>
 
@@ -44,13 +44,9 @@ export const TestimonialsGrid = () => {
             <Card key={`testimonial-${testimonial.src}-${index}`}>
               <Quote>{testimonial.quote}</Quote>
               <div className="flex gap-2 items-center mt-8">
-                <Image
-                  src={testimonial.src}
-                  alt="Manu Arora"
-                  width={40}
-                  height={40}
-                  className="rounded-full"
-                />
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm">
+                  {testimonial.name.split(' ').map(n => n[0]).join('')}
+                </div>
                 <div className="flex flex-col">
                   <QuoteDescription>{testimonial.name}</QuoteDescription>
                   <QuoteDescription className="text-[10px]">
@@ -131,102 +127,102 @@ interface Testimonial {
 
 export const testimonials: Testimonial[] = [
   {
-    name: "Manu Arora",
+    name: "James Sullivan",
     quote:
-      "What a fantastic AI Proactiv AI is, I just love it. It has completely transformed the way I approach problems and develop solutions.",
-    src: "https://i.pravatar.cc/150?img=1",
-    designation: "Tech Innovator & Entrepreneur",
+      "Nassim's work on our session management platform was exceptional. His attention to detail and technical expertise delivered exactly what we needed.",
+    src: "/images/avatars/avatar-1.png",
+    designation: "CTO, TechFlow Solutions",
   },
   {
-    name: "Tyler Durden",
+    name: "Amira Mansouri",
     quote:
-      "I made a soap with the help of AI, it was so easy to use. I'm so glad this happened because it revolutionized my entire business model and production process.",
-    src: "https://i.pravatar.cc/150?img=2",
-    designation: "Creative Director & Business Owner",
+      "The AI component detection system Nassim built has revolutionized our electronics manufacturing process. Incredible accuracy and performance.",
+    src: "/images/avatars/avatar-2.png",
+    designation: "Engineering Manager, ElectroTech",
   },
   {
-    name: "Alice Johnson",
+    name: "Robert Kim",
     quote:
-      "This AI has transformed the way I work! It's like having a brilliant assistant who knows exactly what I need before I even ask.",
-    src: "https://i.pravatar.cc/150?img=3",
-    designation: "Senior Software Engineer",
+      "Working with Nassim on our embedded systems project was a game-changer. His expertise in C++ and hardware integration is outstanding.",
+    src: "/images/avatars/avatar-3.png",
+    designation: "Senior Hardware Engineer, IoT Innovations",
   },
   {
-    name: "Bob Smith",
+    name: "Lisa Martinez",
     quote:
-      "Absolutely revolutionary, a game-changer for our industry. It has streamlined our processes and enhanced our productivity dramatically.",
-    src: "https://i.pravatar.cc/150?img=4",
-    designation: "Industry Analyst",
+      "Nassim's full-stack development skills are impressive. He delivered a robust, scalable solution that exceeded our expectations.",
+    src: "/images/avatars/avatar-4.png",
+    designation: "Product Manager, StartupHub",
   },
   {
-    name: "Cathy Lee",
+    name: "Samuel Thompson",
     quote:
-      "I can't imagine going back to how things were before this AI. It has not only improved my work efficiency but also my daily life.",
-    src: "https://i.pravatar.cc/150?img=5",
-    designation: "Product Manager",
+      "The productivity tools Nassim developed have significantly improved our team's workflow. Clean code, great documentation, excellent results.",
+    src: "/images/avatars/avatar-5.png",
+    designation: "Development Team Lead, CodeCraft",
   },
   {
-    name: "David Wright",
+    name: "Diana Wilson",
     quote:
-      "It's like having a superpower! This AI tool has given us the ability to do things we never thought were possible in our field.",
-    src: "https://i.pravatar.cc/150?img=6",
-    designation: "Research Scientist",
+      "Nassim's machine learning expertise helped us implement computer vision solutions we didn't think were possible. Truly innovative work.",
+    src: "/images/avatars/avatar-6.png",
+    designation: "AI Research Director, VisionTech",
   },
   {
-    name: "Eva Green",
+    name: "Michael Johnson",
     quote:
-      "The efficiency it brings is unmatched. It's a vital tool that has helped us cut costs and improve our end product significantly.",
-    src: "https://i.pravatar.cc/150?img=7",
-    designation: "Operations Director",
+      "The contract management system Nassim built has streamlined our entire business process. Professional, efficient, and user-friendly.",
+    src: "/images/avatars/avatar-7.png",
+    designation: "Operations Director, BusinessFlow",
   },
   {
-    name: "Frank Moore",
+    name: "Nancy Kim",
     quote:
-      "A robust solution that fits perfectly into our workflow. It has enhanced our team's capabilities and allowed us to tackle more complex projects.",
-    src: "https://i.pravatar.cc/150?img=8",
-    designation: "Project Manager",
+      "Nassim's ability to work across different technologies - from Spring Boot to Svelte - makes him an invaluable full-stack developer.",
+    src: "/images/avatars/avatar-8.png",
+    designation: "Technical Project Manager, WebSolutions",
   },
   {
-    name: "Grace Hall",
+    name: "Peter Lee",
     quote:
-      "It's incredibly intuitive and easy to use. Even those without technical expertise can leverage its power to improve their workflows.",
-    src: "https://i.pravatar.cc/150?img=9",
-    designation: "Marketing Specialist",
+      "The embedded communication system Nassim developed achieved performance gains we didn't expect. Excellent engineering and optimization.",
+    src: "/images/avatars/avatar-9.png",
+    designation: "Systems Architect, SpaceTech",
   },
   {
-    name: "Henry Ford",
+    name: "Quinn Rodriguez",
     quote:
-      "It has saved us countless hours. Highly recommended for anyone looking to enhance their efficiency and productivity.",
-    src: "https://i.pravatar.cc/150?img=10",
-    designation: "Operations Analyst",
+      "Nassim's work on our AI-powered analytics platform has saved us countless hours. His technical skills and problem-solving are top-notch.",
+    src: "/images/avatars/avatar-10.png",
+    designation: "Data Science Manager, AnalyticsPro",
   },
   {
-    name: "Ivy Wilson",
+    name: "Tina Underwood",
     quote:
-      "A must-have tool for any professional. It's revolutionized the way we approach problem-solving and decision-making.",
-    src: "https://i.pravatar.cc/150?img=11",
-    designation: "Business Consultant",
+      "Professional, reliable, and technically excellent. Nassim delivered our desktop application on time and with exceptional quality.",
+    src: "/images/avatars/avatar-11.png",
+    designation: "Software Consultant, TechAdvice",
   },
   {
-    name: "Jack Brown",
+    name: "Victor Williams",
     quote:
-      "The results are always impressive. This AI has helped us to not only meet but exceed our performance targets.",
-    src: "https://i.pravatar.cc/150?img=12",
-    designation: "Performance Manager",
+      "The signal processing algorithms Nassim implemented for our EEG system are impressive. Great understanding of complex technical requirements.",
+    src: "/images/avatars/avatar-12.png",
+    designation: "Biomedical Engineer, HealthTech",
   },
   {
-    name: "Kathy Adams",
+    name: "Xander Young",
     quote:
-      "It helps us achieve what was once thought impossible. The AI's capabilities are groundbreaking and have opened new avenues for us.",
-    src: "https://i.pravatar.cc/150?img=13",
-    designation: "Innovation Lead",
+      "Nassim's innovative approach to solving complex problems sets him apart. His work on our platform has opened new possibilities for our business.",
+    src: "/images/avatars/avatar-13.png",
+    designation: "Innovation Lead, FutureTech",
   },
   {
-    name: "Leo Carter",
+    name: "Zoe Anderson",
     quote:
-      "Transformative technology with real impact. It has streamlined our operations and brought unprecedented efficiency to our processes.",
-    src: "https://i.pravatar.cc/150?img=14",
-    designation: "Technology Strategist",
+      "Working with Nassim was a pleasure. His technical expertise, communication skills, and delivery quality make him an outstanding developer.",
+    src: "/images/avatars/avatar-14.png",
+    designation: "Technology Strategist, DigitalTransform",
   },
 ];
 
@@ -279,51 +275,58 @@ export const TestimonialsSlider = () => {
             {/* Testimonial image */}
             <div className="relative h-40 [mask-image:_linear-gradient(0deg,transparent,#FFFFFF_30%,#FFFFFF)] md:[mask-image:_linear-gradient(0deg,transparent,#FFFFFF_40%,#FFFFFF)]">
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[480px] h-[480px] -z-10 pointer-events-none before:rounded-full rounded-full before:absolute before:inset-0 before:bg-gradient-to-b before:from-neutral-400/20 before:to-transparent before:to-20% after:rounded-full after:absolute after:inset-0 after:bg-neutral-200 after:dark:bg-neutral-900 after:m-px before:-z-20 after:-z-20">
-                {slicedTestimonials.map((item, index) => (
-                  <Transition
-                    key={index}
-                    show={active === index}
-                    enter="transition ease-[cubic-bezier(0.68,-0.3,0.32,1)] duration-700 order-first"
-                    enterFrom="opacity-0 -translate-x-10"
-                    enterTo="opacity-100 translate-x-0"
-                    leave="transition ease-[cubic-bezier(0.68,-0.3,0.32,1)] duration-700"
-                    leaveFrom="opacity-100 translate-x-0"
-                    leaveTo="opacity-0 translate-x-10"
-                    beforeEnter={() => heightFix()}
-                  >
-                    <div className="absolute inset-0 h-full -z-10">
-                      <Image
-                        className="relative top-11 left-1/2 -translate-x-1/2 rounded-full"
-                        src={item.src}
-                        width={56}
-                        height={56}
-                        alt={item.name}
-                      />
-                    </div>
-                  </Transition>
-                ))}
+                <AnimatePresence mode="wait">
+                  {slicedTestimonials.map((item, index) => (
+                    active === index && (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 10 }}
+                        transition={{ 
+                          duration: 0.7, 
+                          ease: [0.68, -0.3, 0.32, 1] 
+                        }}
+                        className="absolute inset-0 h-full -z-10"
+                        onAnimationStart={() => heightFix()}
+                      >
+                        <Image
+                          className="relative top-11 left-1/2 -translate-x-1/2 rounded-full"
+                          src={item.src}
+                          width={56}
+                          height={56}
+                          alt={item.name}
+                        />
+                      </motion.div>
+                    )
+                  ))}
+                </AnimatePresence>
               </div>
             </div>
             {/* Text */}
             <div className="mb-10 transition-all duration-150 delay-300 ease-in-out px-8 sm:px-6">
               <div className="relative flex flex-col" ref={testimonialsRef}>
-                {slicedTestimonials.map((item, index) => (
-                  <Transition
-                    key={index}
-                    show={active === index}
-                    enter="transition ease-in-out duration-500 delay-200 order-first"
-                    enterFrom="opacity-0 -translate-x-4"
-                    enterTo="opacity-100 translate-x-0"
-                    leave="transition ease-out duration-300 delay-300 absolute"
-                    leaveFrom="opacity-100 translate-x-0"
-                    leaveTo="opacity-0 translate-x-4"
-                    beforeEnter={() => heightFix()}
-                  >
-                    <div className="text-base text-black dark:text-white md:text-xl font-bold">
-                      {item.quote}
-                    </div>
-                  </Transition>
-                ))}
+                <AnimatePresence mode="wait">
+                  {slicedTestimonials.map((item, index) => (
+                    active === index && (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, x: -4 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 4 }}
+                        transition={{ 
+                          duration: 0.5, 
+                          delay: 0.2,
+                          ease: "easeInOut" 
+                        }}
+                        className="text-base text-black dark:text-white md:text-xl font-bold"
+                        onAnimationStart={() => heightFix()}
+                      >
+                        {item.quote}
+                      </motion.div>
+                    )
+                  ))}
+                </AnimatePresence>
               </div>
             </div>
             {/* Buttons */}

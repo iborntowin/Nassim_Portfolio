@@ -2,11 +2,12 @@
 
 import { useState } from 'react'
 import { motion } from 'motion/react'
-import { Star, GitFork, GitCommit, Github, ExternalLink, Code, Database, Globe, Server } from 'lucide-react'
+import Link from 'next/link'
+import { Star, GitFork, GitCommit, Github, ExternalLink, Code, Database, Globe, Server, Brain, Cpu, Wrench, Eye } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 interface TechStackItem {
   name: string
@@ -23,7 +24,7 @@ interface Project {
   id: string
   name: string
   description: string
-  category: 'Frontend' | 'Backend' | 'Full-Stack' | 'DevOps'
+  category: 'Full-Stack' | 'AI/ML' | 'Embedded' | 'Productivity' | 'DevOps'
   techStack: TechStackItem[]
   stats: ProjectStats
   githubUrl: string
@@ -34,101 +35,162 @@ interface Project {
 const projects: Project[] = [
   {
     id: '1',
-    name: 'E-Commerce Platform',
-    description: 'Full-featured e-commerce platform with real-time inventory management, payment processing, and admin dashboard.',
+    name: 'Cession App – Session & Contract Management',
+    description: 'A smart platform for managing session-based contracts with secure authentication, dynamic user roles, and audit trails. Designed for clean UX and cross-device compatibility.',
     category: 'Full-Stack',
     techStack: [
-      { name: 'React', color: 'text-cyan-400 bg-cyan-400/10' },
-      { name: 'Node.js', color: 'text-green-400 bg-green-400/10' },
+      { name: 'Spring Boot', color: 'text-green-400 bg-green-400/10' },
+      { name: 'Svelte', color: 'text-orange-400 bg-orange-400/10' },
       { name: 'PostgreSQL', color: 'text-blue-400 bg-blue-400/10' },
-      { name: 'Stripe', color: 'text-purple-400 bg-purple-400/10' }
+      { name: 'JWT Auth', color: 'text-purple-400 bg-purple-400/10' }
     ],
-    stats: { stars: 234, forks: 45, commits: 156 },
-    githubUrl: 'https://github.com/username/ecommerce-platform',
-    liveUrl: 'https://ecommerce-demo.vercel.app',
+    stats: { stars: 194, forks: 42, commits: 87 },
+    githubUrl: 'https://github.com/nassimmaaouia/cession-app',
     featured: true
   },
   {
     id: '2',
-    name: 'DevOps Automation Suite',
-    description: 'Comprehensive CI/CD pipeline automation with Docker containerization, Kubernetes orchestration, and monitoring.',
-    category: 'DevOps',
+    name: 'Board-AI: Electronic Component Detection',
+    description: 'Trained a CNN model (92% accuracy) on 50,000+ PCB component images to identify parts in real-time, reducing inference time to 120ms using TensorRT.',
+    category: 'AI/ML',
     techStack: [
-      { name: 'Docker', color: 'text-blue-400 bg-blue-400/10' },
-      { name: 'Kubernetes', color: 'text-blue-300 bg-blue-300/10' },
-      { name: 'Jenkins', color: 'text-orange-400 bg-orange-400/10' },
-      { name: 'Terraform', color: 'text-purple-400 bg-purple-400/10' }
+      { name: 'Python', color: 'text-yellow-400 bg-yellow-400/10' },
+      { name: 'OpenCV', color: 'text-green-400 bg-green-400/10' },
+      { name: 'TensorFlow', color: 'text-orange-400 bg-orange-400/10' },
+      { name: 'TensorRT', color: 'text-green-500 bg-green-500/10' }
     ],
-    stats: { stars: 189, forks: 32, commits: 203 },
-    githubUrl: 'https://github.com/username/devops-suite',
+    stats: { stars: 271, forks: 64, commits: 142 },
+    githubUrl: 'https://github.com/nassimmaaouia/board-ai',
     featured: true
   },
   {
     id: '3',
-    name: 'Real-Time Analytics Dashboard',
-    description: 'Interactive dashboard for visualizing real-time data streams with customizable widgets and export functionality.',
-    category: 'Frontend',
+    name: 'NeuroVigil: Driver Fatigue Detection',
+    description: 'Developed an EEG-based alert system detecting drowsiness with 89% precision. Early warning algorithm reduced false positives to under 5%.',
+    category: 'AI/ML',
     techStack: [
-      { name: 'Next.js', color: 'text-white bg-white/10' },
-      { name: 'TypeScript', color: 'text-blue-400 bg-blue-400/10' },
-      { name: 'D3.js', color: 'text-orange-400 bg-orange-400/10' },
-      { name: 'Socket.io', color: 'text-green-400 bg-green-400/10' }
+      { name: 'Python', color: 'text-yellow-400 bg-yellow-400/10' },
+      { name: 'SciPy', color: 'text-blue-400 bg-blue-400/10' },
+      { name: 'EEG Processing', color: 'text-purple-400 bg-purple-400/10' },
+      { name: 'Signal Analysis', color: 'text-pink-400 bg-pink-400/10' }
     ],
-    stats: { stars: 167, forks: 28, commits: 134 },
-    githubUrl: 'https://github.com/username/analytics-dashboard',
-    liveUrl: 'https://analytics-demo.vercel.app'
+    stats: { stars: 198, forks: 49, commits: 91 },
+    githubUrl: 'https://github.com/nassimmaaouia/neurovigil'
   },
   {
     id: '4',
-    name: 'Microservices API Gateway',
-    description: 'Scalable API gateway for microservices architecture with rate limiting, authentication, and service discovery.',
-    category: 'Backend',
+    name: 'Nanosatellite Communication System',
+    description: 'Built an optimized LoRaWAN communication module achieving 1.2 Mbps and 40% performance gain across 5 hardware platforms.',
+    category: 'Embedded',
     techStack: [
-      { name: 'Go', color: 'text-cyan-400 bg-cyan-400/10' },
-      { name: 'Redis', color: 'text-red-400 bg-red-400/10' },
-      { name: 'gRPC', color: 'text-blue-400 bg-blue-400/10' },
-      { name: 'Consul', color: 'text-pink-400 bg-pink-400/10' }
+      { name: 'C++', color: 'text-blue-400 bg-blue-400/10' },
+      { name: 'STM32', color: 'text-green-400 bg-green-400/10' },
+      { name: 'LoRaWAN', color: 'text-purple-400 bg-purple-400/10' },
+      { name: 'Low-Power Protocols', color: 'text-cyan-400 bg-cyan-400/10' }
     ],
-    stats: { stars: 298, forks: 67, commits: 245 },
-    githubUrl: 'https://github.com/username/api-gateway',
+    stats: { stars: 305, forks: 77, commits: 198 },
+    githubUrl: 'https://github.com/nassimmaaouia/nanosatellite-comm',
     featured: true
   },
   {
     id: '5',
-    name: 'React Component Library',
-    description: 'Production-ready React component library with comprehensive documentation, testing, and Storybook integration.',
-    category: 'Frontend',
+    name: 'GoldenTouch – AI Event Platform',
+    description: 'Smart platform for event pack management with admin dashboards, AI-powered feedback analysis, Telegram/email notifications, and booking logic.',
+    category: 'Full-Stack',
     techStack: [
-      { name: 'React', color: 'text-cyan-400 bg-cyan-400/10' },
-      { name: 'Storybook', color: 'text-pink-400 bg-pink-400/10' },
-      { name: 'Jest', color: 'text-red-400 bg-red-400/10' },
-      { name: 'Rollup', color: 'text-orange-400 bg-orange-400/10' }
+      { name: 'Symfony', color: 'text-black bg-black/10' },
+      { name: 'JavaFX', color: 'text-red-400 bg-red-400/10' },
+      { name: 'Hugging Face API', color: 'text-yellow-400 bg-yellow-400/10' },
+      { name: 'PDF/Email Integration', color: 'text-blue-400 bg-blue-400/10' }
     ],
-    stats: { stars: 145, forks: 23, commits: 89 },
-    githubUrl: 'https://github.com/username/component-library',
-    liveUrl: 'https://component-lib-docs.vercel.app'
+    stats: { stars: 221, forks: 41, commits: 116 },
+    githubUrl: 'https://github.com/nassimmaaouia/goldentouch',
+    featured: true
   },
   {
     id: '6',
-    name: 'Cloud Infrastructure Monitor',
-    description: 'Multi-cloud monitoring solution with alerting, cost optimization insights, and resource usage analytics.',
-    category: 'DevOps',
+    name: 'BridgeTrack – Developer Productivity Tool',
+    description: 'C# app monitoring code activity and app usage. Reduced daily reporting time by 25% via automated tracking and reports.',
+    category: 'Productivity',
+    techStack: [
+      { name: 'C#', color: 'text-purple-400 bg-purple-400/10' },
+      { name: 'WPF', color: 'text-blue-400 bg-blue-400/10' },
+      { name: 'PowerShell', color: 'text-blue-300 bg-blue-300/10' }
+    ],
+    stats: { stars: 144, forks: 38, commits: 73 },
+    githubUrl: 'https://github.com/nassimmaaouia/bridgetrack'
+  },
+  {
+    id: '7',
+    name: 'Folder Lock',
+    description: 'Desktop utility to protect sensitive directories using secure encryption and password-lock mechanism.',
+    category: 'Productivity',
+    techStack: [
+      { name: 'C#', color: 'text-purple-400 bg-purple-400/10' },
+      { name: '.NET', color: 'text-blue-400 bg-blue-400/10' }
+    ],
+    stats: { stars: 98, forks: 20, commits: 55 },
+    githubUrl: 'https://github.com/nassimmaaouia/folder-lock'
+  },
+  {
+    id: '8',
+    name: 'Sticky Notes',
+    description: 'Simple note-taking app built for speed and persistence with tagging and pinning features.',
+    category: 'Productivity',
+    techStack: [
+      { name: 'Java', color: 'text-red-400 bg-red-400/10' },
+      { name: 'JavaFX', color: 'text-orange-400 bg-orange-400/10' }
+    ],
+    stats: { stars: 89, forks: 17, commits: 38 },
+    githubUrl: 'https://github.com/nassimmaaouia/sticky-notes'
+  },
+  {
+    id: '9',
+    name: 'Listen to Your Notes',
+    description: 'Desktop app converting text notes to speech for the visually impaired or for auditory reinforcement.',
+    category: 'Productivity',
     techStack: [
       { name: 'Python', color: 'text-yellow-400 bg-yellow-400/10' },
-      { name: 'Prometheus', color: 'text-orange-400 bg-orange-400/10' },
-      { name: 'Grafana', color: 'text-orange-500 bg-orange-500/10' },
-      { name: 'AWS', color: 'text-orange-400 bg-orange-400/10' }
+      { name: 'TTS APIs', color: 'text-green-400 bg-green-400/10' }
     ],
-    stats: { stars: 176, forks: 34, commits: 167 },
-    githubUrl: 'https://github.com/username/cloud-monitor'
+    stats: { stars: 112, forks: 25, commits: 44 },
+    githubUrl: 'https://github.com/nassimmaaouia/listen-to-notes'
+  },
+  {
+    id: '10',
+    name: 'ML-Based Anomaly Detection',
+    description: 'Developed an ML model for real-time anomaly detection in system logs. Can be plugged into CI/CD pipelines for monitoring.',
+    category: 'AI/ML',
+    techStack: [
+      { name: 'Python', color: 'text-yellow-400 bg-yellow-400/10' },
+      { name: 'scikit-learn', color: 'text-orange-400 bg-orange-400/10' },
+      { name: 'Docker', color: 'text-blue-400 bg-blue-400/10' }
+    ],
+    stats: { stars: 156, forks: 33, commits: 66 },
+    githubUrl: 'https://github.com/nassimmaaouia/ml-anomaly-detection'
+  },
+  {
+    id: '11',
+    name: 'EPMA – Smart Learning Platform',
+    description: 'Project-based learning manager with role-based access (Admin, Coach, Student), milestone grading UI, GitHub integration, and real-time dashboards.',
+    category: 'Full-Stack',
+    techStack: [
+      { name: 'React Native', color: 'text-cyan-400 bg-cyan-400/10' },
+      { name: 'Spring Boot', color: 'text-green-400 bg-green-400/10' },
+      { name: 'Supabase', color: 'text-green-500 bg-green-500/10' },
+      { name: 'GitHub API', color: 'text-gray-400 bg-gray-400/10' }
+    ],
+    stats: { stars: 247, forks: 55, commits: 142 },
+    githubUrl: 'https://github.com/nassimmaaouia/epma-platform'
   }
 ]
 
 const categoryIcons = {
   'All': Globe,
-  'Frontend': Code,
-  'Backend': Database,
   'Full-Stack': Globe,
+  'AI/ML': Brain,
+  'Embedded': Cpu,
+  'Productivity': Wrench,
   'DevOps': Server
 }
 
@@ -174,9 +236,9 @@ export default function TechnicalPortfolioSection() {
             Technical Portfolio
           </h2>
           <p className="text-body text-[var(--color-text-secondary)] max-w-3xl mx-auto">
-            A collection of projects showcasing full-stack development, DevOps automation, 
-            and modern web technologies. Each repository demonstrates production-ready code 
-            with comprehensive documentation and testing.
+            A selection of engineering projects across full-stack development, AI/ML, embedded systems,
+            and productivity tools. Each solution reflects real-world impact, strong UX thinking,
+            and multidisciplinary execution.
           </p>
         </motion.div>
 
@@ -188,8 +250,8 @@ export default function TechnicalPortfolioSection() {
           className="mb-12"
         >
           <Tabs value={activeFilter} onValueChange={setActiveFilter} className="w-full">
-            <TabsList className="grid w-full max-w-md mx-auto grid-cols-5 bg-[var(--color-secondary-background)] border border-[var(--color-border)]">
-              {['All', 'Frontend', 'Backend', 'Full-Stack', 'DevOps'].map((filter) => {
+            <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-6 bg-[var(--color-secondary-background)] border border-[var(--color-border)]">
+              {['All', 'Full-Stack', 'AI/ML', 'Embedded', 'Productivity', 'DevOps'].map((filter) => {
                 const IconComponent = categoryIcons[filter as keyof typeof categoryIcons]
                 return (
                   <TabsTrigger
@@ -268,9 +330,16 @@ export default function TechnicalPortfolioSection() {
                 <CardFooter className="pt-0">
                   <div className="flex gap-2 w-full">
                     <Button
-                      variant="outline"
-                      size="sm"
-                      className="flex-1 bg-transparent hover:bg-[var(--color-border)] border-[var(--color-border)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
+                      className="flex-1 bg-[var(--color-primary-accent)] hover:bg-[var(--color-primary-accent)]/80 text-[var(--color-text-primary)] text-sm px-3 py-2"
+                      asChild
+                    >
+                      <Link href={`/projects/${project.id}`}>
+                        <Eye className="w-3 h-3 mr-2" />
+                        Details
+                      </Link>
+                    </Button>
+                    <Button
+                      className="flex-1 bg-transparent hover:bg-[var(--color-border)] border border-[var(--color-border)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] text-sm px-3 py-2"
                       asChild
                     >
                       <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
@@ -280,8 +349,7 @@ export default function TechnicalPortfolioSection() {
                     </Button>
                     {project.liveUrl && (
                       <Button
-                        size="sm"
-                        className="flex-1 bg-[var(--color-secondary-accent)] hover:bg-[var(--color-secondary-accent)]/80 text-[var(--color-text-primary)]"
+                        className="flex-1 bg-[var(--color-secondary-accent)] hover:bg-[var(--color-secondary-accent)]/80 text-[var(--color-text-primary)] text-sm px-3 py-2"
                         asChild
                       >
                         <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
