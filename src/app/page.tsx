@@ -6,7 +6,7 @@ import ThreeTiersWithToggle from '@/components/blocks/pricing/three-tiers-with-t
 import { StatsForChangelog } from '@/components/blocks/stats/statsforchangelog'
 import { FooterWithGrid } from '@/components/blocks/footers/footer-with-grid'
 import { SimpleCenteredContactForm } from '@/components/blocks/contact-forms/simple-centered-contact-form'
-import { LogoCloudMarquee } from '@/components/blocks/logos-clouds/logo-cloud-marquee'
+import { TechMarquee } from '@/components/blocks/logos-clouds/tech-marquee'
 import { FullBackgroundImageWithText } from '@/components/blocks/heros/full-background-image-with-text'
 import { BackgroundDotsMaskedVertical } from '@/components/blocks/backgrounds/background-with-dots-masked-vertical'
 import { PersonStructuredData, WebsiteStructuredData } from '@/components/seo/structured-data'
@@ -27,7 +27,7 @@ export default function HomePage() {
 
 
         {/* Logo Cloud Marquee */}
-        <LogoCloudMarquee />
+        <TechMarquee />
 
         {/* Technical Portfolio */}
         <div id="technical-portfolio">

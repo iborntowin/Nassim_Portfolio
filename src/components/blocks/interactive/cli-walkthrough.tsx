@@ -162,65 +162,65 @@ export default function CLIWalkthrough() {
   const getTypeIcon = (type: Command["type"]) => {
     switch (type) {
       case "success":
-        return <CheckCircle className="w-4 h-4 text-primary" />
+        return <CheckCircle className="w-4 h-4 text-[var(--color-success-energy)]" />
       case "error":
-        return <AlertCircle className="w-4 h-4 text-destructive" />
+        return <AlertCircle className="w-4 h-4 text-red-500" />
       case "warning":
-        return <AlertTriangle className="w-4 h-4 text-warning-energy" />
+        return <AlertTriangle className="w-4 h-4 text-[var(--color-warning-energy)]" />
       case "info":
-        return <Info className="w-4 h-4 text-accent" />
+        return <Info className="w-4 h-4 text-[var(--color-secondary-accent)]" />
     }
   }
 
   const getOutputColor = (line: string) => {
-    if (line.includes("✓") || line.includes("Success")) return "text-primary"
-    if (line.includes("❌") || line.includes("FAIL") || line.includes("failed")) return "text-destructive"
-    if (line.includes("⚠️") || line.includes("Warning")) return "text-warning-energy"
-    if (line.includes("Creating") || line.includes("Cloning") || line.includes("http://")) return "text-accent"
-    return "text-muted-foreground"
+    if (line.includes("✓") || line.includes("Success")) return "text-[var(--color-success-energy)]"
+    if (line.includes("❌") || line.includes("FAIL") || line.includes("failed")) return "text-red-500"
+    if (line.includes("⚠️") || line.includes("Warning")) return "text-[var(--color-warning-energy)]"
+    if (line.includes("Creating") || line.includes("Cloning") || line.includes("http://")) return "text-[var(--color-secondary-accent)]"
+    return "text-[var(--color-text-secondary)]"
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto bg-primary-background border border-secondary-background rounded-lg overflow-hidden">
+    <div className="w-full max-w-4xl mx-auto bg-[var(--color-primary-background)] border border-[var(--color-border)] rounded-lg overflow-hidden">
       {/* Terminal Header */}
-      <div className="flex items-center justify-between bg-secondary-background px-4 py-3 border-b border-border">
+      <div className="flex items-center justify-between bg-[var(--color-secondary-background)] px-4 py-3 border-b border-[var(--color-border)]">
         <div className="flex items-center gap-2">
-          <Terminal className="w-4 h-4 text-primary" />
-          <span className="text-sm font-medium text-text-primary">nassim@terminal</span>
+          <Terminal className="w-4 h-4 text-[var(--color-primary-accent)]" />
+          <span className="text-sm font-medium text-[var(--color-text-primary)]">nassim@terminal</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-destructive"></div>
-          <div className="w-3 h-3 rounded-full bg-warning-energy"></div>
-          <div className="w-3 h-3 rounded-full bg-primary"></div>
+          <div className="w-3 h-3 rounded-full bg-red-500"></div>
+          <div className="w-3 h-3 rounded-full bg-[var(--color-warning-energy)]"></div>
+          <div className="w-3 h-3 rounded-full bg-[var(--color-primary-accent)]"></div>
         </div>
       </div>
 
       {/* Progress Indicator */}
-      <div className="bg-secondary-background px-4 py-2 border-b border-border">
+      <div className="bg-[var(--color-secondary-background)] px-4 py-2 border-b border-[var(--color-border)]">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
             {getTypeIcon(currentCommand?.type)}
-            <span className="text-sm text-text-primary">{currentCommand?.description}</span>
+            <span className="text-sm text-[var(--color-text-primary)]">{currentCommand?.description}</span>
           </div>
-          <span className="text-xs text-muted-foreground">
+          <span className="text-xs text-[var(--color-text-secondary)]">
             {currentCommandIndex + 1} of {commands.length}
           </span>
         </div>
-        <div className="w-full bg-background rounded-full h-1">
+        <div className="w-full bg-[var(--color-primary-background)] rounded-full h-1">
           <motion.div
-            className="h-1 bg-primary rounded-full"
+            className="h-1 bg-[var(--color-primary-accent)] rounded-full"
             style={{ width: progressWidth }}
           />
         </div>
       </div>
 
       {/* Terminal Content */}
-      <div className="bg-primary-background p-4 min-h-[400px] font-mono text-sm">
+      <div className="bg-[var(--color-primary-background)] p-4 min-h-[400px] font-mono text-sm">
         {/* Command History */}
         {commandHistory.map((cmd, index) => (
           <div key={cmd.id} className="mb-6">
-            <div className="flex items-center gap-1 text-primary mb-2">
-              <span className="text-accent">$</span>
+            <div className="flex items-center gap-1 text-[var(--color-text-primary)] mb-2">
+              <span className="text-[var(--color-secondary-accent)]">$</span>
               <span>{cmd.command}</span>
             </div>
             {cmd.output.map((line, lineIndex) => (
@@ -234,10 +234,10 @@ export default function CLIWalkthrough() {
         {/* Current Command */}
         {currentCommand && (
           <div>
-            <div className="flex items-center gap-1 text-primary mb-2">
-              <span className="text-accent">$</span>
+            <div className="flex items-center gap-1 text-[var(--color-text-primary)] mb-2">
+              <span className="text-[var(--color-secondary-accent)]">$</span>
               <span>{currentCommand.command}</span>
-              {isTyping && showCursor && <span className="animate-pulse">|</span>}
+              {isTyping && showCursor && <span className="animate-pulse text-[var(--color-primary-accent)]">|</span>}
             </div>
             
             {/* Current Output */}
@@ -255,7 +255,7 @@ export default function CLIWalkthrough() {
                   </motion.div>
                 ))}
                 {currentOutputIndex < currentCommand.output.length && showCursor && (
-                  <span className="animate-pulse text-primary">|</span>
+                  <span className="animate-pulse text-[var(--color-primary-accent)]">|</span>
                 )}
               </div>
             )}
@@ -264,11 +264,11 @@ export default function CLIWalkthrough() {
       </div>
 
       {/* Action Button */}
-      <div className="bg-secondary-background px-4 py-3 border-t border-border">
+      <div className="bg-[var(--color-secondary-background)] px-4 py-3 border-t border-[var(--color-border)]">
         <Button
           onClick={handleNextCommand}
           disabled={isTyping || currentOutputIndex < currentCommand?.output.length}
-          className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium transition-all duration-200"
+          className="w-full bg-[var(--color-primary-accent)] hover:bg-[var(--color-primary-accent)]/90 text-white font-medium transition-all duration-200"
         >
           {currentCommandIndex === commands.length - 1 ? (
             "Start Over"

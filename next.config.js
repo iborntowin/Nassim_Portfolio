@@ -106,7 +106,7 @@ const nextConfig = {
     ]
   },
 
-  // Bundle analyzer
+  // Bundle analyzer (only for webpack, not turbopack)
   webpack: (config, { isServer }) => {
     if (process.env.ANALYZE === 'true') {
       const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
@@ -122,6 +122,16 @@ const nextConfig = {
     return config
   },
 
+  // Turbopack configuration (experimental)
+  turbo: {
+    rules: {
+      '*.svg': {
+        loaders: ['@svgr/webpack'],
+        as: '*.js',
+      },
+    },
+  },
+
   // Output configuration
   output: 'standalone',
   
@@ -133,9 +143,6 @@ const nextConfig = {
   
   // React strict mode
   reactStrictMode: true,
-  
-  // SWC minification
-  swcMinify: true,
 }
 
 module.exports = nextConfig
