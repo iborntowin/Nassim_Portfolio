@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { InteractiveTerminal } from './interactive-terminal'
 
 interface TechStackItem {
   name: string
@@ -45,7 +46,7 @@ const projects: Project[] = [
       { name: 'JWT Auth', color: 'text-purple-400 bg-purple-400/10' }
     ],
     stats: { stars: 194, forks: 42, commits: 87 },
-    githubUrl: 'https://github.com/nassimmaaouia/cession-app',
+    githubUrl: 'https://github.com/nassimmaaoui/cession-app',
     featured: true
   },
   {
@@ -60,7 +61,7 @@ const projects: Project[] = [
       { name: 'TensorRT', color: 'text-green-500 bg-green-500/10' }
     ],
     stats: { stars: 271, forks: 64, commits: 142 },
-    githubUrl: 'https://github.com/nassimmaaouia/board-ai',
+    githubUrl: 'https://github.com/nassimmaaoui/board-ai',
     featured: true
   },
   {
@@ -75,7 +76,7 @@ const projects: Project[] = [
       { name: 'Signal Analysis', color: 'text-pink-400 bg-pink-400/10' }
     ],
     stats: { stars: 198, forks: 49, commits: 91 },
-    githubUrl: 'https://github.com/nassimmaaouia/neurovigil'
+    githubUrl: 'https://github.com/nassimmaaoui/neurovigil'
   },
   {
     id: '4',
@@ -89,7 +90,7 @@ const projects: Project[] = [
       { name: 'Low-Power Protocols', color: 'text-cyan-400 bg-cyan-400/10' }
     ],
     stats: { stars: 305, forks: 77, commits: 198 },
-    githubUrl: 'https://github.com/nassimmaaouia/nanosatellite-comm',
+    githubUrl: 'https://github.com/nassimmaaoui/nanosatellite-comm',
     featured: true
   },
   {
@@ -104,7 +105,7 @@ const projects: Project[] = [
       { name: 'PDF/Email Integration', color: 'text-blue-400 bg-blue-400/10' }
     ],
     stats: { stars: 221, forks: 41, commits: 116 },
-    githubUrl: 'https://github.com/nassimmaaouia/goldentouch',
+    githubUrl: 'https://github.com/nassimmaaoui/goldentouch',
     featured: true
   },
   {
@@ -118,7 +119,7 @@ const projects: Project[] = [
       { name: 'PowerShell', color: 'text-blue-300 bg-blue-300/10' }
     ],
     stats: { stars: 144, forks: 38, commits: 73 },
-    githubUrl: 'https://github.com/nassimmaaouia/bridgetrack'
+    githubUrl: 'https://github.com/nassimmaaoui/bridgetrack'
   },
   {
     id: '7',
@@ -130,7 +131,7 @@ const projects: Project[] = [
       { name: '.NET', color: 'text-blue-400 bg-blue-400/10' }
     ],
     stats: { stars: 98, forks: 20, commits: 55 },
-    githubUrl: 'https://github.com/nassimmaaouia/folder-lock'
+    githubUrl: 'https://github.com/nassimmaaoui/folder-lock'
   },
   {
     id: '8',
@@ -142,7 +143,7 @@ const projects: Project[] = [
       { name: 'JavaFX', color: 'text-orange-400 bg-orange-400/10' }
     ],
     stats: { stars: 89, forks: 17, commits: 38 },
-    githubUrl: 'https://github.com/nassimmaaouia/sticky-notes'
+    githubUrl: 'https://github.com/nassimmaaoui/sticky-notes'
   },
   {
     id: '9',
@@ -154,7 +155,7 @@ const projects: Project[] = [
       { name: 'TTS APIs', color: 'text-green-400 bg-green-400/10' }
     ],
     stats: { stars: 112, forks: 25, commits: 44 },
-    githubUrl: 'https://github.com/nassimmaaouia/listen-to-notes'
+    githubUrl: 'https://github.com/nassimmaaoui/listen-to-notes'
   },
   {
     id: '10',
@@ -167,7 +168,7 @@ const projects: Project[] = [
       { name: 'Docker', color: 'text-blue-400 bg-blue-400/10' }
     ],
     stats: { stars: 156, forks: 33, commits: 66 },
-    githubUrl: 'https://github.com/nassimmaaouia/ml-anomaly-detection'
+    githubUrl: 'https://github.com/nassimmaaoui/ml-anomaly-detection'
   },
   {
     id: '11',
@@ -181,7 +182,7 @@ const projects: Project[] = [
       { name: 'GitHub API', color: 'text-gray-400 bg-gray-400/10' }
     ],
     stats: { stars: 247, forks: 55, commits: 142 },
-    githubUrl: 'https://github.com/nassimmaaouia/epma-platform'
+    githubUrl: 'https://github.com/nassimmaaoui/epma-platform'
   }
 ]
 
@@ -365,36 +366,8 @@ export default function TechnicalPortfolioSection() {
           ))}
         </motion.div>
 
-        {/* Terminal-style footer */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-16 p-6 bg-[var(--color-secondary-background)] border border-[var(--color-border)] rounded-lg"
-        >
-          <div className="flex items-center gap-3 mb-3">
-            <div className="flex gap-1.5">
-              <div className="w-3 h-3 rounded-full bg-red-500"></div>
-              <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-              <div className="w-3 h-3 rounded-full bg-green-500"></div>
-            </div>
-            <span className="text-xs text-[var(--color-text-secondary)] font-mono">~/technical-portfolio</span>
-          </div>
-          <div className="font-mono text-sm">
-            <p className="text-[var(--color-text-secondary)]">
-              <span className="text-[var(--color-primary-accent)]">$</span> git status
-            </p>
-            <p className="text-[var(--color-text-secondary)] mt-1">
-              On branch <span className="text-[var(--color-secondary-accent)]">main</span>
-            </p>
-            <p className="text-[var(--color-text-secondary)]">
-              Your branch is up to date with <span className="text-[var(--color-secondary-accent)]">'origin/main'</span>
-            </p>
-            <p className="text-[var(--color-primary-accent)] mt-2">
-              ✓ All projects are production-ready and actively maintained
-            </p>
-          </div>
-        </motion.div>
+        {/* Interactive Terminal Experience */}
+        <InteractiveTerminal projects={projects} />
       </div>
     </section>
   )

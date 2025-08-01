@@ -1,25 +1,25 @@
 export const seoConfig = {
   title: {
-    default: 'Nassim Maaouia - Full-Stack Developer & AI Engineer',
-    template: '%s | Nassim Maaouia Portfolio'
+    default: 'Nassim Maaoui - Full-Stack Developer & AI Engineer',
+    template: '%s | Nassim Maaoui Portfolio'
   },
   description: 'Experienced Full-Stack Developer and AI Engineer specializing in modern web technologies, machine learning, embedded systems, and productivity tools. Explore my portfolio of innovative projects.',
-  url: 'https://nassimmaaouia.dev',
-  siteName: 'Nassim Maaouia Portfolio',
+  url: 'https://nassimmaaoui.dev',
+  siteName: 'Nassim Maaoui Portfolio',
   locale: 'en_US',
   type: 'website',
   
   // Social media handles
   social: {
-    twitter: '@nassimmaaouia',
-    github: 'nassimmaaouia',
-    linkedin: 'nassimmaaouia'
+    twitter: '@nassimmaaoui',
+    github: 'nassimmaaoui',
+    linkedin: 'nassimmaaoui'
   },
   
   // Keywords for different sections
   keywords: {
     general: [
-      'Nassim Maaouia',
+      'Nassim Maaoui',
       'Full-Stack Developer',
       'AI Engineer',
       'Machine Learning',
@@ -88,8 +88,8 @@ export function generateProjectKeywords(projectName: string, category: string, t
   const baseKeywords = [
     projectName,
     `${projectName} project`,
-    `${projectName} by Nassim Maaouia`,
-    'Nassim Maaouia',
+    `${projectName} by Nassim Maaoui`,
+    'Nassim Maaoui',
     'Software Project',
     'Programming Project'
   ]
@@ -107,5 +107,5 @@ export function generateProjectKeywords(projectName: string, category: string, t
 
 export function generateProjectDescription(projectName: string, category: string, description: string): string {
   const categoryDesc = seoConfig.projectCategories[category as keyof typeof seoConfig.projectCategories]?.description || 'Software project'
-  return `${projectName} - ${categoryDesc} by Nassim Maaouia. ${description}`
+  return `${projectName} - ${categoryDesc} by Nassim Maaoui. ${description}`
 }
