@@ -1,4 +1,4 @@
-import SplitWithCodeExample from '@/components/blocks/heros/split-with-code-example'
+import DevOpsHero from '@/components/blocks/heros/devops-hero'
 import TechnicalPortfolioSection from '@/components/blocks/project-showcase/technical-portfolio-section'
 import CLIWalkthrough from '@/components/blocks/interactive/cli-walkthrough'
 import { TestimonialsGridWithCenteredCarousel } from '@/components/blocks/testimonials/testimonials-grid-with-centered-carousel'
@@ -18,7 +18,7 @@ export default function HomePage() {
       <WebsiteStructuredData />
       <main className="min-h-screen bg-[var(--color-primary-background)]">
         {/* Hero Section */}
-      <SplitWithCodeExample />
+        <DevOpsHero />
 
 
         {/* <FullBackgroundImageWithText />   */}
