@@ -72,8 +72,8 @@ export default function HomePage() {
 
 
 
-        {/* Background Dots Masked Vertical */}
-        <BackgroundDotsMaskedVertical />
+        {/* <BackgroundDotsMaskedVertical /> */}
+        
 
         {/* Footer */}
         <FooterWithGrid />
