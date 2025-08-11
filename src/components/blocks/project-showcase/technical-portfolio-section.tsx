@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { InteractiveTerminal } from './interactive-terminal'
+// Removed InteractiveTerminal import
 
 interface TechStackItem {
   name: string
@@ -366,8 +366,7 @@ export default function TechnicalPortfolioSection() {
           ))}
         </motion.div>
 
-        {/* Interactive Terminal Experience */}
-        <InteractiveTerminal projects={projects} />
+        {/* Removed Interactive Terminal Experience */}
       </div>
     </section>
   )

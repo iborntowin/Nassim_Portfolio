@@ -122,15 +122,7 @@ const nextConfig = {
     return config
   },
 
-  // Turbopack configuration (experimental)
-  turbo: {
-    rules: {
-      '*.svg': {
-        loaders: ['@svgr/webpack'],
-        as: '*.js',
-      },
-    },
-  },
+  // Turbopack configuration (experimental) - removed invalid config
 
   // Output configuration
   output: 'standalone',

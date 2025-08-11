@@ -1,10 +1,11 @@
 "use client"
 
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion, useInView } from 'framer-motion'
 import Image from 'next/image'
 import { ArrowRight, UserPlus, LogIn, LayoutDashboard, Users, UserCheck, FileText, CheckCircle } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { AnimatedBackground } from '@/components/ui/animated-background'
+import { useState, useCallback, useRef, useMemo } from 'react'
 
 interface JourneyStep {
   id: string
@@ -74,43 +75,57 @@ const journeySteps: JourneyStep[] = [
 ]
 
 export default function CessionAppJourney() {
-  const containerVariants = {
+  const shouldReduceMotion = useReducedMotion()
+  const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set())
+  const sectionRef = useRef(null)
+  const isInView = useInView(sectionRef, { once: true, margin: "-50px" })
+
+  const handleImageLoad = useCallback((index: number) => {
+    setLoadedImages(prev => new Set(prev).add(index))
+  }, [])
+
+  // Optimized animation variants
+  const containerVariants = useMemo(() => ({
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2
+        staggerChildren: shouldReduceMotion ? 0 : 0.1,
+        duration: shouldReduceMotion ? 0.2 : 0.6
       }
     }
-  }
+  }), [shouldReduceMotion])
 
-  const stepVariants = {
-    hidden: { opacity: 0, y: 50 },
+  const stepVariants = useMemo(() => ({
+    hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 30 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.8,
+        duration: shouldReduceMotion ? 0.2 : 0.6,
         ease: "easeOut"
       }
     }
-  }
+  }), [shouldReduceMotion])
 
-  const imageVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
+  const imageVariants = useMemo(() => ({
+    hidden: { opacity: 0, scale: shouldReduceMotion ? 1 : 0.95 },
     visible: {
       opacity: 1,
       scale: 1,
       transition: {
-        duration: 0.6,
+        duration: shouldReduceMotion ? 0.2 : 0.5,
         ease: "easeOut"
       }
     }
-  }
+  }), [shouldReduceMotion])
 
   return (
-    <section className="relative py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[var(--color-primary-background)] to-[var(--color-secondary-background)] overflow-hidden">
-      <AnimatedBackground />
+    <section 
+      ref={sectionRef}
+      className="relative py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[var(--color-primary-background)] to-[var(--color-secondary-background)] overflow-hidden"
+    >
+      {isInView && <AnimatedBackground />}
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
         <motion.div
@@ -229,14 +244,26 @@ export default function CessionAppJourney() {
                   
                   {/* Main Image Container */}
                   <div className="relative bg-white rounded-2xl shadow-2xl overflow-hidden group-hover:shadow-3xl transition-all duration-500 transform group-hover:scale-[1.02]">
-                    <Image
-                      src={step.image}
-                      alt={step.title}
-                      width={800}
-                      height={600}
-                      className="w-full h-auto object-cover"
-                      priority={index < 2}
-                    />
+                    {/* Loading skeleton */}
+                    {!loadedImages.has(index) && (
+                      <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 animate-pulse rounded-2xl" />
+                    )}
+                    
+                    {/* Optimized image */}
+                    <div className={`transition-opacity duration-500 ${loadedImages.has(index) ? 'opacity-100' : 'opacity-0'}`}>
+                      <Image
+                        src={step.image}
+                        alt={step.title}
+                        width={800}
+                        height={600}
+                        className="w-full h-auto object-cover"
+                        priority={index < 2}
+                        loading={index < 2 ? "eager" : "lazy"}
+                        onLoad={() => handleImageLoad(index)}
+                        placeholder="blur"
+                        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+                      />
+                    </div>
                     
                     {/* Overlay on Hover */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">

@@ -1,209 +1,90 @@
 "use client"
 import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronRight, Rocket, Star, Brain, Zap, ArrowDown, Play, Pause } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { ChevronRight, Rocket, ArrowDown } from 'lucide-react'
 
 const TYPING_SPEED = 100
 const PAUSE_DURATION = 2000
 
 const roles = [
+    "Full-Stack Developer",
+    "AI/ML Engineer", 
     "Cloud Architect",
-    "DevOps Engineer",
-    "Infrastructure Specialist",
-    "System Administrator",
-    "Platform Engineer"
+    "Software Engineer",
+    "Innovation Builder"
 ]
 
 const codeSnippets = [
     {
         language: "yaml",
-        title: "kubernetes-deployment",
-        code: `# Production Kubernetes deployment
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: web-app
-  namespace: production
-spec:
-  replicas: 3
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 0
-  selector:
-    matchLabels:
-      app: web-app
-  template:
-    metadata:
-      labels:
-        app: web-app
-    spec:
-      containers:
-      - name: web-app
-        image: registry.company.com/web-app:v2.1.0
+        title: "ansible-playbook",
+        code: `---
+# Ansible Infrastructure Automation Playbook
+- name: Deploy Web Application Infrastructure
+  hosts: production
+  become: yes
+  vars:
+    app_name: "web-app"
+    app_version: "v2.1.0"
+    docker_registry: "registry.company.com"
+    
+  tasks:
+    - name: Update system packages
+      apt:
+        update_cache: yes
+        upgrade: dist
+        
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+        
+    - name: Start Docker service
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+        
+    - name: Pull application image
+      docker_image:
+        name: "{{ docker_registry }}/{{ app_name }}"
+        tag: "{{ app_version }}"
+        source: pull
+        
+    - name: Deploy application container
+      docker_container:
+        name: "{{ app_name }}"
+        image: "{{ docker_registry }}/{{ app_name }}:{{ app_version }}"
+        state: started
+        restart_policy: always
         ports:
-        - containerPort: 8080
-        resources:
-          requests:
-            memory: "256Mi"
-            cpu: "250m"
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 8080
-          initialDelaySeconds: 30
-        readinessProbe:
-          httpGet:
-            path: /ready
-            port: 8080
-          initialDelaySeconds: 5
+          - "80:8080"
         env:
-        - name: DATABASE_URL
-          valueFrom:
-            secretKeyRef:
-              name: db-credentials
-              key: url`
-    },
-    {
-        language: "bash",
-        title: "infrastructure-automation",
-        code: `#!/bin/bash
-# Infrastructure automation script
-set -euo pipefail
-CLUSTER_NAME="production-cluster"
-REGION="us-west-2"
-NAMESPACE="production"
-log() {
-    echo "[\$(date +'%Y-%m-%d %H:%M:%S')] \$1"
-}
-check_cluster_health() {
-    log "Checking cluster health..."
-    
-    UNHEALTHY_NODES=\$(kubectl get nodes --no-headers | grep -v Ready | wc -l)
-    if [ "\$UNHEALTHY_NODES" -gt 0 ]; then
-        echo "Found \$UNHEALTHY_NODES unhealthy nodes"
-        return 1
-    fi
-    
-    FAILED_PODS=\$(kubectl get pods --all-namespaces --field-selector=status.phase=Failed --no-headers | wc -l)
-    if [ "\$FAILED_PODS" -gt 0 ]; then
-        echo "Found \$FAILED_PODS failed pods"
-    fi
-    
-    log "Cluster health check passed"
-}
-deploy_application() {
-    local IMAGE_TAG=\$1
-    log "Deploying application: \$IMAGE_TAG"
-    
-    kubectl set image deployment/web-app \\
-        web-app=registry.company.com/web-app:\$IMAGE_TAG \\
-        -n \$NAMESPACE
-    
-    kubectl rollout status deployment/web-app -n \$NAMESPACE --timeout=300s
-    
-    log "Deployment successful"
-}
-monitor_resources() {
-    log "Monitoring system resources..."
-    kubectl top nodes
-    kubectl top pods -n \$NAMESPACE
-}
-main() {
-    check_cluster_health
-    monitor_resources
-    
-    if [ "\${1:-}" = "deploy" ] && [ -n "\${2:-}" ]; then
-        deploy_application "\$2"
-    fi
-}
-main "\$@"`
-    },
-    {
-        language: "tf",
-        title: "aws-infrastructure",
-        code: `# Terraform AWS infrastructure
-terraform {
-  required_version = ">= 1.0"
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.0"
-    }
-  }
-}
-resource "aws_vpc" "main" {
-  cidr_block           = "10.0.0.0/16"
-  enable_dns_hostnames = true
-  enable_dns_support   = true
-  
-  tags = {
-    Name        = "production-vpc"
-    Environment = "production"
-  }
-}
-resource "aws_subnet" "public" {
-  count = 3
-  
-  vpc_id                  = aws_vpc.main.id
-  cidr_block              = "10.0.\${count.index + 1}.0/24"
-  availability_zone       = data.aws_availability_zones.available.names[count.index]
-  map_public_ip_on_launch = true
-  
-  tags = {
-    Name = "public-subnet-\${count.index + 1}"
-    Type = "public"
-  }
-}
-resource "aws_eks_cluster" "main" {
-  name     = "production-cluster"
-  role_arn = aws_iam_role.eks_cluster.arn
-  version  = "1.28"
-  
-  vpc_config {
-    subnet_ids = aws_subnet.public[*].id
-    endpoint_private_access = true
-    endpoint_public_access  = true
-  }
-  
-  encryption_config {
-    provider {
-      key_arn = aws_kms_key.eks.arn
-    }
-    resources = ["secrets"]
-  }
-  
-  tags = {
-    Name = "production-eks"
-  }
-}
-resource "aws_eks_node_group" "main" {
-  cluster_name    = aws_eks_cluster.main.name
-  node_group_name = "production-nodes"
-  node_role_arn   = aws_iam_role.eks_node_group.arn
-  subnet_ids      = aws_subnet.public[*].id
-  
-  instance_types = ["t3.large"]
-  
-  scaling_config {
-    desired_size = 3
-    max_size     = 10
-    min_size     = 1
-  }
-}`
+          NODE_ENV: production
+          DATABASE_URL: "{{ vault_database_url }}"
+          
+    - name: Configure nginx reverse proxy
+      template:
+        src: nginx.conf.j2
+        dest: /etc/nginx/sites-available/{{ app_name }}
+      notify: restart nginx
+      
+    - name: Enable nginx site
+      file:
+        src: /etc/nginx/sites-available/{{ app_name }}
+        dest: /etc/nginx/sites-enabled/{{ app_name }}
+        state: link
+      notify: restart nginx
+      
+  handlers:
+    - name: restart nginx
+      systemd:
+        name: nginx
+        state: restarted`
     }
 ]
 
-const achievements = [
-    { number: "99.9%", label: "Uptime Achieved", icon: Zap },
-    { number: "50+", label: "Deployments", icon: Rocket },
-    { number: "15+", label: "Cloud Services", icon: Brain },
-    { number: "2.1k+", label: "GitHub Stars", icon: Star }
-]
+// Removed achievements section as requested
 
 function CodeHighlighter({ code }: { code: string }) {
     const lines = code.split('\n')
@@ -243,8 +124,7 @@ export default function DevOpsHero() {
     const [currentRole, setCurrentRole] = useState(0)
     const [displayText, setDisplayText] = useState("")
     const [isTyping, setIsTyping] = useState(true)
-    const [currentSnippet, setCurrentSnippet] = useState(0)
-    const [isCodePlaying, setIsCodePlaying] = useState(true)
+    // Removed unused state variables
     const [isClient, setIsClient] = useState(false)
 
     useEffect(() => {
@@ -280,16 +160,7 @@ export default function DevOpsHero() {
         return () => clearTimeout(timeoutId)
     }, [displayText, isTyping, currentRole])
 
-    // Code rotation
-    useEffect(() => {
-        if (!isCodePlaying) return
-
-        const interval = setInterval(() => {
-            setCurrentSnippet((prev) => (prev + 1) % codeSnippets.length)
-        }, 8000)
-
-        return () => clearInterval(interval)
-    }, [isCodePlaying])
+    // Removed code rotation since we only have one snippet
 
     const staticParticles = []
     for (let i = 0; i < 20; i++) {
@@ -408,8 +279,8 @@ export default function DevOpsHero() {
                                 transition={{ delay: 0.6, duration: 0.8 }}
                                 className="text-xl text-[#94a3b8] leading-relaxed mb-8 max-w-2xl"
                             >
-                                Building scalable cloud infrastructure and automating deployment pipelines.
-                                Specialized in Kubernetes, AWS, and Infrastructure as Code for enterprise-grade solutions.
+                                Full-stack engineer passionate about creating innovative solutions that bridge technology and real-world impact. 
+                                From AI-powered applications to scalable cloud infrastructure, I build systems that matter.
                             </motion.p>
 
                             {/* CTA Buttons */}
@@ -440,33 +311,7 @@ export default function DevOpsHero() {
                                 </motion.button>
                             </motion.div>
 
-                            {/* Achievement stats */}
-                            <motion.div
-                                initial={{ opacity: 0, y: 30 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 1, duration: 0.8 }}
-                                className="grid grid-cols-2 lg:grid-cols-4 gap-6"
-                            >
-                                {achievements.map((achievement, index) => (
-                                    <motion.div
-                                        key={achievement.label}
-                                        initial={{ opacity: 0, scale: 0.8 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        transition={{ delay: 1.2 + index * 0.1, duration: 0.6 }}
-                                        className="text-center group"
-                                    >
-                                        <div className="flex justify-center mb-2">
-                                            <achievement.icon className="w-6 h-6 text-[#3b82f6] group-hover:scale-110 transition-transform" />
-                                        </div>
-                                        <div className="text-2xl font-bold text-[#f1f5f9] mb-1">
-                                            {achievement.number}
-                                        </div>
-                                        <div className="text-sm text-[#94a3b8]">
-                                            {achievement.label}
-                                        </div>
-                                    </motion.div>
-                                ))}
-                            </motion.div>
+                            {/* Removed achievement stats section as requested */}
                         </motion.div>
                     </div>
 
@@ -489,53 +334,22 @@ export default function DevOpsHero() {
                                             <div className="w-3 h-3 bg-green-500 rounded-full"></div>
                                         </div>
                                         <span className="text-gray-300 text-sm font-mono">
-                                            {codeSnippets[currentSnippet].title}.{codeSnippets[currentSnippet].language}
+                                            {codeSnippets[0].title}.{codeSnippets[0].language}
                                         </span>
                                     </div>
 
-                                    <div className="flex items-center space-x-2">
-                                        <motion.button
-                                            whileHover={{ scale: 1.1 }}
-                                            whileTap={{ scale: 0.9 }}
-                                            onClick={() => setIsCodePlaying(!isCodePlaying)}
-                                            className="p-2 text-gray-400 hover:text-[#3b82f6] transition-colors"
-                                        >
-                                            {isCodePlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-                                        </motion.button>
-                                        <div className="flex space-x-1">
-                                            {codeSnippets.map((_, index) => (
-                                                <button
-                                                    key={index}
-                                                    onClick={() => setCurrentSnippet(index)}
-                                                    className={`w-2 h-2 rounded-full transition-colors ${index === currentSnippet
-                                                        ? 'bg-[#3b82f6]'
-                                                        : 'bg-gray-600'
-                                                        }`}
-                                                />
-                                            ))}
-                                        </div>
-                                    </div>
+                                    {/* Removed controls since we only have one snippet */}
                                 </div>
 
                                 {/* Code content */}
                                 <div className="p-6 h-96 overflow-y-auto bg-[#0d1117]">
-                                    <AnimatePresence mode="wait">
-                                        <motion.div
-                                            key={currentSnippet}
-                                            initial={{ opacity: 0, y: 20 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            exit={{ opacity: 0, y: -20 }}
-                                            transition={{ duration: 0.5 }}
-                                        >
-                                            <CodeHighlighter code={codeSnippets[currentSnippet].code} />
-                                        </motion.div>
-                                    </AnimatePresence>
+                                    <CodeHighlighter code={codeSnippets[0].code} />
                                 </div>
                             </div>
 
                             {/* Tech badges */}
                             <div className="absolute -top-4 -right-4 space-y-2">
-                                {['AWS', 'Kubernetes', 'Terraform', 'Linux'].map((tech, index) => (
+                                {['Ansible', 'Docker', 'Nginx', 'Linux'].map((tech, index) => (
                                     <motion.div
                                         key={tech}
                                         initial={{ opacity: 0, x: 20 }}

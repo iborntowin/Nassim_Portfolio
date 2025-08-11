@@ -1,7 +1,6 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import ProjectDetailPage from '@/components/pages/project-detail-page'
-import CessionAppDetailPage from '@/components/pages/cession-app-detail-page'
+import OptimizedProjectDetailWrapper from '@/components/pages/optimized-project-detail-wrapper'
 import { getProjectById, getAllProjects } from '@/lib/projects-data'
 
 interface ProjectPageProps {
@@ -92,10 +91,6 @@ export default function ProjectPage({ params }: ProjectPageProps) {
     notFound()
   }
 
-  // Use custom page for Cession App
-  if (params.id === '1') {
-    return <CessionAppDetailPage project={project} />
-  }
-
-  return <ProjectDetailPage project={project} />
+  // Use optimized wrapper for all projects with performance enhancements
+  return <OptimizedProjectDetailWrapper project={project} />
 }

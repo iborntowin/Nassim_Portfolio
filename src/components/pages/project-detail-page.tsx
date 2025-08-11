@@ -1,6 +1,6 @@
 "use client"
 
-import { motion } from 'motion/react'
+import { motion, useReducedMotion, useInView } from 'motion/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, Github, ExternalLink, Star, GitFork, GitCommit, Calendar, Users, User, Zap, Target, Lightbulb, CheckCircle } from 'lucide-react'
@@ -9,32 +9,50 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { DetailedProject } from '@/lib/projects-data'
 import { ProjectStructuredData } from '@/components/seo/structured-data'
+import { Suspense, lazy, useRef, useState, useCallback, useMemo } from 'react'
+
+// Lazy load heavy components
+const LazyImageGallery = lazy(() => import('@/components/ui/lazy-image-gallery'))
+const LazyWorkflowSection = lazy(() => import('@/components/ui/lazy-workflow-section'))
 
 interface ProjectDetailPageProps {
   project: DetailedProject
 }
 
 export default function ProjectDetailPage({ project }: ProjectDetailPageProps) {
-  const containerVariants = {
+  const shouldReduceMotion = useReducedMotion()
+  const [imageLoaded, setImageLoaded] = useState(false)
+  const heroRef = useRef(null)
+  const isHeroInView = useInView(heroRef, { once: true, margin: "-100px" })
+
+  // Optimized animation variants with reduced motion support
+  const containerVariants = useMemo(() => ({
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1
+        staggerChildren: shouldReduceMotion ? 0 : 0.05,
+        duration: shouldReduceMotion ? 0.2 : 0.6
       }
     }
-  }
+  }), [shouldReduceMotion])
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+  const itemVariants = useMemo(() => ({
+    hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 20 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.6
+        duration: shouldReduceMotion ? 0.2 : 0.6,
+        ease: "easeOut"
       }
     }
-  }
+  }), [shouldReduceMotion])
+
+  // Optimized image loading callback
+  const handleImageLoad = useCallback(() => {
+    setImageLoaded(true)
+  }, [])
 
   return (
     <>
@@ -126,21 +144,39 @@ export default function ProjectDetailPage({ project }: ProjectDetailPageProps) {
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              ref={heroRef}
+              initial={{ opacity: 0, x: shouldReduceMotion ? 0 : 50 }}
+              animate={isHeroInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: shouldReduceMotion ? 0.2 : 0.8, delay: shouldReduceMotion ? 0 : 0.2 }}
               className="relative"
             >
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                <Image
-                  src={project.images[0]?.src || '/images/placeholder-project.jpg'}
-                  alt={project.images[0]?.alt || project.name}
-                  width={600}
-                  height={400}
-                  className="w-full h-auto object-cover"
-                  priority
-                />
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl group">
+                {/* Optimized hero image with loading state */}
+                <div className={`transition-opacity duration-500 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}>
+                  <Image
+                    src={project.images[0]?.src || '/images/placeholder-project.jpg'}
+                    alt={project.images[0]?.alt || project.name}
+                    width={600}
+                    height={400}
+                    className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
+                    priority
+                    onLoad={handleImageLoad}
+                    placeholder="blur"
+                    blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+                  />
+                </div>
+                
+                {/* Loading skeleton */}
+                {!imageLoaded && (
+                  <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 animate-pulse rounded-2xl" />
+                )}
+                
+                {/* Futuristic overlay effects */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-primary-accent)]/5 to-[var(--color-secondary-accent)]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                
+                {/* Animated border effect */}
+                <div className="absolute inset-0 rounded-2xl border-2 border-transparent bg-gradient-to-r from-[var(--color-primary-accent)] to-[var(--color-secondary-accent)] opacity-0 group-hover:opacity-20 transition-opacity duration-500" style={{ mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)', maskComposite: 'xor' }}></div>
               </div>
             </motion.div>
           </div>
@@ -242,49 +278,22 @@ export default function ProjectDetailPage({ project }: ProjectDetailPageProps) {
             </motion.div>
           </motion.div>
 
-          {/* Development Workflow */}
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="mb-16"
-          >
-            <h2 className="text-3xl font-bold text-[var(--color-text-primary)] mb-8 text-center">
-              Development Workflow
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-              {project.workflow.map((step, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                >
-                  <Card className="bg-[var(--color-secondary-background)] border-[var(--color-border)] h-full hover:border-[var(--color-primary-accent)]/30 transition-all duration-300">
-                    <CardHeader className="text-center pb-3">
-                      <div className="text-4xl mb-3">{step.icon}</div>
-                      <CardTitle className="text-lg text-[var(--color-text-primary)]">{step.title}</CardTitle>
-                      <CardDescription className="text-sm text-[var(--color-text-secondary)]">
-                        {step.description}
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <ul className="space-y-1">
-                        {step.details.map((detail, detailIndex) => (
-                          <li key={detailIndex} className="text-xs text-[var(--color-text-secondary)] flex items-start gap-2">
-                            <span className="w-1 h-1 bg-[var(--color-primary-accent)] rounded-full mt-2 flex-shrink-0"></span>
-                            {detail}
-                          </li>
-                        ))}
-                      </ul>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
+          {/* Development Workflow - Lazy Loaded */}
+          <Suspense fallback={
+            <div className="mb-16 animate-pulse">
+              <div className="h-8 bg-gray-200 rounded w-64 mx-auto mb-8"></div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                {[...Array(5)].map((_, i) => (
+                  <div key={i} className="h-64 bg-gray-200 rounded-lg"></div>
+                ))}
+              </div>
             </div>
-          </motion.div>
+          }>
+            <LazyWorkflowSection 
+              workflow={project.workflow} 
+              shouldReduceMotion={shouldReduceMotion}
+            />
+          </Suspense>
 
           {/* Challenges & Solutions */}
           <motion.div
@@ -333,47 +342,23 @@ export default function ProjectDetailPage({ project }: ProjectDetailPageProps) {
             </Card>
           </motion.div>
 
-          {/* Project Images Gallery */}
+          {/* Project Images Gallery - Lazy Loaded */}
           {project.images.length > 1 && (
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="mb-16"
-            >
-              <h2 className="text-3xl font-bold text-[var(--color-text-primary)] mb-8 text-center">
-                Project Gallery
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {project.images.slice(1).map((image, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                    className="relative group"
-                  >
-                    <div className="relative rounded-xl overflow-hidden shadow-lg">
-                      <Image
-                        src={image.src}
-                        alt={image.alt}
-                        width={500}
-                        height={300}
-                        className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                      {image.caption && (
-                        <div className="absolute bottom-4 left-4 right-4 text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          {image.caption}
-                        </div>
-                      )}
-                    </div>
-                  </motion.div>
-                ))}
+            <Suspense fallback={
+              <div className="mb-16 animate-pulse">
+                <div className="h-8 bg-gray-200 rounded w-48 mx-auto mb-8"></div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {[...Array(4)].map((_, i) => (
+                    <div key={i} className="h-64 bg-gray-200 rounded-xl"></div>
+                  ))}
+                </div>
               </div>
-            </motion.div>
+            }>
+              <LazyImageGallery 
+                images={project.images.slice(1)} 
+                shouldReduceMotion={shouldReduceMotion}
+              />
+            </Suspense>
           )}
 
           {/* Impact & Results */}
