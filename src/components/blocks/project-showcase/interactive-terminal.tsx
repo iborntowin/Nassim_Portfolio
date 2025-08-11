@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useRef, useEffect } from 'react'
-import { motion, AnimatePresence } from 'motion/react'
+import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import { ChevronRight, Folder, FileText, Play, ExternalLink, Github } from 'lucide-react'
 

@@ -3,9 +3,6 @@
 import { useState, useEffect } from 'react';
 import { ChevronRight, Rocket, ArrowDown } from 'lucide-react';
 
-const TYPING_SPEED = 100;
-const PAUSE_DURATION = 2000;
-
 const roles = [
   "Full-Stack Developer",
   "AI/ML Engineer", 
@@ -15,14 +12,13 @@ const roles = [
 ];
 
 const codeSnippet = `---
-# Ansible Infrastructure Automation Playbook
-- name: Deploy Web Application Infrastructure
+# Ansible Infrastructure Automation
+- name: Deploy Web Application
   hosts: production
   become: yes
   vars:
     app_name: "web-app"
     app_version: "v2.1.0"
-    docker_registry: "registry.company.com"
     
   tasks:
     - name: Update system packages
@@ -35,89 +31,21 @@ const codeSnippet = `---
         name: docker.io
         state: present
         
-    - name: Start Docker service
-      systemd:
-        name: docker
-        state: started
-        enabled: yes
-        
-    - name: Pull application image
-      docker_image:
-        name: "{{ docker_registry }}/{{ app_name }}"
-        tag: "{{ app_version }}"
-        source: pull
-        
-    - name: Deploy application container
+    - name: Deploy application
       docker_container:
         name: "{{ app_name }}"
-        image: "{{ docker_registry }}/{{ app_name }}:{{ app_version }}"
+        image: "registry.com/{{ app_name }}:{{ app_version }}"
         state: started
-        restart_policy: always
         ports:
           - "80:8080"
         env:
-          NODE_ENV: production
-          DATABASE_URL: "{{ vault_database_url }}"
-          
-    - name: Configure nginx reverse proxy
-      template:
-        src: nginx.conf.j2
-        dest: /etc/nginx/sites-available/{{ app_name }}
-      notify: restart nginx
-      
-    - name: Enable nginx site
-      file:
-        src: /etc/nginx/sites-available/{{ app_name }}
-        dest: /etc/nginx/sites-enabled/{{ app_name }}
-        state: link
-      notify: restart nginx
-      
-  handlers:
-    - name: restart nginx
-      systemd:
-        name: nginx
-        state: restarted`;
+          NODE_ENV: production`;
 
-function CodeHighlighter({ code }: { code: string }) {
-  const lines = code.split('\n');
-
-  return (
-    <pre className="text-gray-300 whitespace-pre-wrap text-sm leading-6">
-      {lines.map((line, lineIndex) => (
-        <div key={lineIndex} className="min-h-[1.5rem]">
-          {line.split(/(\b(?:apiVersion|kind|metadata|spec|containers|image|resources|kubectl|aws|terraform|resource|provider|name|hosts|become|vars|tasks|apt|systemd|docker_image|docker_container|template|file|handlers)\b|\b(?:true|false|null|yes|no)\b|\b\d+\.?\d*[a-zA-Z]*\b|["'][^"']*["']|#.*$)/).map((part, partIndex) => {
-            if (!part) return null;
-
-            if (/\b(apiVersion|kind|metadata|spec|containers|image|resources|kubectl|aws|terraform|resource|provider|name|hosts|become|vars|tasks|apt|systemd|docker_image|docker_container|template|file|handlers)\b/.test(part)) {
-              return <span key={partIndex} className="text-blue-400 font-semibold">{part}</span>;
-            }
-            if (/\b(true|false|null|yes|no)\b/.test(part)) {
-              return <span key={partIndex} className="text-orange-400">{part}</span>;
-            }
-            if (/\b\d+\.?\d*[a-zA-Z]*\b/.test(part)) {
-              return <span key={partIndex} className="text-green-400">{part}</span>;
-            }
-            if (/["'][^"']*["']/.test(part)) {
-              return <span key={partIndex} className="text-green-300">{part}</span>;
-            }
-            if (/#.*$/.test(part)) {
-              return <span key={partIndex} className="text-gray-400">{part}</span>;
-            }
-
-            return <span key={partIndex}>{part}</span>;
-          })}
-        </div>
-      ))}
-    </pre>
-  );
-}
-
-export default function DevOpsHero() {
+export default function StaticHero() {
   const [currentRole, setCurrentRole] = useState(0);
   const [displayText, setDisplayText] = useState("Full-Stack Developer");
   const [isTyping, setIsTyping] = useState(true);
 
-  // Typing animation
   useEffect(() => {
     const currentRoleText = roles[currentRole];
     let timeoutId: NodeJS.Timeout;
@@ -126,17 +54,17 @@ export default function DevOpsHero() {
       if (displayText.length < currentRoleText.length) {
         timeoutId = setTimeout(() => {
           setDisplayText(currentRoleText.slice(0, displayText.length + 1));
-        }, TYPING_SPEED);
+        }, 100);
       } else {
         timeoutId = setTimeout(() => {
           setIsTyping(false);
-        }, PAUSE_DURATION);
+        }, 2000);
       }
     } else {
       if (displayText.length > 0) {
         timeoutId = setTimeout(() => {
           setDisplayText(displayText.slice(0, -1));
-        }, TYPING_SPEED / 2);
+        }, 50);
       } else {
         setCurrentRole((prev) => (prev + 1) % roles.length);
         setIsTyping(true);
@@ -146,31 +74,23 @@ export default function DevOpsHero() {
     return () => clearTimeout(timeoutId);
   }, [displayText, isTyping, currentRole]);
 
-  // Static particles for consistent rendering
-  const staticParticles = [];
-  for (let i = 0; i < 20; i++) {
-    staticParticles.push(
-      <div
-        key={i}
-        className="absolute w-1 h-1 bg-blue-500 rounded-full opacity-20"
-        style={{
-          left: `${(i * 17 + 23) % 100}%`,
-          top: `${(i * 13 + 37) % 100}%`
-        }}
-      />
-    );
-  }
-
   return (
-    <div className="relative min-h-[120vh] bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 overflow-hidden">
-      {/* Background particles */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 opacity-20">
-          {staticParticles}
-        </div>
+    <div className="relative min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 overflow-hidden">
+      {/* Static background */}
+      <div className="absolute inset-0 opacity-20">
+        {Array.from({ length: 20 }).map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-1 h-1 bg-blue-500 rounded-full"
+            style={{
+              left: `${(i * 17 + 23) % 100}%`,
+              top: `${(i * 13 + 37) % 100}%`
+            }}
+          />
+        ))}
       </div>
 
-      <div className="relative z-20 mx-auto max-w-7xl px-6 lg:px-8 pt-20 pb-24 sm:pt-32 sm:pb-32">
+      <div className="relative z-20 mx-auto max-w-7xl px-6 lg:px-8 pt-20 pb-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
           
           {/* Left side - Content */}
@@ -230,20 +150,20 @@ export default function DevOpsHero() {
             </div>
           </div>
 
-          {/* Right side - Code Display */}
+          {/* Right side - Terminal */}
           <div>
             <div className="relative">
-              {/* Code editor */}
-              <div className="bg-slate-900 rounded-2xl shadow-2xl border border-gray-700 overflow-hidden">
+              {/* Terminal */}
+              <div className="bg-slate-900 rounded-2xl shadow-2xl border border-slate-700 overflow-hidden">
                 {/* Header */}
-                <div className="flex items-center justify-between px-6 py-4 bg-slate-800 border-b border-gray-700">
+                <div className="flex items-center justify-between px-6 py-4 bg-slate-800 border-b border-slate-700">
                   <div className="flex items-center space-x-3">
                     <div className="flex space-x-2">
                       <div className="w-3 h-3 bg-red-500 rounded-full"></div>
                       <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
                       <div className="w-3 h-3 bg-green-500 rounded-full"></div>
                     </div>
-                    <span className="text-gray-300 text-sm font-mono">
+                    <span className="text-slate-300 text-sm font-mono">
                       ansible-playbook.yaml
                     </span>
                   </div>
@@ -251,7 +171,33 @@ export default function DevOpsHero() {
 
                 {/* Code content */}
                 <div className="p-6 h-96 overflow-y-auto bg-slate-900">
-                  <CodeHighlighter code={codeSnippet} />
+                  <pre className="text-slate-300 whitespace-pre-wrap text-sm leading-6">
+                    {codeSnippet.split('\n').map((line, index) => (
+                      <div key={index} className="min-h-[1.5rem]">
+                        {line.split(/(\b(?:name|hosts|become|vars|tasks|apt|systemd|docker_image|docker_container)\b|\b(?:yes|no|true|false)\b|\b\d+\.?\d*[a-zA-Z]*\b|["'][^"']*["']|#.*$)/).map((part, partIndex) => {
+                          if (!part) return null;
+
+                          if (/\b(name|hosts|become|vars|tasks|apt|systemd|docker_image|docker_container)\b/.test(part)) {
+                            return <span key={partIndex} className="text-blue-400 font-semibold">{part}</span>;
+                          }
+                          if (/\b(yes|no|true|false)\b/.test(part)) {
+                            return <span key={partIndex} className="text-orange-400">{part}</span>;
+                          }
+                          if (/\b\d+\.?\d*[a-zA-Z]*\b/.test(part)) {
+                            return <span key={partIndex} className="text-green-400">{part}</span>;
+                          }
+                          if (/["'][^"']*["']/.test(part)) {
+                            return <span key={partIndex} className="text-green-300">{part}</span>;
+                          }
+                          if (/#.*$/.test(part)) {
+                            return <span key={partIndex} className="text-slate-400">{part}</span>;
+                          }
+
+                          return <span key={partIndex}>{part}</span>;
+                        })}
+                      </div>
+                    ))}
+                  </pre>
                 </div>
               </div>
 

@@ -1,6 +1,6 @@
 "use client"
 
-import { motion, useInView } from 'motion/react'
+import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { WorkflowStep } from '@/lib/projects-data'

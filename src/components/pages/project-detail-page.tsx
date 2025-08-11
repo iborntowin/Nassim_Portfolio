@@ -1,6 +1,6 @@
 "use client"
 
-import { motion, useReducedMotion, useInView } from 'motion/react'
+import { motion, useReducedMotion, useInView } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, Github, ExternalLink, Star, GitFork, GitCommit, Calendar, Users, User, Zap, Target, Lightbulb, CheckCircle } from 'lucide-react'

@@ -2,7 +2,7 @@
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import React, { useRef, useState } from "react";
-import { AnimatePresence, motion, useMotionValue } from "motion/react";
+import { AnimatePresence, motion, useMotionValue } from "framer-motion";
 
 export function StatsForChangelog() {
   const stats = [

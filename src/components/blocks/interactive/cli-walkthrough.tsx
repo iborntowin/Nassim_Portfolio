@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { ChevronRight, Terminal, CheckCircle, AlertCircle, Info, AlertTriangle } from "lucide-react"
-import { motion, useMotionValue, useTransform, animate } from "motion/react"
+import { motion, useMotionValue, useTransform, animate } from "framer-motion"
 
 interface Command {
   id: string

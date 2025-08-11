@@ -16,14 +16,14 @@ export default function OptimizedProjectDetailWrapper({ project }: OptimizedProj
   const [isLoading, setIsLoading] = useState(true)
   const [imagesPreloaded, setImagesPreloaded] = useState(false)
   const [performanceMetrics, setPerformanceMetrics] = useState<any>(null)
-  
+
   const performanceMonitor = useMemo(() => new PerformanceMonitor(), [])
   const adaptiveSettings = useMemo(() => getAdaptiveSettings(), [])
 
   useEffect(() => {
     const initializeProject = async () => {
       performanceMonitor.startMeasurement('project-load')
-      
+
       try {
         // Preload critical images for smooth experience
         if (adaptiveSettings.preloadImages && project.images.length > 0) {
@@ -34,10 +34,10 @@ export default function OptimizedProjectDetailWrapper({ project }: OptimizedProj
 
         // Simulate minimum loading time for smooth UX
         await new Promise(resolve => setTimeout(resolve, 800))
-        
+
         const loadTime = performanceMonitor.endMeasurement('project-load')
         setPerformanceMetrics({ loadTime })
-        
+
         setIsLoading(false)
       } catch (error) {
         console.error('Error loading project:', error)
@@ -76,7 +76,7 @@ export default function OptimizedProjectDetailWrapper({ project }: OptimizedProj
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            transition={{ 
+            transition={{
               duration: adaptiveSettings.animationDuration,
               ease: "easeOut"
             }}

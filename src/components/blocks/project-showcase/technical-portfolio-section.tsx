@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from 'react'
-import { motion } from 'motion/react'
+import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { Star, GitFork, GitCommit, Github, ExternalLink, Code, Database, Globe, Server, Brain, Cpu, Wrench, Eye } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'

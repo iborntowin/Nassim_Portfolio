@@ -1,6 +1,6 @@
 "use client"
 
-import { motion, useInView } from 'motion/react'
+import { motion, useInView } from 'framer-motion'
 import Image from 'next/image'
 import { useState, useRef, useCallback } from 'react'
 import { ProjectImage } from '@/lib/projects-data'

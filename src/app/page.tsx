@@ -1,6 +1,7 @@
 'use client';
 
 import DevOpsHero from '@/components/blocks/heros/devops-hero'
+import StaticHero  from '@/components/blocks/heros/static-hero'
 import TestimonialsCarousel from '@/components/blocks/testimonials/testimonials-grid-with-centered-carousel'
 import { StatsForChangelog } from '@/components/blocks/stats/statsforchangelog'
 import { FooterWithGrid } from '@/components/blocks/footers/footer-with-grid'
@@ -17,8 +18,7 @@ export default function HomePage() {
       <WebsiteStructuredData />
       <main className="min-h-screen bg-[var(--color-primary-background)]">
         {/* Hero Section */}
-        <DevOpsHero />
-
+        <StaticHero />
         {/* Technical Portfolio Section */}
         <TechnicalPortfolioSection />
 

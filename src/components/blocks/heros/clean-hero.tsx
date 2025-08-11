@@ -1,7 +1,7 @@
-"use client"
+"'use client';"
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion' // Fixed import path
-import { ChevronRight, Code, Zap, Globe, Brain, Rocket, Star, ArrowDown, Play, Pause } from 'lucide-react'
+import { ChevronRight, Zap, Brain, Rocket, Star, ArrowDown } from 'lucide-react'
 
 const TYPING_SPEED = 100
 const PAUSE_DURATION = 2000
@@ -14,23 +14,35 @@ const roles = [
   "Problem Solver"
 ]
 
-const codeSnippets = [
-  {
-    language: "yaml",
-    title: "kubernetes-deployment",
-    code: fetch('/scripts/kubernetes-deployment.yaml').then(res => res.text()),
-  },
-  {
-    language: "bash",
-    title: "infrastructure-automation",
-    code: fetch('/scripts/infrastructure-automation.sh').then(res => res.text()),
-  },
-  {
-    language: "tf",
-    title: "aws-infrastructure",
-    code: fetch('/scripts/aws-infrastructure.tf').then(res => res.text()),
-  }
-]
+const codeSnippet = `---
+# Ansible Infrastructure Automation
+- name: Deploy Web Application
+  hosts: production
+  become: yes
+  vars:
+    app_name: "web-app"
+    app_version: "v2.1.0"
+    
+  tasks:
+    - name: Update system packages
+      apt:
+        update_cache: yes
+        upgrade: dist
+        
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+        
+    - name: Deploy application
+      docker_container:
+        name: "{{ app_name }}"
+        image: "registry.com/{{ app_name }}:{{ app_version }}"
+        state: started
+        ports:
+          - "80:8080"
+        env:
+          NODE_ENV: production`
 
 const achievements = [
   { number: "50+", label: "Projects Delivered", icon: Rocket },
@@ -58,8 +70,7 @@ export default function CleanHero() {
   const [currentRole, setCurrentRole] = useState(0)
   const [displayText, setDisplayText] = useState("")
   const [isTyping, setIsTyping] = useState(true)
-  const [currentSnippet, setCurrentSnippet] = useState(0)
-  const [isCodePlaying, setIsCodePlaying] = useState(true)
+
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [isClient, setIsClient] = useState(false)
 
@@ -97,16 +108,7 @@ export default function CleanHero() {
     return () => clearTimeout(timeoutId)
   }, [displayText, isTyping, currentRole])
 
-  // Code snippet rotation
-  useEffect(() => {
-    if (!isCodePlaying) return
 
-    const interval = setInterval(() => {
-      setCurrentSnippet((prev) => (prev + 1) % codeSnippets.length)
-    }, 8000)
-
-    return () => clearInterval(interval)
-  }, [isCodePlaying])
 
   // Mouse tracking for interactive effects
   useEffect(() => {
@@ -321,54 +323,22 @@ export default function CleanHero() {
                       <div className="w-3 h-3 bg-green-500 rounded-full"></div>
                     </div>
                     <span className="text-gray-300 text-sm font-mono">
-                      {codeSnippets[currentSnippet].title}.{codeSnippets[currentSnippet].language.toLowerCase()}
+                      ansible-playbook.yaml
                     </span>
                   </div>
 
-                  <div className="flex items-center space-x-2">
-                    <motion.button
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      onClick={() => setIsCodePlaying(!isCodePlaying)}
-                      className="p-2 text-gray-400 hover:text-[#3b82f6] transition-colors"
-                    >
-                      {isCodePlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-                    </motion.button>
-                    <div className="flex space-x-1">
-                      {codeSnippets.map((_, index) => (
-                        <button
-                          key={index}
-                          onClick={() => setCurrentSnippet(index)}
-                          className={`w-2 h-2 rounded-full transition-colors ${index === currentSnippet
-                            ? 'bg-[#3b82f6]'
-                            : 'bg-gray-600'
-                            }`}
-                        />
-                      ))}
-                    </div>
-                  </div>
+
                 </div>
 
                 {/* Code content */}
                 <div className="p-6 h-96 overflow-y-auto bg-[#0d1117] rounded-b-2xl">
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={currentSnippet}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      transition={{ duration: 0.5 }}
-                      className="font-mono text-sm leading-relaxed"
-                    >
-                      <SyntaxHighlightedCode code={codeSnippets[currentSnippet].code} />
-                    </motion.div>
-                  </AnimatePresence>
+                  <SyntaxHighlightedCode code={codeSnippet} />
                 </div>
               </div>
 
               {/* Floating tech badges */}
               <div className="absolute -top-4 -right-4 space-y-2">
-                {['AWS', 'Kubernetes', 'Terraform', 'Linux'].map((tech, index) => (
+                {['Ansible', 'Docker', 'Nginx', 'Linux'].map((tech, index) => (
                   <motion.div
                     key={tech}
                     initial={{ opacity: 0, x: 20 }}

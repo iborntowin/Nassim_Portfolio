@@ -139,18 +139,18 @@ export default function AdvancedTechShowcase() {
                 key={i}
                 className="absolute w-1 h-1 bg-blue-400 rounded-full opacity-20"
                 animate={{
-                  x: [0, Math.random() * 100 - 50],
-                  y: [0, Math.random() * 100 - 50],
+                  x: [0, (i * 37) % 100 - 50],
+                  y: [0, (i * 73) % 100 - 50],
                   opacity: [0.2, 0.8, 0.2]
                 }}
                 transition={{
-                  duration: Math.random() * 10 + 10,
+                  duration: (i % 10) + 10,
                   repeat: Infinity,
                   ease: "linear"
                 }}
                 style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`
+                  left: `${(i * 17) % 100}%`,
+                  top: `${(i * 23) % 100}%`
                 }}
               />
             ))}
