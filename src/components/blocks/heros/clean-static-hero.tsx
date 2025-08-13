@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 
-const ROLES = [
+const DEVELOPER_ROLES = [
   "Full-Stack Developer",
   "AI/ML Engineer", 
   "Cloud Architect",
@@ -10,7 +10,7 @@ const ROLES = [
   "Innovation Builder"
 ]
 
-const CODE_CONTENT = `---
+const YAML_CODE = `---
 # Ansible Infrastructure Automation
 - name: Deploy Web Application
   hosts: production
@@ -40,38 +40,38 @@ const CODE_CONTENT = `---
         env:
           NODE_ENV: production`
 
-function StaticHero() {
-  const [roleIndex, setRoleIndex] = useState(0)
-  const [text, setText] = useState("Full-Stack Developer")
-  const [typing, setTyping] = useState(true)
+export default function CleanStaticHero() {
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [displayText, setDisplayText] = useState("Full-Stack Developer")
+  const [isTyping, setIsTyping] = useState(true)
 
   useEffect(() => {
-    const currentRole = ROLES[roleIndex]
-    let timeout: NodeJS.Timeout
+    const targetText = DEVELOPER_ROLES[currentIndex]
+    let timeoutId: NodeJS.Timeout
 
-    if (typing) {
-      if (text.length < currentRole.length) {
-        timeout = setTimeout(() => {
-          setText(currentRole.slice(0, text.length + 1))
+    if (isTyping) {
+      if (displayText.length < targetText.length) {
+        timeoutId = setTimeout(() => {
+          setDisplayText(targetText.slice(0, displayText.length + 1))
         }, 100)
       } else {
-        timeout = setTimeout(() => {
-          setTyping(false)
+        timeoutId = setTimeout(() => {
+          setIsTyping(false)
         }, 2000)
       }
     } else {
-      if (text.length > 0) {
-        timeout = setTimeout(() => {
-          setText(text.slice(0, -1))
+      if (displayText.length > 0) {
+        timeoutId = setTimeout(() => {
+          setDisplayText(displayText.slice(0, -1))
         }, 50)
       } else {
-        setRoleIndex((prev) => (prev + 1) % ROLES.length)
-        setTyping(true)
+        setCurrentIndex((prev) => (prev + 1) % DEVELOPER_ROLES.length)
+        setIsTyping(true)
       }
     }
 
-    return () => clearTimeout(timeout)
-  }, [text, typing, roleIndex])
+    return () => clearTimeout(timeoutId)
+  }, [displayText, isTyping, currentIndex])
 
   return (
     <div className="relative min-h-screen bg-[var(--color-primary-background)] overflow-hidden">
@@ -121,7 +121,7 @@ function StaticHero() {
               <div className="text-2xl lg:text-3xl font-semibold text-[var(--color-text-secondary)] h-12 flex items-center">
                 <span className="mr-2">I'm a</span>
                 <span className="text-[var(--color-primary-accent)] min-w-[300px]">
-                  {text}
+                  {displayText}
                   <span className="ml-1 animate-pulse">|</span>
                 </span>
               </div>
@@ -156,7 +156,7 @@ function StaticHero() {
                 {/* Code content */}
                 <div className="p-6 h-96 overflow-y-auto bg-[var(--color-secondary-background)]">
                   <pre className="text-[var(--color-text-secondary)] whitespace-pre-wrap text-sm leading-6">
-                    {CODE_CONTENT.split('\n').map((line, index) => (
+                    {YAML_CODE.split('\n').map((line, index) => (
                       <div key={index} className="min-h-[1.5rem]">
                         {line.split(/(\b(?:name|hosts|become|vars|tasks|apt|systemd|docker_image|docker_container)\b|\b(?:yes|no|true|false)\b|\b\d+\.?\d*[a-zA-Z]*\b|["'][^"']*["']|#.*$)/).map((part, partIndex) => {
                           if (!part) return null
@@ -191,5 +191,3 @@ function StaticHero() {
     </div>
   )
 }
-
-export default StaticHero

@@ -167,13 +167,13 @@ export default function AdvancedTechShowcase() {
           className="text-center mb-16"
         >
           <motion.h2 
-            className="text-5xl lg:text-6xl font-bold text-white mb-6"
+            className="text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 leading-tight"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            Technologies I
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-cyan-400">
+            <span className="text-white">Technologies I </span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-cyan-400">
               Master & Love
             </span>
           </motion.h2>

@@ -48,6 +48,121 @@ export interface DetailedProject {
 const projectsData: DetailedProject[] = [
   {
     id: '1',
+    name: 'NasmyTunes – Spotify to MP3 Converter',
+    description: 'Convert Spotify playlists to high-quality MP3 files with CLI and web interfaces. Features advanced YouTube bypass techniques, real-time progress tracking, and professional glassmorphism UI.',
+    longDescription: 'NasmyTunes is a comprehensive Spotify playlist converter that transforms your favorite playlists into high-quality MP3 files. The application features both a CLI interface for local use and a modern web application with glassmorphism design. Built with advanced bypass techniques to handle YouTube\'s bot detection, it offers real-time progress tracking, batch processing, and professional-grade audio conversion at 192kbps quality.',
+    category: 'Productivity',
+    techStack: [
+      { name: 'Python', color: 'text-yellow-400 bg-yellow-400/10' },
+      { name: 'Spotify API', color: 'text-green-400 bg-green-400/10' },
+      { name: 'YouTube API', color: 'text-red-400 bg-red-400/10' },
+      { name: 'FFmpeg', color: 'text-blue-400 bg-blue-400/10' },
+      { name: 'Flask', color: 'text-gray-400 bg-gray-400/10' }
+    ],
+    stats: { stars: 0, forks: 0, commits: 45 },
+    githubUrl: 'https://github.com/iborntowin/NasmyTunes',
+    liveUrl: 'https://nasmytunes.onrender.com',
+    featured: true,
+    images: [
+      { src: '/images/projects/1/hero.jpg', alt: 'NasmyTunes Interface', caption: 'Modern glassmorphism UI with real-time conversion progress' },
+      { src: '/images/projects/1/cli.jpg', alt: 'CLI Interface', caption: 'Easy-to-use command line interface for batch processing' },
+      { src: '/images/projects/1/architecture.jpg', alt: 'System Architecture', caption: 'Multi-layer bypass system with advanced YouTube handling' },
+      { src: '/images/projects/1/demo.jpg', alt: 'Live Demo', caption: 'Professional web interface with responsive design' }
+    ],
+    workflow: [
+      {
+        title: 'API Integration & Research',
+        description: 'Integrated Spotify API and researched YouTube bypass techniques',
+        icon: '🔗',
+        details: [
+          'Implemented Spotify Web API for playlist analysis',
+          'Researched YouTube\'s bot detection mechanisms',
+          'Developed authentication simulation techniques',
+          'Created fallback systems for API limitations'
+        ]
+      },
+      {
+        title: 'Core Engine Development',
+        description: 'Built the conversion engine with advanced bypass methods',
+        icon: '⚙️',
+        details: [
+          'Developed multi-client YouTube access system',
+          'Implemented rate limiting and human-like patterns',
+          'Created high-quality audio extraction pipeline',
+          'Built FFmpeg integration for MP3 conversion'
+        ]
+      },
+      {
+        title: 'CLI Interface Design',
+        description: 'Created user-friendly command line interface',
+        icon: '💻',
+        details: [
+          'Designed intuitive CLI menu system',
+          'Added real-time progress tracking',
+          'Implemented batch processing capabilities',
+          'Created cross-platform launcher scripts'
+        ]
+      },
+      {
+        title: 'Web Application Development',
+        description: 'Built modern web interface with glassmorphism design',
+        icon: '🌐',
+        details: [
+          'Designed responsive glassmorphism UI',
+          'Implemented real-time progress updates',
+          'Added ZIP file download functionality',
+          'Created mobile-responsive interface'
+        ]
+      },
+      {
+        title: 'Deployment & Optimization',
+        description: 'Deployed to cloud platforms with performance optimization',
+        icon: '🚀',
+        details: [
+          'Deployed to Render with automatic scaling',
+          'Optimized for cloud resource constraints',
+          'Implemented graceful degradation for demos',
+          'Added comprehensive error handling'
+        ]
+      }
+    ],
+    challenges: [
+      'YouTube\'s sophisticated bot detection and rate limiting',
+      'Maintaining high-quality audio conversion at scale',
+      'Creating seamless user experience across CLI and web interfaces',
+      'Handling cloud platform resource limitations for audio processing'
+    ],
+    solutions: [
+      'Implemented multi-layer bypass system with browser simulation and proxy support',
+      'Used FFmpeg with optimized settings for 192kbps quality conversion',
+      'Designed unified architecture supporting both CLI and web interfaces',
+      'Created intelligent fallback systems and demo modes for cloud constraints'
+    ],
+    impact: [
+      'Successful conversion of Spotify playlists to high-quality MP3s',
+      'Professional web interface deployed on Render platform',
+      'Advanced bypass techniques handling YouTube restrictions',
+      'Cross-platform compatibility with Windows, Mac, and Linux support'
+    ],
+    keyFeatures: [
+      'Spotify playlist analysis and track extraction',
+      'Advanced YouTube bypass techniques',
+      'High-quality MP3 conversion (192kbps)',
+      'Real-time progress tracking',
+      'Batch processing capabilities',
+      'Modern glassmorphism web UI',
+      'Cross-platform CLI interface',
+      'ZIP file downloads',
+      'Mobile responsive design',
+      'Cloud deployment ready'
+    ],
+    architecture: 'Python-based conversion engine with Spotify API integration, YouTube bypass system, FFmpeg audio processing, and dual CLI/web interfaces',
+    timeline: '3 months',
+    teamSize: 'Solo project',
+    role: 'Full-Stack Developer & System Architect'
+  },
+  {
+    id: '2',
     name: 'Cession App – Session & Contract Management',
     description: 'A smart platform for managing session-based contracts with secure authentication, dynamic user roles, and audit trails. Designed for clean UX and cross-device compatibility.',
     longDescription: 'Cession App is a comprehensive session and contract management platform built to streamline business operations. The application features a robust authentication system with JWT tokens, dynamic role-based access control, and comprehensive audit trails for compliance. The platform was designed with a mobile-first approach, ensuring seamless functionality across all devices while maintaining enterprise-grade security standards.',
@@ -164,7 +279,7 @@ const projectsData: DetailedProject[] = [
     role: 'Full-Stack Developer & System Architect'
   },
   {
-    id: '2',
+    id: '3',
     name: 'Board-AI: Electronic Component Detection',
     description: 'Trained a CNN model (92% accuracy) on 50,000+ PCB component images to identify parts in real-time, reducing inference time to 120ms using TensorRT.',
     longDescription: 'Board-AI revolutionizes electronic component identification through advanced computer vision and deep learning. The system processes PCB images in real-time, identifying components with 92% accuracy while maintaining ultra-low latency of 120ms. Built with a robust CNN architecture and optimized using TensorRT, this solution addresses critical needs in electronics manufacturing and repair industries.',
@@ -275,7 +390,7 @@ const projectsData: DetailedProject[] = [
     role: 'AI/ML Engineer & Computer Vision Specialist'
   },
   {
-    id: '3',
+    id: '4',
     name: 'NeuroVigil: Driver Fatigue Detection',
     description: 'Developed an EEG-based alert system detecting drowsiness with 89% precision. Early warning algorithm reduced false positives to under 5%.',
     longDescription: 'NeuroVigil is an innovative wearable technology solution that monitors driver alertness through EEG signal analysis. The system processes brainwave patterns in real-time to detect early signs of fatigue and drowsiness, providing timely alerts to prevent accidents. With 89% precision and less than 5% false positives, this solution represents a significant advancement in road safety technology.',
@@ -319,7 +434,7 @@ const projectsData: DetailedProject[] = [
     role: 'Biomedical Engineer & Signal Processing Specialist'
   },
   {
-    id: '4',
+    id: '5',
     name: 'Nanosatellite Communication System',
     description: 'Built an optimized LoRaWAN communication module achieving 1.2 Mbps and 40% performance gain across 5 hardware platforms.',
     longDescription: 'This project involved designing and implementing a high-performance communication system for nanosatellites using LoRaWAN technology. The system achieved significant performance improvements through optimization techniques, reaching 1.2 Mbps data rates with 40% better performance compared to existing solutions across multiple hardware platforms.',
@@ -365,7 +480,7 @@ const projectsData: DetailedProject[] = [
     role: 'Embedded Systems Engineer & Protocol Designer'
   },
   {
-    id: '5',
+    id: '6',
     name: 'GoldenTouch – AI Event Platform',
     description: 'Smart platform for event pack management with admin dashboards, AI-powered feedback analysis, Telegram/email notifications, and booking logic.',
     longDescription: 'GoldenTouch is a comprehensive event management platform that leverages AI to enhance user experience and streamline operations. The platform features intelligent feedback analysis, automated notifications, and sophisticated booking management, making it ideal for event organizers and attendees alike.',

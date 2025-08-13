@@ -24,7 +24,7 @@ const testimonials: Testimonial[] = [
     company: "TechFlow Solutions",
     content: "Nassim delivered an exceptional full-stack solution that exceeded our expectations. His expertise in React and Spring Boot helped us launch 3 months ahead of schedule.",
     rating: 5,
-    avatar: "/images/avatars/sarah-chen.jpg",
+    avatar: "",
     projectType: "Full-Stack Development"
   },
   {
@@ -34,7 +34,7 @@ const testimonials: Testimonial[] = [
     company: "DataVision AI",
     content: "The AI-powered component detection system Nassim built achieved 92% accuracy and reduced our quality control time by 60%. Outstanding technical execution.",
     rating: 5,
-    avatar: "/images/avatars/marcus-rodriguez.jpg",
+    avatar: "",
     projectType: "AI/ML Engineering"
   },
   {
@@ -44,7 +44,7 @@ const testimonials: Testimonial[] = [
     company: "CloudScale Inc",
     content: "Nassim's embedded systems expertise was crucial for our IoT project. The LoRaWAN implementation he developed achieved 40% better performance than our previous solution.",
     rating: 5,
-    avatar: "/images/avatars/emily-watson.jpg",
+    avatar: "",
     projectType: "Embedded Systems"
   },
   {
@@ -54,7 +54,7 @@ const testimonials: Testimonial[] = [
     company: "EventTech Pro",
     content: "The event management platform Nassim created transformed our business. The AI-powered feedback analysis and seamless booking system increased our efficiency by 45%.",
     rating: 5,
-    avatar: "/images/avatars/david-kim.jpg",
+    avatar: "",
     projectType: "Platform Development"
   },
   {
@@ -64,7 +64,7 @@ const testimonials: Testimonial[] = [
     company: "DevTools Corp",
     content: "The productivity tracking tool Nassim developed saved our team 25% of daily reporting time. Clean interface, robust functionality, and excellent support.",
     rating: 5,
-    avatar: "/images/avatars/lisa-thompson.jpg",
+    avatar: "",
     projectType: "Productivity Tools"
   }
 ]
@@ -177,18 +177,10 @@ export default function TestimonialsCarousel() {
 
               {/* Client Info */}
               <div className="flex items-center justify-center gap-4">
-                <div className="relative w-16 h-16 rounded-full overflow-hidden bg-[var(--color-border)]">
-                  <Image
-                    src={currentTestimonial.avatar}
-                    alt={currentTestimonial.name}
-                    fill
-                    className="object-cover"
-                    onError={(e) => {
-                      // Fallback to placeholder if image fails to load
-                      const target = e.target as HTMLImageElement
-                      target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(currentTestimonial.name)}&background=3b82f6&color=ffffff&size=64`
-                    }}
-                  />
+                <div className="relative w-16 h-16 rounded-full overflow-hidden bg-[var(--color-primary-accent)] flex items-center justify-center">
+                  <div className="w-full h-full rounded-full bg-gradient-to-br from-[var(--color-primary-accent)] to-[var(--color-secondary-accent)] flex items-center justify-center text-white font-bold text-xl">
+                    {currentTestimonial.name.split(' ').map(n => n[0]).join('')}
+                  </div>
                 </div>
                 <div className="text-center">
                   <div className="font-semibold text-[var(--color-text-primary)] text-lg">
