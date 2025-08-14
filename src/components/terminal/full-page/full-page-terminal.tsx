@@ -92,77 +92,28 @@ export function FullPageTerminal() {
     keyboardVisible 
   } = useMobileOptimizations()
 
-  const terminalRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const lineIdCounter = useRef(0)
-  const scrollTimeoutRef = useRef<NodeJS.Timeout>()
 
-  // Enhanced scroll to bottom function with better reliability
-  const scrollToBottom = useCallback((extraSpace = 0, immediate = false) => {
-    if (!terminalRef.current) return
+  const { 
+    terminalRef,
+    scrollToBottom,
+    isScrolledToBottom,
+    isUserScrolling,
+    handleScroll
+  } = useTerminalScroll({
+    smoothScroll: !shouldDisableFeature('animations'),
+    scrollThreshold: 50,
+    scrollDebounce: 150
+  })
 
-    const element = terminalRef.current
-
-    const performScroll = () => {
-      const targetScrollTop = element.scrollHeight + extraSpace - element.clientHeight
-
-      if (immediate) {
-        element.scrollTop = targetScrollTop
-      } else {
-        element.scrollTo({
-          top: targetScrollTop,
-          behavior: 'smooth'
-        })
-      }
-    }
-
-    // Clear any pending scroll
-    if (scrollTimeoutRef.current) {
-      clearTimeout(scrollTimeoutRef.current)
-    }
-
-    // Multiple scroll attempts for reliability
-    performScroll()
-
-    requestAnimationFrame(() => {
-      performScroll()
-    })
-
-    // Additional attempts with delays to handle dynamic content
-    const delays = [50, 100, 200, 300, 500]
-    delays.forEach(delay => {
-      scrollTimeoutRef.current = setTimeout(() => {
-        performScroll()
-      }, delay)
-    })
-
-    // Ensure the last element is visible
-    setTimeout(() => {
-      const lastChild = element.lastElementChild
-      if (lastChild) {
-        lastChild.scrollIntoView({
-          behavior: immediate ? 'auto' : 'smooth',
-          block: 'end',
-          inline: 'nearest'
-        })
-      }
-    }, immediate ? 0 : 100)
-  }, [])
-
-  // Enhanced scroll function for suggestions with more space (reduced flicker)
+  // Enhanced scroll function for suggestions
   const scrollForSuggestions = useCallback(() => {
-    if (!terminalRef.current) return
+    if (!suggestions.length) return
 
-    // Calculate space needed for suggestions (more conservative)
+    // Calculate space needed for suggestions
     const suggestionsHeight = Math.max(suggestions.length * 35 + 100, 250)
-
-    // Single smooth scroll to reduce flicker
-    scrollToBottom(suggestionsHeight, false)
-
-    // One follow-up attempt
-    setTimeout(() => {
-      scrollToBottom(suggestionsHeight, true)
-    }, 100)
+    scrollToBottom(suggestionsHeight)
   }, [scrollToBottom, suggestions.length])
 
   // Enhanced focus restoration with better reliability
@@ -281,12 +232,6 @@ export function FullPageTerminal() {
     return () => {
       document.removeEventListener('click', handleGlobalClick)
       window.removeEventListener('focus', handleGlobalFocus)
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current)
-      }
-      if (suggestionsTimeoutRef.current) {
-        clearTimeout(suggestionsTimeoutRef.current)
-      }
       if (inputChangeTimeoutRef.current) {
         clearTimeout(inputChangeTimeoutRef.current)
       }
@@ -664,7 +609,7 @@ export function FullPageTerminal() {
   }, [restoreFocus])
 
   return (
-    <div className="relative h-screen w-full bg-black text-green-400 font-mono overflow-hidden">
+    <div className="fixed inset-0 bg-black text-green-400 font-mono">
       {isMounted && (
         <>
           <AmbientCursorEffects
@@ -703,10 +648,18 @@ export function FullPageTerminal() {
           {/* Terminal Content */}
           <div
             ref={terminalRef}
-            className="flex-1 overflow-y-auto p-4 bg-black/95 backdrop-blur-sm"
+            onScroll={handleScroll}
+            className={`relative flex-1 overflow-y-auto p-4 bg-black/95 backdrop-blur-sm ${
+              !isScrolledToBottom ? 'scroll-indicator' : ''
+            }`}
             style={{
+              height: 'calc(100vh - 3rem)',
+              maxHeight: 'calc(100vh - 3rem)',
               scrollbarWidth: 'thin',
               scrollbarColor: '#22c55e #000000',
+              overscrollBehavior: 'contain',
+              WebkitOverflowScrolling: 'touch',
+              willChange: 'scroll-position'
             }}
           >
             {/* Terminal Lines */}

@@ -101,9 +101,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body className="antialiased">
-        {children}
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${geistSans.variable} ${geistMono.variable}`}
+    >
+      <body className="antialiased min-h-screen max-h-screen overflow-hidden" suppressHydrationWarning>
+        <main className="h-screen max-h-screen overflow-hidden">
+          {children}
+        </main>
       </body>
     </html>
   );

@@ -6,11 +6,13 @@ import { useEffect, useState } from 'react'
 export function TerminalContainer({ 
   children, 
   legendMode,
-  onClick 
+  onClick,
+  onScroll
 }: { 
   children: React.ReactNode
   legendMode?: boolean
-  onClick?: () => void
+  onClick?: (e: React.MouseEvent) => void
+  onScroll?: () => void
 }) {
   const [mounted, setMounted] = useState(false)
 
@@ -26,9 +28,13 @@ export function TerminalContainer({
         scale: mounted ? 1 : 0.98 
       }}
       transition={{ duration: 0.3 }}
-      className={`terminal-container h-full flex flex-col ${
+      className={`terminal-container fixed inset-0 flex flex-col overflow-hidden ${
         legendMode ? 'border-4 border-yellow-400 shadow-2xl shadow-yellow-400/20' : ''
       }`}
+      style={{
+        height: '100vh',
+        maxHeight: '100vh'
+      }}
       onClick={onClick}
     >
       {children}
