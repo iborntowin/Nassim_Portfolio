@@ -8,6 +8,7 @@ import {
   getCommandSuggestions,
   ASCII_BANNERS
 } from '../core/command-registry'
+import { TerminalContainer } from '../layout/terminal-container'
 import { TerminalHeader } from './terminal-header'
 import { TerminalOutput } from './terminal-output'
 import { TerminalInput } from './terminal-input'
@@ -90,17 +91,6 @@ export function FullPageTerminal() {
     optimizeForMobileInput,
     keyboardVisible 
   } = useMobileOptimizations()
-
-  // Prevent hydration issues by only rendering on client
-  if (typeof window === 'undefined') {
-    return (
-      <div className="relative h-screen w-full bg-black text-green-400 font-mono overflow-hidden flex items-center justify-center">
-        <div className="text-green-400 text-lg animate-pulse">
-          Initializing terminal...
-        </div>
-      </div>
-    )
-  }
 
   const terminalRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -675,21 +665,24 @@ export function FullPageTerminal() {
 
   return (
     <div className="relative h-screen w-full bg-black text-green-400 font-mono overflow-hidden">
-      {/* Performance-aware Ambient Effects */}
-      <AmbientCursorEffects
-        enabled={!isBooting && isMounted && optimizedTerminalProps.enableTrails}
-        intensity={isMobile ? 'low' : legendMode ? 'high' : 'medium'}
-        glowColor={legendMode ? '#fbbf24' : '#00ff41'}
-        enableTrails={optimizedTerminalProps.enableTrails}
-        enableGlow={optimizedTerminalProps.enableGlow}
-        disableAnimations={!optimizedTerminalProps.enableAnimations}
-        trailLength={isMobile ? 3 : 8}
-      />
-      <SystemActivityAnimations
-        enabled={!isBooting && isMounted && !shouldDisableFeature('complex-effects')}
-        intensity={isMobile ? 'low' : legendMode ? 'high' : 'medium'}
-        showIndicators={!isMobile && !shouldDisableFeature('complex-effects')}
-      />
+      {isMounted && (
+        <>
+          <AmbientCursorEffects
+            enabled={!isBooting && optimizedTerminalProps.enableTrails}
+            intensity={isMobile ? 'low' : legendMode ? 'high' : 'medium'}
+            glowColor={legendMode ? '#fbbf24' : '#00ff41'}
+            enableTrails={optimizedTerminalProps.enableTrails}
+            enableGlow={optimizedTerminalProps.enableGlow}
+            disableAnimations={!optimizedTerminalProps.enableAnimations}
+            trailLength={isMobile ? 3 : 8}
+          />
+          <SystemActivityAnimations
+            enabled={!isBooting && !shouldDisableFeature('complex-effects')}
+            intensity={isMobile ? 'low' : legendMode ? 'high' : 'medium'}
+            showIndicators={!isMobile && !shouldDisableFeature('complex-effects')}
+          />
+        </>
+      )}
 
       {/* Matrix Rain Effect */}
       <AnimatePresence>
@@ -698,32 +691,16 @@ export function FullPageTerminal() {
 
       {/* Terminal Container */}
       <PageTransition>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className={`terminal-container h-full flex flex-col ${legendMode ? 'border-4 border-yellow-400 shadow-2xl shadow-yellow-400/20' : ''}`}
-          onClick={handleTerminalClick}
-          style={!isMounted ? { opacity: 0, transform: 'scale(0.98)' } : {}}
-        >
-        {/* Terminal Header */}
-        <TerminalHeader
-          user={context.user}
-          host={context.host}
-          path={context.currentPath}
-          legendMode={legendMode}
-        />
+        <TerminalContainer legendMode={legendMode} onClick={handleTerminalClick}>
+          {/* Terminal Header */}
+          <TerminalHeader
+            user={context.user}
+            host={context.host}
+            path={context.currentPath}
+            legendMode={legendMode}
+          />
 
-        {/* Loading state for initial render */}
-        {!isMounted && (
-          <div className="flex-1 flex items-center justify-center bg-black/95">
-            <div className="text-green-400 text-lg animate-pulse">
-              Initializing terminal...
-            </div>
-          </div>
-        )}
-
-        {/* Terminal Content */}
-        {isMounted && (
+          {/* Terminal Content */}
           <div
             ref={terminalRef}
             className="flex-1 overflow-y-auto p-4 bg-black/95 backdrop-blur-sm"
@@ -770,7 +747,6 @@ export function FullPageTerminal() {
                   isProcessing={isProcessing}
                   legendMode={legendMode}
                   onFocus={() => {
-                    // Ensure input area is visible when focused
                     if (isMounted) {
                       setTimeout(() => {
                         if (showSuggestions) {
@@ -793,8 +769,7 @@ export function FullPageTerminal() {
             {/* Additional bottom padding to ensure content is always scrollable */}
             <div className="h-32 w-full" />
           </div>
-        )}
-        </motion.div>
+        </TerminalContainer>
       </PageTransition>
 
       {/* Legend Mode Overlay */}

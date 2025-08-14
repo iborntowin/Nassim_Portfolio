@@ -79,6 +79,7 @@ export const TerminalInput = forwardRef<HTMLInputElement, TerminalInputProps>(
               }}
               disabled={isProcessing}
               className={`w-full bg-transparent border-none outline-none font-mono text-sm ${inputColor} placeholder-gray-500 caret-transparent`}
+            aria-label="Terminal input"
               placeholder={isProcessing ? "Processing..." : "Type a command..."}
               autoComplete="off"
               spellCheck={false}

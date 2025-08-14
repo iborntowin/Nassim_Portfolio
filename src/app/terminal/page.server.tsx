@@ -38,9 +38,3 @@ export const metadata: Metadata = {
     images: ['/images/terminal-og.jpg'],
   },
 }
-
-import { TerminalClient } from './terminal-client'
-
-export default function TerminalPage() {
-  return <TerminalClient />
-}

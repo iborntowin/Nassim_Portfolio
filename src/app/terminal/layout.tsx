@@ -1,5 +1,4 @@
 import { Metadata } from 'next'
-import { FullPageTerminal } from '@/components/terminal/full-page/full-page-terminal'
 import { PersonStructuredData } from '@/components/seo/structured-data'
 
 export const metadata: Metadata = {
@@ -39,8 +38,15 @@ export const metadata: Metadata = {
   },
 }
 
-import { TerminalClient } from './terminal-client'
-
-export default function TerminalPage() {
-  return <TerminalClient />
+export default function TerminalLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <main className="min-h-screen bg-black overflow-hidden relative">
+      <PersonStructuredData />
+      {children}
+    </main>
+  )
 }

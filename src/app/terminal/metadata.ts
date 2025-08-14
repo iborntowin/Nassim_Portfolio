@@ -1,6 +1,4 @@
 import { Metadata } from 'next'
-import { FullPageTerminal } from '@/components/terminal/full-page/full-page-terminal'
-import { PersonStructuredData } from '@/components/seo/structured-data'
 
 export const metadata: Metadata = {
   title: 'Terminal Interface - Nassim Maaoui | Cloud Engineer Console',
@@ -37,10 +35,4 @@ export const metadata: Metadata = {
     description: 'Interactive terminal interface for cloud-native engineering portfolio',
     images: ['/images/terminal-og.jpg'],
   },
-}
-
-import { TerminalClient } from './terminal-client'
-
-export default function TerminalPage() {
-  return <TerminalClient />
 }
