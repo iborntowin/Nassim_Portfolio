@@ -152,12 +152,11 @@ export function FullPageTerminal() {
     animation?: TerminalLine['animation'],
     shouldScroll = true
   ) => {
-    const now = isMounted ? Date.now() : 0
     const newLine: TerminalLine = {
-      id: `line-${++lineIdCounter.current}-${now}`,
+      id: `line-${++lineIdCounter.current}`,
       type,
       content,
-      timestamp: now,
+      timestamp: lineIdCounter.current,
       animation
     }
 
@@ -165,7 +164,7 @@ export function FullPageTerminal() {
       const newLines = [...prev, newLine]
 
       // For large outputs, scroll immediately after adding line
-      if (shouldScroll) {
+      if (shouldScroll && isMounted) {
         setTimeout(() => {
           scrollToBottom(0, true)
         }, 0)
@@ -221,7 +220,10 @@ export function FullPageTerminal() {
 
   // Boot sequence - only run once when mounted
   useEffect(() => {
-    if (hasBooted || !isMounted) return
+    if (hasBooted) return
+
+    // Only start boot sequence after component is mounted
+    if (!isMounted) return
 
     const bootSequence = async () => {
       const bootMessages = [
@@ -259,7 +261,10 @@ export function FullPageTerminal() {
       }, 100)
     }
 
-    bootSequence()
+    // Small delay to ensure DOM is ready
+    setTimeout(() => {
+      bootSequence()
+    }, 100)
   }, [hasBooted, isMounted, addLine, restoreFocus])
 
   // Enhanced auto-scroll and focus management
@@ -527,28 +532,20 @@ export function FullPageTerminal() {
     restoreFocus()
   }, [restoreFocus])
 
-  // Prevent hydration mismatch by showing loading state until mounted
-  if (!isMounted) {
-    return (
-      <div className="relative h-screen w-full bg-black text-green-400 font-mono overflow-hidden flex items-center justify-center">
-        <div className="text-green-400 text-lg">Initializing terminal...</div>
-      </div>
-    )
-  }
-
   return (
     <div className="relative h-screen w-full bg-black text-green-400 font-mono overflow-hidden">
       {/* Matrix Rain Effect */}
       <AnimatePresence>
-        {isMounted && showMatrix && <MatrixRain />}
+        {showMatrix && <MatrixRain />}
       </AnimatePresence>
 
       {/* Terminal Container */}
       <motion.div
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
-        className={`terminal-container h-full flex flex-col ${isMounted && legendMode ? 'border-4 border-yellow-400 shadow-2xl shadow-yellow-400/20' : ''}`}
+        className={`terminal-container h-full flex flex-col ${legendMode ? 'border-4 border-yellow-400 shadow-2xl shadow-yellow-400/20' : ''}`}
         onClick={handleTerminalClick}
+        style={!isMounted ? { opacity: 0, transform: 'scale(0.98)' } : {}}
       >
         {/* Terminal Header */}
         <TerminalHeader
@@ -558,15 +555,25 @@ export function FullPageTerminal() {
           legendMode={legendMode}
         />
 
+        {/* Loading state for initial render */}
+        {!isMounted && (
+          <div className="flex-1 flex items-center justify-center bg-black/95">
+            <div className="text-green-400 text-lg animate-pulse">
+              Initializing terminal...
+            </div>
+          </div>
+        )}
+
         {/* Terminal Content */}
-        <div
-          ref={terminalRef}
-          className="flex-1 overflow-y-auto p-4 bg-black/95 backdrop-blur-sm"
-          style={{
-            scrollbarWidth: 'thin',
-            scrollbarColor: '#22c55e #000000',
-          }}
-        >
+        {isMounted && (
+          <div
+            ref={terminalRef}
+            className="flex-1 overflow-y-auto p-4 bg-black/95 backdrop-blur-sm"
+            style={{
+              scrollbarWidth: 'thin',
+              scrollbarColor: '#22c55e #000000',
+            }}
+          >
           {/* Terminal Lines */}
           <div className="space-y-1">
             {lines.map((line) => (
@@ -579,8 +586,8 @@ export function FullPageTerminal() {
           </div>
 
           {/* Current Input Line */}
-          {!isBooting && isMounted && (
-            <div className="relative">
+          {!isBooting && (
+            <div className="relative" style={!isMounted ? { display: 'none' } : {}}>
               <TerminalInput
                 ref={inputRef}
                 user={context.user}
@@ -595,18 +602,20 @@ export function FullPageTerminal() {
                 legendMode={legendMode}
                 onFocus={() => {
                   // Ensure input area is visible when focused
-                  setTimeout(() => {
-                    if (showSuggestions) {
-                      scrollForSuggestions()
-                    } else {
-                      scrollToBottom(150, false)
-                    }
-                  }, 50)
+                  if (isMounted) {
+                    setTimeout(() => {
+                      if (showSuggestions) {
+                        scrollForSuggestions()
+                      } else {
+                        scrollToBottom(150, false)
+                      }
+                    }, 50)
+                  }
                 }}
               />
 
               {/* Enhanced spacing for suggestions visibility */}
-              {isMounted && showSuggestions && (
+              {showSuggestions && (
                 <div className="h-80 w-full" />
               )}
             </div>
@@ -615,16 +624,18 @@ export function FullPageTerminal() {
           {/* Additional bottom padding to ensure content is always scrollable */}
           <div className="h-32 w-full" />
         </div>
+        )}
       </motion.div>
 
       {/* Legend Mode Overlay */}
       <AnimatePresence>
-        {isMounted && legendMode && (
+        {legendMode && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="absolute inset-0 pointer-events-none"
+            style={!isMounted ? { display: 'none' } : {}}
           >
             <div className="absolute top-4 right-4 bg-yellow-400/10 border border-yellow-400 rounded-lg p-2">
               <div className="text-yellow-400 text-sm font-bold">
