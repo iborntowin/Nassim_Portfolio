@@ -59,6 +59,7 @@ export function usePerformanceMonitor({
 
   // Memory usage monitoring
   const measureMemoryUsage = useCallback(() => {
+    if (typeof window === 'undefined') return null;
     if ('memory' in performance) {
       const memory = (performance as any).memory
       return {
@@ -72,6 +73,7 @@ export function usePerformanceMonitor({
 
   // DOM complexity monitoring
   const measureDOMComplexity = useCallback(() => {
+    if (typeof window === 'undefined') return { nodes: 0, animations: 0 };
     return {
       nodes: document.querySelectorAll('*').length,
       animations: document.getAnimations?.().length || 0

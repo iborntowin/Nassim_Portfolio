@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useMemo } from 'react'
 import { usePerformanceMonitor } from './performance-monitor'
 
 interface PerformanceFallbacksConfig {
@@ -27,15 +27,25 @@ interface FallbackState {
   reason: string
 }
 
+
 export function usePerformanceFallbacks(config: PerformanceFallbacksConfig = {}) {
   const {
     enableFallbacks = true,
-    fallbackThresholds = {
+    fallbackThresholds: configFallbackThresholds,
+    fallbackSettings: configFallbackSettings
+  } = config
+
+  // Memoize fallbackThresholds and fallbackSettings to avoid infinite loops
+  const fallbackThresholds = useMemo(() => (
+    configFallbackThresholds || {
       fps: 45, // Below 45 FPS
       memoryUsage: 75, // Above 75% memory usage
       renderTime: 20 // Above 20ms render time
-    },
-    fallbackSettings = {
+    }
+  ), [configFallbackThresholds?.fps, configFallbackThresholds?.memoryUsage, configFallbackThresholds?.renderTime])
+
+  const fallbackSettings = useMemo(() => (
+    configFallbackSettings || {
       disableAnimations: true,
       reduceParticles: true,
       simplifyEffects: true,
@@ -43,7 +53,9 @@ export function usePerformanceFallbacks(config: PerformanceFallbacksConfig = {})
       reduceTrails: true,
       lowerQuality: true
     }
-  } = config
+  ), [configFallbackSettings?.disableAnimations, configFallbackSettings?.reduceParticles, 
+      configFallbackSettings?.simplifyEffects, configFallbackSettings?.disableGlow,
+      configFallbackSettings?.reduceTrails, configFallbackSettings?.lowerQuality])
 
   const { metrics, isLowPerformance } = usePerformanceMonitor()
   const [fallbackState, setFallbackState] = useState<FallbackState>({
@@ -95,13 +107,11 @@ export function usePerformanceFallbacks(config: PerformanceFallbacksConfig = {})
 
     if (isActive) {
       reason = `Performance optimization active (${level})`
-      
       // Light fallbacks
       if (level === 'light') {
         if (fallbackSettings.reduceParticles) disabledFeatures.push('particles')
         if (fallbackSettings.reduceTrails) disabledFeatures.push('cursor-trails')
       }
-      
       // Moderate fallbacks
       if (level === 'moderate') {
         if (fallbackSettings.reduceParticles) disabledFeatures.push('particles')
@@ -109,7 +119,6 @@ export function usePerformanceFallbacks(config: PerformanceFallbacksConfig = {})
         if (fallbackSettings.simplifyEffects) disabledFeatures.push('complex-effects')
         if (fallbackSettings.disableGlow) disabledFeatures.push('glow-effects')
       }
-      
       // Aggressive fallbacks
       if (level === 'aggressive') {
         if (fallbackSettings.disableAnimations) disabledFeatures.push('animations')
@@ -218,25 +227,35 @@ export function useDeviceCapabilities() {
   })
 
   useEffect(() => {
+    // Only run on client side
+    if (typeof window === 'undefined') return;
+
     const detectCapabilities = () => {
-      const userAgent = navigator.userAgent.toLowerCase()
+      const userAgent = window.navigator.userAgent.toLowerCase()
       const isMobile = /mobile|android|iphone|ipad|phone/i.test(userAgent)
       const isTablet = /tablet|ipad/i.test(userAgent) && !isMobile
 
       // Detect low-end devices
-      const deviceMemory = (navigator as any).deviceMemory || 0
-      const hardwareConcurrency = navigator.hardwareConcurrency || 0
+      const deviceMemory = (window.navigator as any).deviceMemory || 0
+      const hardwareConcurrency = window.navigator.hardwareConcurrency || 0
       const isLowEnd = deviceMemory <= 2 || hardwareConcurrency <= 2
 
       // Check WebGL support
-      const canvas = document.createElement('canvas')
-      const supportsWebGL = !!(canvas.getContext('webgl') || canvas.getContext('experimental-webgl'))
+      let supportsWebGL = false
+      try {
+        const canvas = document.createElement('canvas')
+        supportsWebGL = !!(canvas.getContext('webgl') || canvas.getContext('experimental-webgl'))
+      } catch (e) {
+        supportsWebGL = false
+      }
 
       // Check Web Audio support
       const supportsWebAudio = !!(window.AudioContext || (window as any).webkitAudioContext)
 
       // Check connection type
-      const connection = (navigator as any).connection || (navigator as any).mozConnection || (navigator as any).webkitConnection
+      const connection = (window.navigator as any).connection || 
+                        (window.navigator as any).mozConnection || 
+                        (window.navigator as any).webkitConnection
       const connectionType = connection?.effectiveType || 'unknown'
 
       setCapabilities({
@@ -254,7 +273,9 @@ export function useDeviceCapabilities() {
     detectCapabilities()
 
     // Listen for connection changes
-    const connection = (navigator as any).connection || (navigator as any).mozConnection || (navigator as any).webkitConnection
+    const connection = (window.navigator as any).connection || 
+                      (window.navigator as any).mozConnection || 
+                      (window.navigator as any).webkitConnection
     if (connection) {
       connection.addEventListener('change', detectCapabilities)
       return () => connection.removeEventListener('change', detectCapabilities)
