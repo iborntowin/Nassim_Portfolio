@@ -4,9 +4,9 @@ import OptimizedProjectDetailWrapper from '@/components/pages/optimized-project-
 import { getProjectById, getAllProjects } from '@/lib/projects-data'
 
 interface ProjectPageProps {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 export async function generateStaticParams() {
@@ -17,7 +17,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
-  const project = getProjectById(params.id)
+  const { id } = await params
+  const project = getProjectById(id)
   
   if (!project) {
     return {
@@ -84,8 +85,9 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
   }
 }
 
-export default function ProjectPage({ params }: ProjectPageProps) {
-  const project = getProjectById(params.id)
+export default async function ProjectPage({ params }: ProjectPageProps) {
+  const { id } = await params
+  const project = getProjectById(id)
 
   if (!project) {
     notFound()

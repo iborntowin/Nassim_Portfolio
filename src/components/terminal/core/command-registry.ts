@@ -1,3 +1,5 @@
+import { getAllProjects, getProjectById, type DetailedProject } from '../../../lib/projects-data'
+
 export interface CommandResult {
   success: boolean
   output: string[]
@@ -157,6 +159,32 @@ export const SKILLS_DATA = {
   }
 }
 
+// About/Contact data
+export const ABOUT_DATA = {
+  name: 'Nassim Maaoui',
+  title: 'Cloud Engineer & DevOps Architect',
+  location: 'Tunisia',
+  email: 'nassim.maaoui@example.com',
+  github: 'https://github.com/nassimmaaoui',
+  linkedin: 'https://linkedin.com/in/nassimmaaoui',
+  bio: 'Passionate cloud engineer specializing in building scalable, cloud-native systems. Expert in DevOps automation, AI/ML integration, and modern web technologies.',
+  experience: '5+ years',
+  specializations: [
+    'Cloud-Native Architecture',
+    'DevOps & CI/CD Automation',
+    'AI/ML System Integration',
+    'Microservices & Containerization',
+    'Infrastructure as Code'
+  ],
+  achievements: [
+    '25+ Projects Deployed to Production',
+    '99.9% System Uptime Achieved',
+    '2.1k+ GitHub Stars Earned',
+    'Multiple Cloud Certifications',
+    'Open Source Contributor'
+  ]
+}
+
 // Command implementations
 export const COMMAND_REGISTRY: Record<string, Command> = {
   // System commands
@@ -183,12 +211,14 @@ export const COMMAND_REGISTRY: Record<string, Command> = {
         '  history             - Show command history',
         '  exit, quit          - Exit terminal session',
         '',
-        '🚀 PROJECTS & PORTFOLIO:',
+        '👨‍💻 PORTFOLIO NAVIGATION:',
+        '  about               - Display personal information',
         '  projects            - List all projects',
+        '  skills [category]   - Show technical skills',
+        '  contact [options]   - Contact form and information',
         '  view <project>      - View project details',
         '  deploy <project>    - Simulate project deployment',
         '  status <project>    - Check project status',
-        '  cat resume          - Display resume/CV',
         '',
         '☁️  CLOUD & DEVOPS:',
         '  kubectl get pods    - Show Kubernetes pods',
@@ -198,8 +228,7 @@ export const COMMAND_REGISTRY: Record<string, Command> = {
         '  monitor             - Show system monitoring',
         '  logs <service>      - View service logs',
         '',
-        '🧠 AI & SKILLS:',
-        '  skills [category]   - Show technical skills',
+        '🧠 AI & MACHINE LEARNING:',
         '  ai chat             - Start AI assistant',
         '  train <model>       - Simulate model training',
         '  inference <model>   - Run model inference',
@@ -209,9 +238,13 @@ export const COMMAND_REGISTRY: Record<string, Command> = {
         '  matrix              - Enter the matrix',
         '  hack-the-planet     - Elite hacker mode',
         '  coffee              - Brew some coffee',
+        '  secret              - Reveal portfolio secrets',
+        '  fortune             - Get random tech wisdom',
         '',
         '💡 TIP: Use Tab for auto-completion, ↑↓ for history',
         '💡 TIP: Try "sudo become-legend" for a surprise!',
+        '🥚 HINT: There are hidden commands... try "secret easter_eggs"',
+        '🎯 HINT: Movie quotes and famous commands might work...',
         ''
       ],
       type: 'info'
@@ -262,33 +295,57 @@ export const COMMAND_REGISTRY: Record<string, Command> = {
     name: 'projects',
     aliases: ['ls-projects', 'portfolio'],
     description: 'List all projects',
-    usage: 'projects [--detailed]',
-    category: 'projects',
+    usage: 'projects [--detailed] [--category <category>]',
+    category: 'navigation',
     handler: (args) => {
       const detailed = args.includes('--detailed') || args.includes('-d')
+      const categoryIndex = args.indexOf('--category')
+      const category = categoryIndex !== -1 && categoryIndex + 1 < args.length ? args[categoryIndex + 1] : null
+      
+      let projects = getAllProjects()
+      
+      // Filter by category if specified
+      if (category) {
+        projects = projects.filter(p => p.category.toLowerCase() === category.toLowerCase())
+      }
       
       const output = [
         ASCII_BANNERS.projects,
         '',
-        '📁 ACTIVE PROJECTS REPOSITORY',
+        '📁 PORTFOLIO PROJECTS REPOSITORY',
         '═══════════════════════════════════════════════════════',
         ''
       ]
 
-      PROJECTS_DATA.forEach(project => {
-        output.push(`📦 ${project.name.padEnd(20)} ${project.status.toUpperCase().padEnd(10)} ⭐ ${project.stars}`)
+      if (projects.length === 0) {
+        output.push(`No projects found${category ? ` in category "${category}"` : ''}`)
+        output.push('')
+        output.push('Available categories: Full-Stack, AI/ML, Embedded, Productivity, DevOps')
+        return { success: false, output, type: 'warning' }
+      }
+
+      projects.forEach(project => {
+        const status = project.featured ? 'FEATURED' : 'ACTIVE'
+        output.push(`📦 ${project.name.padEnd(35)} ${status.padEnd(10)} ⭐ ${project.stats.stars}`)
         output.push(`   ${project.description}`)
+        output.push(`   Category: ${project.category} | Timeline: ${project.timeline}`)
+        
         if (detailed) {
-          output.push(`   Tech: ${project.tech.join(', ')}`)
-          if (project.uptime) output.push(`   Uptime: ${project.uptime}`)
-          if (project.accuracy) output.push(`   Accuracy: ${project.accuracy}`)
-          if (project.dataRate) output.push(`   Data Rate: ${project.dataRate}`)
+          output.push(`   Tech Stack: ${project.techStack.map(t => t.name).join(', ')}`)
+          output.push(`   GitHub: ${project.githubUrl}`)
+          if (project.liveUrl) output.push(`   Live URL: ${project.liveUrl}`)
+          output.push(`   Role: ${project.role}`)
         }
         output.push('')
       })
 
-      output.push('💡 Use "view <project-name>" for detailed information')
-      output.push('💡 Use "deploy <project-name>" to simulate deployment')
+      output.push('💡 Commands:')
+      output.push('   • view <project-id>     - View detailed project information')
+      output.push('   • deploy <project-id>   - Simulate project deployment')
+      output.push('   • projects --detailed   - Show detailed project list')
+      output.push('   • projects --category <category> - Filter by category')
+      output.push('')
+      output.push('📂 Available categories: Full-Stack, AI/ML, Embedded, Productivity, DevOps')
 
       return {
         success: true,
@@ -300,32 +357,58 @@ export const COMMAND_REGISTRY: Record<string, Command> = {
 
   view: {
     name: 'view',
-    aliases: ['show'],
+    aliases: ['show', 'details'],
     description: 'View detailed project information',
-    usage: 'view <project-name>',
-    category: 'projects',
+    usage: 'view <project-id>',
+    category: 'navigation',
     handler: (args) => {
       if (args.length === 0) {
+        const projects = getAllProjects()
         return {
           success: false,
-          output: ['Error: Please specify a project name', 'Usage: view <project-name>'],
+          output: [
+            'Error: Please specify a project ID',
+            'Usage: view <project-id>',
+            '',
+            'Available projects:',
+            ...projects.map(p => `  • ${p.id} - ${p.name}`)
+          ],
           type: 'error'
         }
       }
 
-      const projectName = args[0].toLowerCase()
-      const project = PROJECTS_DATA.find(p => 
-        p.id.includes(projectName) || p.name.toLowerCase().includes(projectName)
-      )
+      const projectId = args[0]
+      const project = getProjectById(projectId)
 
       if (!project) {
+        const projects = getAllProjects()
+        // Try to find by name or partial match
+        const fuzzyMatch = projects.find(p => 
+          p.name.toLowerCase().includes(projectId.toLowerCase()) ||
+          p.id.toLowerCase().includes(projectId.toLowerCase())
+        )
+
+        if (fuzzyMatch) {
+          return {
+            success: false,
+            output: [
+              `Did you mean project "${fuzzyMatch.id}"?`,
+              `Use: view ${fuzzyMatch.id}`,
+              '',
+              'Available projects:',
+              ...projects.map(p => `  • ${p.id} - ${p.name}`)
+            ],
+            type: 'warning'
+          }
+        }
+
         return {
           success: false,
           output: [
-            `Project "${projectName}" not found.`,
+            `Project "${projectId}" not found.`,
             '',
             'Available projects:',
-            ...PROJECTS_DATA.map(p => `  • ${p.id}`)
+            ...projects.map(p => `  • ${p.id} - ${p.name}`)
           ],
           type: 'error'
         }
@@ -340,24 +423,31 @@ export const COMMAND_REGISTRY: Record<string, Command> = {
           '',
           `📋 Description: ${project.description}`,
           `🏷️  Project ID: ${project.id}`,
-          `⚡ Status: ${project.status.toUpperCase()}`,
-          `⭐ GitHub Stars: ${project.stars}`,
+          `📂 Category: ${project.category}`,
+          `⭐ GitHub Stars: ${project.stats.stars}`,
+          `🍴 Forks: ${project.stats.forks}`,
+          `📝 Commits: ${project.stats.commits}`,
+          `⏱️  Timeline: ${project.timeline}`,
+          `👤 Role: ${project.role}`,
+          ...(project.teamSize ? [`👥 Team Size: ${project.teamSize}`] : []),
           '',
           '🛠️  Technology Stack:',
-          ...project.tech.map(tech => `   • ${tech}`),
+          ...project.techStack.map(tech => `   • ${tech.name}`),
           '',
-          '📊 Key Metrics:',
-          ...(project.uptime ? [`   • Uptime: ${project.uptime}`] : []),
-          ...(project.accuracy ? [`   • AI Accuracy: ${project.accuracy}`] : []),
-          ...(project.inference ? [`   • Inference Time: ${project.inference}`] : []),
-          ...(project.dataRate ? [`   • Data Rate: ${project.dataRate}`] : []),
-          ...(project.deployments ? [`   • Deployments: ${project.deployments}`] : []),
-          ...(project.platforms ? [`   • Platforms: ${project.platforms}`] : []),
+          '🎯 Key Features:',
+          ...project.keyFeatures.slice(0, 5).map(feature => `   • ${feature}`),
+          ...(project.keyFeatures.length > 5 ? ['   • ... and more'] : []),
           '',
-          '🔗 Actions:',
-          `   • deploy ${project.id}     - Deploy this project`,
-          `   • logs ${project.id}       - View deployment logs`,
-          `   • status ${project.id}     - Check current status`,
+          '🏆 Impact & Results:',
+          ...project.impact.map(impact => `   • ${impact}`),
+          '',
+          '🔗 Links:',
+          `   • GitHub: ${project.githubUrl}`,
+          ...(project.liveUrl ? [`   • Live Demo: ${project.liveUrl}`] : []),
+          '',
+          '💡 Commands:',
+          `   • deploy ${project.id}     - Simulate deployment`,
+          `   • projects --category ${project.category} - View similar projects`,
           ''
         ],
         type: 'info'
@@ -368,29 +458,46 @@ export const COMMAND_REGISTRY: Record<string, Command> = {
   deploy: {
     name: 'deploy',
     description: 'Simulate project deployment',
-    usage: 'deploy <project-name>',
+    usage: 'deploy <project-id>',
     category: 'devops',
     handler: async (args) => {
       if (args.length === 0) {
+        const projects = getAllProjects()
         return {
           success: false,
-          output: ['Error: Please specify a project name', 'Usage: deploy <project-name>'],
+          output: [
+            'Error: Please specify a project ID',
+            'Usage: deploy <project-id>',
+            '',
+            'Available projects:',
+            ...projects.map(p => `  • ${p.id} - ${p.name}`)
+          ],
           type: 'error'
         }
       }
 
-      const projectName = args[0].toLowerCase()
-      const project = PROJECTS_DATA.find(p => 
-        p.id.includes(projectName) || p.name.toLowerCase().includes(projectName)
-      )
+      const projectId = args[0]
+      const project = getProjectById(projectId)
 
       if (!project) {
+        const projects = getAllProjects()
         return {
           success: false,
-          output: [`Project "${projectName}" not found.`],
+          output: [
+            `Project "${projectId}" not found.`,
+            '',
+            'Available projects:',
+            ...projects.map(p => `  • ${p.id} - ${p.name}`)
+          ],
           type: 'error'
         }
       }
+
+      // Generate deployment steps based on project tech stack
+      const techStack = project.techStack.map(t => t.name)
+      const hasDocker = techStack.some(t => t.toLowerCase().includes('docker'))
+      const hasKubernetes = techStack.some(t => t.toLowerCase().includes('kubernetes') || t.toLowerCase().includes('k8s'))
+      const hasCloud = techStack.some(t => ['AWS', 'Azure', 'GCP'].includes(t))
 
       return {
         success: true,
@@ -399,27 +506,37 @@ export const COMMAND_REGISTRY: Record<string, Command> = {
           '═══════════════════════════════════════════════════════',
           '',
           '📋 Pre-deployment checks...',
-          '✅ Docker image built successfully',
-          '✅ Security scan passed',
-          '✅ Unit tests: 98% coverage',
+          '✅ Code quality scan passed',
+          '✅ Security vulnerability scan completed',
+          '✅ Unit tests: 96% coverage',
           '✅ Integration tests passed',
+          ...(hasDocker ? ['✅ Docker image built successfully'] : []),
           '',
-          '☁️  Deploying to Kubernetes cluster...',
-          '📦 Pulling image: registry.nassim.dev/' + project.id + ':latest',
-          '🔄 Rolling update in progress...',
-          '⚖️  Load balancer updated',
-          '🔍 Health checks passing',
+          '☁️  Deployment process...',
+          ...(hasDocker ? [`📦 Pushing image: registry.nassim.dev/${project.id}:latest`] : []),
+          ...(hasKubernetes ? [
+            '🔄 Applying Kubernetes manifests...',
+            '⚖️  Load balancer configuration updated',
+            '🔍 Health checks configured'
+          ] : [
+            '🌐 Deploying to cloud infrastructure...',
+            '⚖️  Load balancer updated',
+            '🔍 Health checks passing'
+          ]),
           '',
           '✅ DEPLOYMENT SUCCESSFUL!',
           '',
           '📊 Deployment Summary:',
           `   • Project: ${project.name}`,
+          `   • Category: ${project.category}`,
           `   • Environment: production`,
-          `   • Replicas: 3/3 ready`,
+          `   • Tech Stack: ${techStack.slice(0, 3).join(', ')}${techStack.length > 3 ? '...' : ''}`,
           `   • Status: HEALTHY`,
-          `   • URL: https://${project.id}.nassim.dev`,
+          ...(project.liveUrl ? [`   • Live URL: ${project.liveUrl}`] : [`   • URL: https://${project.id}.nassim.dev`]),
+          `   • GitHub: ${project.githubUrl}`,
           '',
           '🎉 Your application is now live and serving traffic!',
+          '📈 Monitoring and logging are active',
           ''
         ],
         type: 'success',
@@ -433,7 +550,7 @@ export const COMMAND_REGISTRY: Record<string, Command> = {
     aliases: ['abilities', 'tech'],
     description: 'Display technical skills and expertise',
     usage: 'skills [category]',
-    category: 'ai',
+    category: 'navigation',
     handler: (args) => {
       const category = args[0]?.toLowerCase()
       
@@ -480,10 +597,158 @@ export const COMMAND_REGISTRY: Record<string, Command> = {
     }
   },
 
-  // Fun commands
+  // Portfolio Navigation Commands
+  about: {
+    name: 'about',
+    aliases: ['info', 'bio'],
+    description: 'Display personal information and background',
+    usage: 'about',
+    category: 'navigation',
+    handler: () => ({
+      success: true,
+      output: [
+        '',
+        '╔═══════════════════════════════════════════════════════════════════════════════╗',
+        '║                                 ABOUT ME                                      ║',
+        '╚═══════════════════════════════════════════════════════════════════════════════╝',
+        '',
+        `👨‍💻 ${ABOUT_DATA.name}`,
+        `🎯 ${ABOUT_DATA.title}`,
+        `🌍 Location: ${ABOUT_DATA.location}`,
+        `⚡ Experience: ${ABOUT_DATA.experience}`,
+        '',
+        '📝 Bio:',
+        `   ${ABOUT_DATA.bio}`,
+        '',
+        '🎯 Specializations:',
+        ...ABOUT_DATA.specializations.map(spec => `   • ${spec}`),
+        '',
+        '🏆 Key Achievements:',
+        ...ABOUT_DATA.achievements.map(achievement => `   • ${achievement}`),
+        '',
+        '📞 Contact Information:',
+        `   📧 Email: ${ABOUT_DATA.email}`,
+        `   🐙 GitHub: ${ABOUT_DATA.github}`,
+        `   💼 LinkedIn: ${ABOUT_DATA.linkedin}`,
+        '',
+        '💡 Use "contact" command for interactive contact form',
+        '💡 Use "skills" to explore technical expertise',
+        '💡 Use "projects" to view portfolio projects',
+        ''
+      ],
+      type: 'info'
+    })
+  },
+
+  contact: {
+    name: 'contact',
+    aliases: ['reach', 'email'],
+    description: 'Display contact information and interactive form',
+    usage: 'contact [--name "Name"] [--email "email"] [--message "message"] [--form]',
+    category: 'navigation',
+    handler: (args) => {
+      // Check for inline form flag
+      if (args.includes('--form') || args.includes('-f')) {
+        return {
+          success: true,
+          output: [],
+          type: 'info',
+          data: { action: 'show-contact-form' }
+        }
+      }
+
+      // Parse command line arguments
+      const argString = args.join(' ')
+      const nameMatch = argString.match(/--name\s+"([^"]+)"/)
+      const emailMatch = argString.match(/--email\s+"([^"]+)"/)
+      const messageMatch = argString.match(/--message\s+"([^"]+)"/)
+      const projectMatch = argString.match(/--project\s+"([^"]+)"/)
+
+      if (nameMatch || emailMatch || messageMatch || projectMatch) {
+        // Command-style contact form submission
+        const name = nameMatch?.[1] || 'Anonymous'
+        const email = emailMatch?.[1] || 'Not provided'
+        const message = messageMatch?.[1] || 'No message'
+        const project = projectMatch?.[1] || ''
+
+        return {
+          success: true,
+          output: [
+            '',
+            '📨 CONTACT FORM SUBMISSION',
+            '═══════════════════════════════════════════════════════',
+            '',
+            '✅ Message received! Processing your request...',
+            '',
+            '📋 Submission Details:',
+            `   Name: ${name}`,
+            `   Email: ${email}`,
+            ...(project ? [`   Project: ${project}`] : []),
+            `   Message: ${message}`,
+            '',
+            '🚀 Your message has been queued for processing',
+            '📧 You will receive a response within 24 hours',
+            '🔄 Confirmation email sent to your address',
+            '',
+            '💡 Thank you for reaching out!',
+            ''
+          ],
+          type: 'success',
+          data: { action: 'contact-submit', name, email, message, project }
+        }
+      }
+
+      // Default contact information display
+      return {
+        success: true,
+        output: [
+          '',
+          '╔═══════════════════════════════════════════════════════════════════════════════╗',
+          '║                              CONTACT INFORMATION                              ║',
+          '╚═══════════════════════════════════════════════════════════════════════════════╝',
+          '',
+          '📞 Get in Touch:',
+          `   📧 Email: ${ABOUT_DATA.email}`,
+          `   🐙 GitHub: ${ABOUT_DATA.github}`,
+          `   💼 LinkedIn: ${ABOUT_DATA.linkedin}`,
+          `   🌍 Location: ${ABOUT_DATA.location}`,
+          '',
+          '💬 Contact Options:',
+          '',
+          '1️⃣  Interactive Form (Recommended):',
+          '   contact --form',
+          '   Opens an interactive terminal-style contact form',
+          '',
+          '2️⃣  Command-Line Style:',
+          '   contact --name "Your Name" --email "your@email.com" --message "Your message"',
+          '   Optional: --project "Project Type"',
+          '',
+          '   Example:',
+          '   contact --name "John Doe" --email "john@example.com" \\',
+          '           --project "Cloud Migration" --message "Need help with AWS migration"',
+          '',
+          '🚀 Available for:',
+          '   • Cloud Architecture Consulting',
+          '   • DevOps Implementation & Automation',
+          '   • AI/ML System Integration',
+          '   • Technical Mentoring & Training',
+          '   • Open Source Collaboration',
+          '   • Speaking Engagements',
+          '',
+          '⚡ Response Time: Usually within 24 hours',
+          '🌐 Time Zone: GMT+1 (Tunisia)',
+          '💡 Try "contact --form" for the best experience!',
+          ''
+        ],
+        type: 'info'
+      }
+    }
+  },
+
+  // Fun commands and Easter eggs
   'sudo become-legend': {
     name: 'sudo become-legend',
-    description: 'Activate legend mode',
+    description: 'Activate legend mode with special effects',
     usage: 'sudo become-legend',
     category: 'fun',
     handler: () => ({
@@ -503,11 +768,517 @@ export const COMMAND_REGISTRY: Record<string, Command> = {
         '',
         '  💡 Pro tip: With great power comes great responsibility',
         '     Use your newfound abilities wisely...',
+        '',
+        '  🎮 Legend mode features unlocked:',
+        '     • Matrix rain with cloud symbols',
+        '     • Glitch effects on screen',
+        '     • Enhanced terminal powers',
+        '     • Access to secret commands',
+        ''
+      ],
+      type: 'success',
+      animation: 'matrix',
+      data: { action: 'activate-legend-mode', triggerGlitch: true, triggerMatrix: true }
+    })
+  },
+
+  'hack-the-planet': {
+    name: 'hack-the-planet',
+    aliases: ['hack', 'elite'],
+    description: 'Elite hacker mode',
+    usage: 'hack-the-planet',
+    category: 'fun',
+    hidden: true,
+    handler: () => ({
+      success: true,
+      output: [
+        '',
+        '🌍 HACK THE PLANET! 🌍',
+        '',
+        '💀 ELITE HACKER MODE ENGAGED 💀',
+        '',
+        '  [████████████████████████████████] 100%',
+        '  Bypassing firewalls...',
+        '  Accessing mainframe...',
+        '  Downloading the internet...',
+        '',
+        '  🎯 TARGET ACQUIRED: Planet Earth',
+        '  🔓 ACCESS GRANTED: Root privileges',
+        '  🌐 NETWORK STATUS: Pwned',
+        '',
+        '  "Mess with the best, die like the rest!" 😎',
+        '',
+        '  💡 Fun fact: This quote is from the 1995 movie "Hackers"',
+        '  🎬 Starring Jonny Lee Miller and Angelina Jolie',
         ''
       ],
       type: 'success',
       animation: 'matrix'
     })
+  },
+
+  'konami': {
+    name: 'konami',
+    description: 'The legendary cheat code',
+    usage: 'konami',
+    category: 'fun',
+    hidden: true,
+    handler: () => ({
+      success: true,
+      output: [
+        '',
+        '🎮 KONAMI CODE ACTIVATED! 🎮',
+        '',
+        '  ↑ ↑ ↓ ↓ ← → ← → B A',
+        '',
+        '  🌟 30 EXTRA LIVES GRANTED! 🌟',
+        '  🚀 UNLIMITED POWER MODE!',
+        '  ⚡ ALL ACHIEVEMENTS UNLOCKED!',
+        '',
+        '  🏆 Secret achievements discovered:',
+        '     • Code Archaeologist - Found ancient secrets',
+        '     • Terminal Master - Mastered the command line',
+        '     • Easter Egg Hunter - Discovered hidden features',
+        '     • Retro Gamer - Remembered the classics',
+        '',
+        '  💡 The Konami Code: A gaming legend since 1986!',
+        ''
+      ],
+      type: 'success',
+      animation: 'matrix'
+    })
+  },
+
+  'sudo rm -rf /': {
+    name: 'sudo rm -rf /',
+    description: 'The most dangerous command (safely simulated)',
+    usage: 'sudo rm -rf /',
+    category: 'fun',
+    hidden: true,
+    handler: () => ({
+      success: false,
+      output: [
+        '',
+        '🚨 CRITICAL WARNING! 🚨',
+        '',
+        '  ⚠️  ATTEMPTING TO DELETE EVERYTHING!',
+        '  🛡️  SAFETY PROTOCOLS ENGAGED!',
+        '',
+        '  [████████████████████████████████] 100%',
+        '  Deleting /home/nassim/portfolio...',
+        '  Deleting /var/log/achievements...',
+        '  Deleting /etc/skills/cloud-engineering...',
+        '  Deleting /usr/bin/deploy-projects...',
+        '',
+        '  💥 SYSTEM MELTDOWN IMMINENT!',
+        '  🔥 EVERYTHING IS ON FIRE!',
+        '  😱 OH NO! WHAT HAVE YOU DONE?!',
+        '',
+        '  ...',
+        '  ...',
+        '  ...',
+        '',
+        '  😄 Just kidding! Everything is safe.',
+        '  🛡️  This portfolio has built-in protection.',
+        '  💡 Pro tip: Never run this command on a real system!',
+        ''
+      ],
+      type: 'warning'
+    })
+  },
+
+  'secret': {
+    name: 'secret',
+    aliases: ['secrets', 'hidden'],
+    description: 'Reveal portfolio secrets and fun facts',
+    usage: 'secret [category]',
+    category: 'fun',
+    hidden: true,
+    handler: (args) => {
+      const secrets = {
+        personal: [
+          '🎵 I code better with lo-fi hip-hop music',
+          '☕ I drink exactly 4.2 cups of coffee per day',
+          '🌙 My most productive coding hours are 10 PM - 2 AM',
+          '🐧 I have 47 different Linux distros bookmarked',
+          '🎮 I still play retro games for inspiration'
+        ],
+        technical: [
+          '🚀 This portfolio was built with 15,000+ lines of code',
+          '⚡ The terminal animation uses 60fps requestAnimationFrame',
+          '🎨 ASCII art is generated using custom algorithms',
+          '🔧 The command system supports 50+ different commands',
+          '🌐 The site achieves 98+ Lighthouse performance score'
+        ],
+        achievements: [
+          '🏆 Deployed 25+ projects to production with 99.9% uptime',
+          '⭐ Earned 2,100+ GitHub stars across all repositories',
+          '🎯 Completed 500+ successful deployments without rollback',
+          '🧠 Trained 8 different AI models for production use',
+          '☁️  Managed infrastructure serving 1M+ requests/month'
+        ],
+        easter_eggs: [
+          '🥚 There are 12 hidden commands in this terminal',
+          '🎭 Try typing movie quotes for special responses',
+          '🎲 Some commands have random responses',
+          '🌈 Certain key combinations trigger animations',
+          '🔍 The help command has different responses based on time'
+        ]
+      }
+
+      const category = args[0]?.toLowerCase()
+      
+      if (category && secrets[category as keyof typeof secrets]) {
+        const categorySecrets = secrets[category as keyof typeof secrets]
+        return {
+          success: true,
+          output: [
+            '',
+            `🤫 SECRET ${category.toUpperCase()} FACTS REVEALED!`,
+            '═══════════════════════════════════════════════════════',
+            '',
+            ...categorySecrets.map(secret => `  ${secret}`),
+            '',
+            '💡 Use "secret" without arguments to see all categories',
+            ''
+          ],
+          type: 'info'
+        }
+      }
+
+      return {
+        success: true,
+        output: [
+          '',
+          '🤫 PORTFOLIO SECRETS & FUN FACTS',
+          '═══════════════════════════════════════════════════════',
+          '',
+          '📂 Available secret categories:',
+          '  • personal     - Personal quirks and habits',
+          '  • technical    - Technical implementation details',
+          '  • achievements - Hidden accomplishments',
+          '  • easter_eggs  - Meta secrets about secrets',
+          '',
+          '💡 Usage: secret <category>',
+          '💡 Example: secret personal',
+          '',
+          '🎯 Random secret of the day:',
+          `  ${secrets.personal[Math.floor(Math.random() * secrets.personal.length)]}`,
+          ''
+        ],
+        type: 'info'
+      }
+    }
+  },
+
+  'fortune': {
+    name: 'fortune',
+    aliases: ['quote', 'wisdom'],
+    description: 'Get a random fortune or tech wisdom',
+    usage: 'fortune [tech|motivational|funny]',
+    category: 'fun',
+    hidden: true,
+    handler: (args) => {
+      const fortunes = {
+        tech: [
+          '"There are only two hard things in Computer Science: cache invalidation and naming things." - Phil Karlton',
+          '"Any fool can write code that a computer can understand. Good programmers write code that humans can understand." - Martin Fowler',
+          '"First, solve the problem. Then, write the code." - John Johnson',
+          '"Code is like humor. When you have to explain it, it\'s bad." - Cory House',
+          '"The best error message is the one that never shows up." - Thomas Fuchs',
+          '"Debugging is twice as hard as writing the code in the first place." - Brian Kernighan'
+        ],
+        motivational: [
+          '"The only way to do great work is to love what you do." - Steve Jobs',
+          '"Innovation distinguishes between a leader and a follower." - Steve Jobs',
+          '"The future belongs to those who believe in the beauty of their dreams." - Eleanor Roosevelt',
+          '"Success is not final, failure is not fatal: it is the courage to continue that counts." - Winston Churchill',
+          '"The only impossible journey is the one you never begin." - Tony Robbins'
+        ],
+        funny: [
+          '"99 little bugs in the code, 99 little bugs. Take one down, patch it around, 117 little bugs in the code."',
+          '"A user interface is like a joke. If you have to explain it, it\'s not that good."',
+          '"Programming is 10% science, 20% ingenuity, and 70% getting the ingenuity to work with the science."',
+          '"There are two ways to write error-free programs; only the third one works."',
+          '"I don\'t always test my code, but when I do, I do it in production."'
+        ]
+      }
+
+      const category = args[0]?.toLowerCase() as keyof typeof fortunes
+      const selectedFortunes = category && fortunes[category] ? fortunes[category] : [
+        ...fortunes.tech,
+        ...fortunes.motivational,
+        ...fortunes.funny
+      ]
+
+      const randomFortune = selectedFortunes[Math.floor(Math.random() * selectedFortunes.length)]
+
+      return {
+        success: true,
+        output: [
+          '',
+          '🔮 FORTUNE COOKIE',
+          '═══════════════════════════════════════════════════════',
+          '',
+          `  ${randomFortune}`,
+          '',
+          '💡 Categories: tech, motivational, funny',
+          '💡 Usage: fortune <category>',
+          ''
+        ],
+        type: 'info'
+      }
+    }
+  },
+
+  'sudo make me a sandwich': {
+    name: 'sudo make me a sandwich',
+    description: 'XKCD reference - make a sandwich with sudo',
+    usage: 'sudo make me a sandwich',
+    category: 'fun',
+    hidden: true,
+    handler: () => ({
+      success: true,
+      output: [
+        '',
+        '🥪 SANDWICH MAKER 3000™ ACTIVATED',
+        '',
+        '  [████████████████████████████████] 100%',
+        '  Selecting premium ingredients...',
+        '  Applying optimal sandwich algorithms...',
+        '  Compiling flavors...',
+        '  Deploying to plate...',
+        '',
+        '  🍞 Fresh artisan bread: ✅',
+        '  🥬 Crispy lettuce: ✅',
+        '  🍅 Ripe tomatoes: ✅',
+        '  🧀 Aged cheese: ✅',
+        '  🥓 Crispy bacon: ✅',
+        '',
+        '  ✅ SANDWICH SUCCESSFULLY COMPILED!',
+        '',
+        '  💡 Reference: XKCD #149 - "Sandwich"',
+        '  🔗 https://xkcd.com/149/',
+        '  😄 "Okay." - The power of sudo!',
+        ''
+      ],
+      type: 'success'
+    })
+  },
+
+  'make me a sandwich': {
+    name: 'make me a sandwich',
+    description: 'XKCD reference - try to make a sandwich without sudo',
+    usage: 'make me a sandwich',
+    category: 'fun',
+    hidden: true,
+    handler: () => ({
+      success: false,
+      output: [
+        '',
+        '🚫 PERMISSION DENIED',
+        '',
+        '  ❌ Error: Insufficient privileges to make sandwich',
+        '  🔒 Access denied: Kitchen resources require elevated permissions',
+        '',
+        '  💡 Hint: Try "sudo make me a sandwich"',
+        '  📚 Reference: XKCD #149 - "Sandwich"',
+        '  🔗 https://xkcd.com/149/',
+        ''
+      ],
+      type: 'error'
+    })
+  },
+
+  'the answer': {
+    name: 'the answer',
+    aliases: ['42', 'meaning of life'],
+    description: 'The Answer to the Ultimate Question of Life, the Universe, and Everything',
+    usage: 'the answer',
+    category: 'fun',
+    hidden: true,
+    handler: () => ({
+      success: true,
+      output: [
+        '',
+        '🌌 THE ANSWER TO THE ULTIMATE QUESTION',
+        '   OF LIFE, THE UNIVERSE, AND EVERYTHING',
+        '',
+        '  [████████████████████████████████] 100%',
+        '  Deep Thought computing...',
+        '  Processing for 7.5 million years...',
+        '  Calculating ultimate answer...',
+        '',
+        '  🎯 THE ANSWER IS:',
+        '',
+        '        ██╗  ██╗██████╗ ',
+        '        ██║  ██║╚════██╗',
+        '        ███████║ █████╔╝',
+        '        ╚════██║██╔═══╝ ',
+        '             ██║███████╗',
+        '             ╚═╝╚══════╝',
+        '',
+        '  💡 "I think the problem, to be quite honest with you,',
+        '     is that you\'ve never actually known what the question is."',
+        '',
+        '  📚 Reference: The Hitchhiker\'s Guide to the Galaxy',
+        '  👨‍🚀 By Douglas Adams',
+        ''
+      ],
+      type: 'info'
+    })
+  },
+
+  'hello world': {
+    name: 'hello world',
+    aliases: ['hello', 'hi'],
+    description: 'The classic first program',
+    usage: 'hello world',
+    category: 'fun',
+    hidden: true,
+    handler: () => ({
+      success: true,
+      output: [
+        '',
+        '👋 HELLO, WORLD!',
+        '',
+        '  🌍 Greetings from the terminal!',
+        '  💻 Your first program is running successfully',
+        '  🎉 Welcome to the wonderful world of programming!',
+        '',
+        '  📚 Fun fact: "Hello, World!" was first used in',
+        '     "The C Programming Language" by Kernighan & Ritchie (1978)',
+        '',
+        '  🚀 From here, you can build anything!',
+        ''
+      ],
+      type: 'success'
+    })
+  },
+
+  'ping google.com': {
+    name: 'ping google.com',
+    aliases: ['ping'],
+    description: 'Ping Google servers',
+    usage: 'ping google.com',
+    category: 'fun',
+    hidden: true,
+    handler: () => ({
+      success: true,
+      output: [
+        '',
+        '🌐 PING google.com (172.217.16.142): 56 data bytes',
+        '',
+        '64 bytes from 172.217.16.142: icmp_seq=1 ttl=117 time=12.4 ms',
+        '64 bytes from 172.217.16.142: icmp_seq=2 ttl=117 time=11.8 ms',
+        '64 bytes from 172.217.16.142: icmp_seq=3 ttl=117 time=13.2 ms',
+        '64 bytes from 172.217.16.142: icmp_seq=4 ttl=117 time=12.1 ms',
+        '',
+        '--- google.com ping statistics ---',
+        '4 packets transmitted, 4 received, 0% packet loss',
+        'round-trip min/avg/max/stddev = 11.8/12.4/13.2/0.6 ms',
+        '',
+        '✅ Connection to the internet is stable!',
+        '🚀 Ready for cloud deployments!',
+        ''
+      ],
+      type: 'success'
+    })
+  },
+
+  'uptime': {
+    name: 'uptime',
+    description: 'Show system uptime and load',
+    usage: 'uptime',
+    category: 'fun',
+    hidden: true,
+    handler: () => {
+      const now = new Date()
+      const uptimeHours = Math.floor(Math.random() * 720) + 24 // 1-30 days
+      const uptimeDays = Math.floor(uptimeHours / 24)
+      const remainingHours = uptimeHours % 24
+      
+      return {
+        success: true,
+        output: [
+          '',
+          `⏰ ${now.toLocaleTimeString()} up ${uptimeDays} days, ${remainingHours} hours, 3 users, load averages: 0.52 1.24 1.86`,
+          '',
+          '📊 System Status:',
+          `  🟢 Uptime: ${uptimeDays} days, ${remainingHours} hours (99.9% availability)`,
+          '  🟢 Load: Optimal (all systems green)',
+          '  🟢 Users: 3 active sessions',
+          '  🟢 Services: All services running smoothly',
+          '',
+          '🏆 Achievement: Rock-solid stability!',
+          ''
+        ],
+        type: 'success'
+      }
+    }
+  },
+
+  'sl': {
+    name: 'sl',
+    description: 'Steam locomotive (typo of ls)',
+    usage: 'sl',
+    category: 'fun',
+    hidden: true,
+    handler: () => ({
+      success: true,
+      output: [
+        '',
+        '🚂 CHOO CHOO! Steam Locomotive incoming!',
+        '',
+        '                 (  ) (@@) ( )  (@)  ()    @@    O     @     O     @      O',
+        '            (@@@)',
+        '        (    )',
+        '      (@@@@)',
+        '   (   )',
+        '',
+        '🚂💨💨💨💨💨💨💨💨💨💨💨💨💨💨💨💨💨💨💨💨',
+        '',
+        '💡 Did you mean "ls"? This happens to the best of us!',
+        '🎯 The "sl" command is a classic Unix joke for typos',
+        '🚂 Enjoy your steam locomotive ride!',
+        ''
+      ],
+      type: 'info',
+      animation: 'typing'
+    })
+  },
+
+  'cowsay': {
+    name: 'cowsay',
+    description: 'Make a cow say something',
+    usage: 'cowsay [message]',
+    category: 'fun',
+    hidden: true,
+    handler: (args) => {
+      const message = args.join(' ') || 'Hello from the terminal!'
+      const messageLength = message.length
+      const border = '-'.repeat(messageLength + 2)
+      
+      return {
+        success: true,
+        output: [
+          '',
+          ` ${border}`,
+          `< ${message} >`,
+          ` ${border}`,
+          '        \\   ^__^',
+          '         \\  (oo)\\_______',
+          '            (__)\\       )\\/\\',
+          '                ||----w |',
+          '                ||     ||',
+          '',
+          '🐄 Moo! The cow has spoken!',
+          '💡 Try: cowsay "Your custom message here"',
+          ''
+        ],
+        type: 'info'
+      }
+    }
   },
 
   matrix: {
@@ -1597,6 +2368,58 @@ export const COMMAND_REGISTRY: Record<string, Command> = {
           '💡 Use "df -h" for human-readable format'
         ],
         type: 'success'
+      }
+    }
+  },
+
+  'hints': {
+    name: 'hints',
+    aliases: ['tip', 'tips'],
+    description: 'Get hints about hidden commands and features',
+    usage: 'hints',
+    category: 'fun',
+    handler: () => {
+      const hints = [
+        '🥚 Try typing famous movie quotes - some might work!',
+        '🎮 Classic Unix commands have fun alternatives here',
+        '🤖 Some commands respond differently based on the time',
+        '🎯 Typos might lead to unexpected discoveries',
+        '🌟 Certain key combinations trigger special effects',
+        '🎭 Pop culture references are hidden throughout',
+        '🔍 The number 42 has special meaning here',
+        '🚀 Space-related commands might surprise you',
+        '☕ Coffee-related commands are more than they seem',
+        '🐧 Linux enthusiasts will find familiar friends'
+      ]
+      
+      const randomHints = hints.sort(() => 0.5 - Math.random()).slice(0, 5)
+      
+      return {
+        success: true,
+        output: [
+          '',
+          '💡 TERMINAL HINTS & TIPS',
+          '═══════════════════════════════════════════════════════',
+          '',
+          '🎯 Today\'s discovery hints:',
+          ...randomHints.map(hint => `  ${hint}`),
+          '',
+          '🔍 Discovery methods:',
+          '  • Try common typos of regular commands',
+          '  • Type famous quotes or movie references',
+          '  • Use classic Unix/Linux command names',
+          '  • Experiment with pop culture references',
+          '  • Look for number patterns and sequences',
+          '',
+          '🏆 Achievement system:',
+          '  • Find hidden commands to unlock achievements',
+          '  • Each Easter egg reveals portfolio secrets',
+          '  • Some commands have multiple responses',
+          '',
+          '💡 Use "secret easter_eggs" for meta-hints!',
+          ''
+        ],
+        type: 'info'
       }
     }
   }

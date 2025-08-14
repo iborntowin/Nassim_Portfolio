@@ -12,6 +12,14 @@
   --card-foreground: #f5f5fa;
   --secondary: #232136; /* slightly lighter than background */
   --secondary-foreground: #e0e0ff;
+  
+  /* Terminal-specific colors */
+  --terminal-green: #22c55e; /* terminal green */
+  --terminal-cyan: #06b6d4; /* terminal cyan */
+  --terminal-magenta: #d946ef; /* terminal magenta */
+  --terminal-yellow: #eab308; /* terminal yellow */
+  --terminal-red: #ef4444; /* terminal red */
+  --terminal-blue: #3b82f6; /* terminal blue */
 }
 
 @theme inline {
@@ -27,6 +35,14 @@
   --color-secondary-foreground: var(--secondary-foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  
+  /* Terminal colors */
+  --color-terminal-green: var(--terminal-green);
+  --color-terminal-cyan: var(--terminal-cyan);
+  --color-terminal-magenta: var(--terminal-magenta);
+  --color-terminal-yellow: var(--terminal-yellow);
+  --color-terminal-red: var(--terminal-red);
+  --color-terminal-blue: var(--terminal-blue);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -112,4 +128,121 @@ body {
 
 .animate-grid-move {
   animation: grid-move 20s linear infinite;
+}
+
+/* Terminal-specific styles */
+.terminal-window {
+  background: #000000;
+  border: 1px solid var(--color-terminal-green);
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.1);
+}
+
+.terminal-chrome {
+  background: linear-gradient(135deg, #1a1a1a 0%, #0d1117 100%);
+  border-bottom: 1px solid var(--color-terminal-green);
+}
+
+.terminal-text {
+  font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+  color: var(--color-terminal-green);
+  text-shadow: 0 0 5px rgba(34, 197, 94, 0.3);
+}
+
+.terminal-glow {
+  box-shadow: 
+    0 0 5px var(--color-terminal-green),
+    0 0 10px var(--color-terminal-green),
+    0 0 15px var(--color-terminal-green);
+}
+
+.terminal-cursor {
+  animation: terminal-blink 1s infinite;
+}
+
+@keyframes terminal-blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* Terminal color utilities */
+.text-terminal-green { color: var(--color-terminal-green); }
+.text-terminal-cyan { color: var(--color-terminal-cyan); }
+.text-terminal-magenta { color: var(--color-terminal-magenta); }
+.text-terminal-yellow { color: var(--color-terminal-yellow); }
+.text-terminal-red { color: var(--color-terminal-red); }
+.text-terminal-blue { color: var(--color-terminal-blue); }
+
+.bg-terminal-green { background-color: var(--color-terminal-green); }
+.bg-terminal-cyan { background-color: var(--color-terminal-cyan); }
+.bg-terminal-magenta { background-color: var(--color-terminal-magenta); }
+.bg-terminal-yellow { background-color: var(--color-terminal-yellow); }
+.bg-terminal-red { background-color: var(--color-terminal-red); }
+.bg-terminal-blue { background-color: var(--color-terminal-blue); }
+
+.border-terminal-green { border-color: var(--color-terminal-green); }
+.border-terminal-cyan { border-color: var(--color-terminal-cyan); }
+.border-terminal-magenta { border-color: var(--color-terminal-magenta); }
+.border-terminal-yellow { border-color: var(--color-terminal-yellow); }
+.border-terminal-red { border-color: var(--color-terminal-red); }
+.border-terminal-blue { border-color: var(--color-terminal-blue); }
+
+/* Mobile terminal optimizations */
+@media (max-width: 768px) {
+  .terminal-window {
+    border-radius: 0;
+    height: 100vh;
+    width: 100vw;
+  }
+  
+  .terminal-content {
+    font-size: 14px;
+    line-height: 1.4;
+    padding: 8px;
+  }
+  
+  .terminal-chrome {
+    padding: 8px;
+  }
+  
+  /* Touch-friendly interactions */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Prevent zoom on input focus */
+  input, textarea, select {
+    font-size: 16px;
+  }
+}
+
+/* Tablet terminal optimizations */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .terminal-window {
+    border-radius: 8px;
+    height: 90vh;
+    width: 95vw;
+  }
+  
+  .terminal-content {
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 12px;
+  }
+}
+
+/* Desktop terminal optimizations */
+@media (min-width: 1024px) {
+  .terminal-window {
+    border-radius: 12px;
+    height: 80vh;
+    width: 90vw;
+    max-width: 1400px;
+  }
+  
+  .terminal-content {
+    font-size: 16px;
+    line-height: 1.6;
+    padding: 16px;
+  }
 }

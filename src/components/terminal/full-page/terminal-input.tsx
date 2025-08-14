@@ -2,6 +2,7 @@
 
 import { forwardRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { HoverTransition, FocusTransition } from '../effects/smooth-transitions'
 
 interface TerminalInputProps {
   user: string
@@ -37,7 +38,12 @@ export const TerminalInput = forwardRef<HTMLInputElement, TerminalInputProps>(
     return (
       <div className="relative">
         {/* Command Input Line */}
-        <div className="flex items-center gap-2 mt-2">
+        <motion.div 
+          className="flex items-center gap-2 mt-2"
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+        >
           {/* Prompt */}
           <motion.span 
             className={`font-mono text-sm ${promptColor} flex-shrink-0`}
@@ -49,7 +55,7 @@ export const TerminalInput = forwardRef<HTMLInputElement, TerminalInputProps>(
           </motion.span>
           
           {/* Input */}
-          <div className="flex-1 relative">
+          <FocusTransition className="flex-1 relative">
             <input
               ref={ref}
               type="text"
@@ -89,7 +95,7 @@ export const TerminalInput = forwardRef<HTMLInputElement, TerminalInputProps>(
                 display: isProcessing ? 'none' : 'block'
               }}
             />
-          </div>
+          </FocusTransition>
 
           {/* Processing Indicator */}
           {isProcessing && (
@@ -101,7 +107,7 @@ export const TerminalInput = forwardRef<HTMLInputElement, TerminalInputProps>(
               }`}
             />
           )}
-        </div>
+        </motion.div>
 
         {/* Auto-completion Suggestions */}
         <AnimatePresence mode="wait">
@@ -126,22 +132,23 @@ export const TerminalInput = forwardRef<HTMLInputElement, TerminalInputProps>(
                   Suggestions ({suggestions.length})
                 </div>
                 {suggestions.slice(0, 8).map((suggestion, index) => (
-                  <motion.div
-                    key={`${suggestion}-${index}`}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                    className={`px-3 py-1 text-sm font-mono cursor-pointer rounded transition-colors ${
-                      legendMode 
-                        ? 'text-yellow-200 hover:bg-yellow-400/10' 
-                        : 'text-green-300 hover:bg-green-400/10'
-                    }`}
-                    onClick={() => {
-                      onChange(suggestion + ' ')
-                    }}
-                  >
-                    {suggestion}
-                  </motion.div>
+                  <HoverTransition key={`${suggestion}-${index}`}>
+                    <motion.div
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.05 }}
+                      className={`px-3 py-1 text-sm font-mono cursor-pointer rounded transition-colors ${
+                        legendMode 
+                          ? 'text-yellow-200 hover:bg-yellow-400/10' 
+                          : 'text-green-300 hover:bg-green-400/10'
+                      }`}
+                      onClick={() => {
+                        onChange(suggestion + ' ')
+                      }}
+                    >
+                      {suggestion}
+                    </motion.div>
+                  </HoverTransition>
                 ))}
                 
                 {/* Keyboard hints */}

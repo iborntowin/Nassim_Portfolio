@@ -13,6 +13,13 @@ import { TerminalOutput } from './terminal-output'
 import { TerminalInput } from './terminal-input'
 import { MatrixRain } from './matrix-rain'
 import { useTerminalEffects } from '../hooks/use-terminal-effects'
+import { InlineContactForm, type ContactFormData } from '../forms/inline-contact-form'
+import { LegendModeOverlay } from '../effects/legend-mode-overlay'
+import { AmbientCursorEffects, SystemActivityAnimations, PageTransition } from '../effects'
+import { usePerformanceMonitor } from '../performance/performance-monitor'
+import { useMemoryManager, useTerminalHistoryManager, useAnimationCleanup } from '../performance/memory-manager'
+import { usePerformanceFallbacks } from '../performance/performance-fallbacks'
+import { useMobileOptimizations } from '../mobile/mobile-terminal-optimizations'
 
 interface TerminalLine {
   id: string
@@ -35,6 +42,65 @@ export function FullPageTerminal() {
   const [legendMode, setLegendMode] = useState(false)
   const [hasBooted, setHasBooted] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
+  const [showContactForm, setShowContactForm] = useState(false)
+  const [contactFormData, setContactFormData] = useState<Partial<ContactFormData>>({})
+
+  // Performance monitoring and optimization hooks
+  const { metrics, isLowPerformance } = usePerformanceMonitor({
+    onPerformanceChange: (metrics) => {
+      if (metrics.isLowPerformance) {
+        console.warn('🐌 Low performance detected, enabling optimizations')
+      }
+    }
+  })
+
+  const { getOptimizedProps, shouldDisableFeature, performanceLevel } = usePerformanceFallbacks({
+    enableFallbacks: true,
+    fallbackThresholds: {
+      fps: 45,
+      memoryUsage: 75,
+      renderTime: 20
+    }
+  })
+
+  const { triggerCleanup, isMemoryPressure } = useMemoryManager(
+    {
+      maxHistoryLines: 500,
+      cleanupInterval: 30000,
+      enableAutoCleanup: true
+    },
+    {
+      clearHistory: () => {
+        setLines(prev => prev.slice(-100)) // Keep only last 100 lines
+        setCommandHistory(prev => prev.slice(-50)) // Keep only last 50 commands
+      },
+      clearAnimations: () => {
+        setShowMatrix(false)
+        setLegendMode(false)
+      }
+    }
+  )
+
+  const { registerTimeout, registerAnimation, cleanupAll } = useAnimationCleanup()
+  
+  const { 
+    isMobile, 
+    isTablet, 
+    getMobilePerformanceSettings,
+    optimizeForMobileInput,
+    keyboardVisible 
+  } = useMobileOptimizations()
+
+  // Prevent hydration issues by only rendering on client
+  if (typeof window === 'undefined') {
+    return (
+      <div className="relative h-screen w-full bg-black text-green-400 font-mono overflow-hidden flex items-center justify-center">
+        <div className="text-green-400 text-lg animate-pulse">
+          Initializing terminal...
+        </div>
+      </div>
+    )
+  }
 
   const terminalRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -132,8 +198,18 @@ export function FullPageTerminal() {
     })
   }, [isProcessing, isBooting])
 
-  // Terminal effects hook
+  // Terminal effects hook with performance awareness
   const { playSound, addScreenShake } = useTerminalEffects()
+
+  // Get performance-optimized settings
+  const mobileSettings = getMobilePerformanceSettings()
+  const optimizedTerminalProps = getOptimizedProps({
+    enableAnimations: mobileSettings.enableAnimations,
+    enableParticles: mobileSettings.enableParticles,
+    enableGlow: mobileSettings.enableGlow,
+    enableTrails: mobileSettings.enableTrails,
+    animationDuration: mobileSettings.animationDuration
+  })
 
   // Command context
   const [context, setContext] = useState<CommandContext>({
@@ -145,7 +221,7 @@ export function FullPageTerminal() {
     history: []
   })
 
-  // Add line to terminal with immediate scroll for large outputs
+  // Performance-optimized line addition with memory management
   const addLine = useCallback((
     content: string,
     type: TerminalLine['type'] = 'output',
@@ -157,25 +233,34 @@ export function FullPageTerminal() {
       type,
       content,
       timestamp: lineIdCounter.current,
-      animation
+      animation: shouldDisableFeature('animations') ? undefined : animation
     }
 
     setLines(prev => {
-      const newLines = [...prev, newLine]
+      let newLines = [...prev, newLine]
+
+      // Auto-trim history on mobile or low performance
+      const maxLines = isMobile ? 100 : isLowPerformance ? 200 : 500
+      if (newLines.length > maxLines) {
+        newLines = newLines.slice(-maxLines)
+      }
 
       // For large outputs, scroll immediately after adding line
-      if (shouldScroll && isMounted) {
-        setTimeout(() => {
+      if (shouldScroll && isMounted && !shouldDisableFeature('animations')) {
+        const timeout = registerTimeout(setTimeout(() => {
           scrollToBottom(0, true)
-        }, 0)
+        }, 0))
       }
 
       return newLines
     })
-  }, [scrollToBottom, isMounted])
+  }, [scrollToBottom, isMounted, shouldDisableFeature, isMobile, isLowPerformance, registerTimeout])
 
   // Set mounted state and add global focus management
   useEffect(() => {
+    // Only run on client side
+    if (typeof window === 'undefined') return
+
     setIsMounted(true)
 
     // Enhanced global focus management
@@ -222,8 +307,8 @@ export function FullPageTerminal() {
   useEffect(() => {
     if (hasBooted) return
 
-    // Only start boot sequence after component is mounted
-    if (!isMounted) return
+    // Only start boot sequence after component is mounted and on client side
+    if (!isMounted || typeof window === 'undefined') return
 
     const bootSequence = async () => {
       const bootMessages = [
@@ -344,19 +429,32 @@ export function FullPageTerminal() {
         return
       }
 
+      // Handle contact form
+      if (result.data?.action === 'show-contact-form') {
+        setShowContactForm(true)
+        setIsProcessing(false)
+        return
+      }
+
+      // Handle contact form submission
+      if (result.data?.action === 'contact-submit') {
+        // Store the contact data (in a real app, this would send to an API)
+        console.log('Contact form submitted:', result.data)
+      }
+
       // Handle matrix effect
       if (result.animation === 'matrix' || command.includes('matrix')) {
         setShowMatrix(true)
         setTimeout(() => setShowMatrix(false), 3000)
       }
 
-      // Handle legend mode (from registry)
-      if (command.includes('become-legend') || result.animation === 'matrix') {
+      // Handle legend mode activation
+      if (result.data?.action === 'activate-legend-mode') {
         setLegendMode(true)
         addScreenShake()
         playSound('success')
-        setShowMatrix(true)
-        setTimeout(() => setShowMatrix(false), 3000)
+        // Legend mode overlay will handle its own timing
+        setTimeout(() => setLegendMode(false), 5000)
       }
 
       // Add output lines with progressive scrolling for large outputs
@@ -413,6 +511,49 @@ export function FullPageTerminal() {
     }, 600)
 
   }, [context, commandHistory, addLine, addScreenShake, playSound, scrollToBottom, restoreFocus])
+
+  // Handle contact form submission
+  const handleContactFormSubmit = useCallback((data: ContactFormData) => {
+    setShowContactForm(false)
+
+    // Add success message to terminal
+    addLine('', 'output')
+    addLine('📨 CONTACT FORM SUBMITTED SUCCESSFULLY!', 'success')
+    addLine('═══════════════════════════════════════════════════════', 'success')
+    addLine('', 'output')
+    addLine('✅ Your message has been sent successfully!', 'success')
+    addLine('', 'output')
+    addLine('📋 Submission Details:', 'info')
+    addLine(`   Name: ${data.name}`, 'info')
+    addLine(`   Email: ${data.email}`, 'info')
+    if (data.project) addLine(`   Project: ${data.project}`, 'info')
+    addLine(`   Message: ${data.message}`, 'info')
+    addLine('', 'output')
+    addLine('🚀 Your message has been queued for processing', 'info')
+    addLine('📧 You will receive a response within 24 hours', 'info')
+    addLine('🔄 Confirmation email sent to your address', 'info')
+    addLine('', 'output')
+    addLine('💡 Thank you for reaching out!', 'success')
+    addLine('', 'output')
+
+    // Play success sound
+    playSound('success')
+
+    // Restore focus after form submission
+    setTimeout(() => restoreFocus(), 500)
+  }, [addLine, playSound, restoreFocus])
+
+  // Handle contact form cancellation
+  const handleContactFormCancel = useCallback(() => {
+    setShowContactForm(false)
+    addLine('', 'output')
+    addLine('❌ Contact form cancelled', 'warning')
+    addLine('💡 Use "contact" to view contact options', 'info')
+    addLine('', 'output')
+
+    // Restore focus after cancellation
+    setTimeout(() => restoreFocus(), 100)
+  }, [addLine, restoreFocus])
 
   // Handle input changes with better suggestion management (prevent flicker)
   const inputChangeTimeoutRef = useRef<NodeJS.Timeout>()
@@ -534,19 +675,36 @@ export function FullPageTerminal() {
 
   return (
     <div className="relative h-screen w-full bg-black text-green-400 font-mono overflow-hidden">
+      {/* Performance-aware Ambient Effects */}
+      <AmbientCursorEffects
+        enabled={!isBooting && isMounted && optimizedTerminalProps.enableTrails}
+        intensity={isMobile ? 'low' : legendMode ? 'high' : 'medium'}
+        glowColor={legendMode ? '#fbbf24' : '#00ff41'}
+        enableTrails={optimizedTerminalProps.enableTrails}
+        enableGlow={optimizedTerminalProps.enableGlow}
+        disableAnimations={!optimizedTerminalProps.enableAnimations}
+        trailLength={isMobile ? 3 : 8}
+      />
+      <SystemActivityAnimations
+        enabled={!isBooting && isMounted && !shouldDisableFeature('complex-effects')}
+        intensity={isMobile ? 'low' : legendMode ? 'high' : 'medium'}
+        showIndicators={!isMobile && !shouldDisableFeature('complex-effects')}
+      />
+
       {/* Matrix Rain Effect */}
       <AnimatePresence>
         {showMatrix && <MatrixRain />}
       </AnimatePresence>
 
       {/* Terminal Container */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.98 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className={`terminal-container h-full flex flex-col ${legendMode ? 'border-4 border-yellow-400 shadow-2xl shadow-yellow-400/20' : ''}`}
-        onClick={handleTerminalClick}
-        style={!isMounted ? { opacity: 0, transform: 'scale(0.98)' } : {}}
-      >
+      <PageTransition>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className={`terminal-container h-full flex flex-col ${legendMode ? 'border-4 border-yellow-400 shadow-2xl shadow-yellow-400/20' : ''}`}
+          onClick={handleTerminalClick}
+          style={!isMounted ? { opacity: 0, transform: 'scale(0.98)' } : {}}
+        >
         {/* Terminal Header */}
         <TerminalHeader
           user={context.user}
@@ -574,77 +732,77 @@ export function FullPageTerminal() {
               scrollbarColor: '#22c55e #000000',
             }}
           >
-          {/* Terminal Lines */}
-          <div className="space-y-1">
-            {lines.map((line) => (
-              <TerminalOutput
-                key={line.id}
-                line={line}
-                legendMode={legendMode}
-              />
-            ))}
-          </div>
-
-          {/* Current Input Line */}
-          {!isBooting && (
-            <div className="relative" style={!isMounted ? { display: 'none' } : {}}>
-              <TerminalInput
-                ref={inputRef}
-                user={context.user}
-                host={context.host}
-                path={context.currentPath}
-                value={currentInput}
-                onChange={handleInputChange}
-                onKeyDown={handleKeyDown}
-                suggestions={suggestions}
-                showSuggestions={showSuggestions}
-                isProcessing={isProcessing}
-                legendMode={legendMode}
-                onFocus={() => {
-                  // Ensure input area is visible when focused
-                  if (isMounted) {
-                    setTimeout(() => {
-                      if (showSuggestions) {
-                        scrollForSuggestions()
-                      } else {
-                        scrollToBottom(150, false)
-                      }
-                    }, 50)
-                  }
-                }}
-              />
-
-              {/* Enhanced spacing for suggestions visibility */}
-              {showSuggestions && (
-                <div className="h-80 w-full" />
-              )}
+            {/* Terminal Lines */}
+            <div className="space-y-1">
+              {lines.map((line) => (
+                <TerminalOutput
+                  key={line.id}
+                  line={line}
+                  legendMode={legendMode}
+                />
+              ))}
             </div>
-          )}
 
-          {/* Additional bottom padding to ensure content is always scrollable */}
-          <div className="h-32 w-full" />
-        </div>
+            {/* Contact Form */}
+            <AnimatePresence>
+              {showContactForm && (
+                <InlineContactForm
+                  onSubmit={handleContactFormSubmit}
+                  onCancel={handleContactFormCancel}
+                  initialData={contactFormData}
+                />
+              )}
+            </AnimatePresence>
+
+            {/* Current Input Line */}
+            {!isBooting && !showContactForm && (
+              <div className="relative" style={!isMounted ? { display: 'none' } : {}}>
+                <TerminalInput
+                  ref={inputRef}
+                  user={context.user}
+                  host={context.host}
+                  path={context.currentPath}
+                  value={currentInput}
+                  onChange={handleInputChange}
+                  onKeyDown={handleKeyDown}
+                  suggestions={suggestions}
+                  showSuggestions={showSuggestions}
+                  isProcessing={isProcessing}
+                  legendMode={legendMode}
+                  onFocus={() => {
+                    // Ensure input area is visible when focused
+                    if (isMounted) {
+                      setTimeout(() => {
+                        if (showSuggestions) {
+                          scrollForSuggestions()
+                        } else {
+                          scrollToBottom(150, false)
+                        }
+                      }, 50)
+                    }
+                  }}
+                />
+
+                {/* Enhanced spacing for suggestions visibility */}
+                {showSuggestions && (
+                  <div className="h-80 w-full" />
+                )}
+              </div>
+            )}
+
+            {/* Additional bottom padding to ensure content is always scrollable */}
+            <div className="h-32 w-full" />
+          </div>
         )}
-      </motion.div>
+        </motion.div>
+      </PageTransition>
 
       {/* Legend Mode Overlay */}
-      <AnimatePresence>
-        {legendMode && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 pointer-events-none"
-            style={!isMounted ? { display: 'none' } : {}}
-          >
-            <div className="absolute top-4 right-4 bg-yellow-400/10 border border-yellow-400 rounded-lg p-2">
-              <div className="text-yellow-400 text-sm font-bold">
-                👑 LEGEND MODE ACTIVE
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <LegendModeOverlay
+        isActive={legendMode}
+        onComplete={() => setLegendMode(false)}
+        duration={5000}
+      />
     </div>
   )
 }

@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Terminal, Maximize2, Minimize2, X, Zap, Crown } from 'lucide-react'
 import { MatrixRain } from './matrix-rain'
+import { LegendModeOverlay } from '../effects/legend-mode-overlay'
 
 interface TerminalLine {
   id: string
@@ -452,7 +453,7 @@ export function EnhancedTerminal() {
         
         if (result.action === 'legend') {
           setLegendMode(true)
-          setTimeout(() => setLegendMode(false), 10000)
+          // LegendModeOverlay will handle its own timing and call onComplete
         }
         
         if (result.action === 'matrix') {
@@ -649,24 +650,11 @@ export function EnhancedTerminal() {
       </motion.div>
 
       {/* Legend Mode Overlay */}
-      <AnimatePresence>
-        {legendMode && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 pointer-events-none"
-          >
-            <div className="absolute top-4 right-4 bg-yellow-400/10 border border-yellow-400 rounded-lg p-2">
-              <div className="text-yellow-400 text-sm font-bold flex items-center gap-2">
-                <Crown className="w-4 h-4" />
-                LEGEND MODE ACTIVE
-              </div>
-            </div>
-            <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/5 to-orange-400/5 animate-pulse"></div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <LegendModeOverlay
+        isActive={legendMode}
+        onComplete={() => setLegendMode(false)}
+        duration={10000}
+      />
     </div>
   )
 }
