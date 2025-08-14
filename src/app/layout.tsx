@@ -106,8 +106,8 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable}`}
     >
-      <body className="antialiased min-h-screen max-h-screen overflow-hidden" suppressHydrationWarning>
-        <main className="h-screen max-h-screen overflow-hidden">
+      <body className="antialiased min-h-screen bg-background text-foreground" suppressHydrationWarning>
+        <main className="min-h-screen">
           {children}
         </main>
       </body>

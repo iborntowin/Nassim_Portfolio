@@ -64,10 +64,10 @@ export function SimpleTerminalLayout({
       initial={{ opacity: 0, scale: isMobile ? 1 : 0.98 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: isMobile ? 0.2 : 0.3 }}
-      className={`terminal-window overflow-hidden ${
+      className={`terminal-window ${
         isMobile 
-          ? 'h-screen w-screen' 
-          : 'rounded-lg h-[85vh] w-[92vw] max-w-7xl shadow-2xl'
+          ? 'w-full min-h-screen' 
+          : 'rounded-lg h-auto w-full max-w-7xl shadow-2xl mx-auto'
       } ${className}`}
     >
       {/* Terminal Window Chrome */}
@@ -190,10 +190,10 @@ export function SimpleTerminalLayout({
       </div>
 
       {/* Terminal Content Area */}
-      <div className={`bg-black/95 font-mono text-terminal-green ${
+      <div className={`bg-black/95 font-mono text-terminal-green terminal-content ${
         isMobile 
-          ? 'min-h-[calc(100vh-140px)] p-2 text-sm leading-tight overflow-hidden' 
-          : 'min-h-[calc(85vh-140px)] p-4 text-base leading-relaxed backdrop-blur-sm'
+          ? 'p-2 text-sm leading-tight' 
+          : 'p-4 text-base leading-relaxed backdrop-blur-sm'
       }`}>
         {children}
       </div>

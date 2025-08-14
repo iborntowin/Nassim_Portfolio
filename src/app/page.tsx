@@ -43,41 +43,45 @@ export default function HomePage() {
 
       {/* Main Portfolio Content - Wrapped in Terminal Layout */}
       {bootComplete && (
-        <div className="min-h-screen bg-black flex items-center justify-center p-4">
-          <SimpleTerminalLayout
-            showSystemMetrics={true}
-            title="Nassim's Cloud Engineer Portfolio"
-          >
-            <main className="min-h-full">
-              {/* Technical Portfolio Section */}
-              <TechnicalPortfolioSection />
+        <div className="min-h-screen bg-black">
+          <div className="flex items-start justify-center p-4">
+            <SimpleTerminalLayout
+              showSystemMetrics={true}
+              title="Nassim's Cloud Engineer Portfolio"
+            >
+              <div className="w-full scrollable-container">
+                <main className="min-h-full">
+                  {/* Technical Portfolio Section */}
+                  <TechnicalPortfolioSection />
 
-              {/* Performance Stats */}
-              <StatsForChangelog />
+                  {/* Performance Stats */}
+                  <StatsForChangelog />
 
-              {/* Testimonials */}
-              <TestimonialsCarousel />
+                  {/* Testimonials */}
+                  <TestimonialsCarousel />
 
-              {/* Contact Section */}
-              <section id="contact" className="py-24 px-4 sm:px-6 lg:px-8">
-                <div className="max-w-4xl mx-auto text-center mb-16">
-                  <h2 className="text-4xl font-bold text-terminal-green mb-6">
-                    Contact
-                  </h2>
-                  <p className="text-lg text-terminal-cyan max-w-2xl mx-auto">
-                    Get in touch for collaborations, project inquiries, or just to say hello!
-                  </p>
-                </div>
-                <SimpleCenteredContactForm />
-              </section>
+                  {/* Contact Section */}
+                  <section id="contact" className="py-24 px-4 sm:px-6 lg:px-8">
+                    <div className="max-w-4xl mx-auto text-center mb-16">
+                      <h2 className="text-4xl font-bold text-terminal-green mb-6">
+                        Contact
+                      </h2>
+                      <p className="text-lg text-terminal-cyan max-w-2xl mx-auto">
+                        Get in touch for collaborations, project inquiries, or just to say hello!
+                      </p>
+                    </div>
+                    <SimpleCenteredContactForm />
+                  </section>
 
-              {/* Advanced Technologies Showcase - Before Footer */}
-              <AdvancedTechShowcase />
+                  {/* Advanced Technologies Showcase - Before Footer */}
+                  <AdvancedTechShowcase />
 
-              {/* Footer */}
-              <FooterWithGrid />
-            </main>
-          </SimpleTerminalLayout>
+                  {/* Footer */}
+                  <FooterWithGrid />
+                </main>
+              </div>
+            </SimpleTerminalLayout>
+          </div>
         </div>
       )}
     </>

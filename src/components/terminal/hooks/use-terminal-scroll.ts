@@ -6,12 +6,14 @@ interface UseTerminalScrollOptions {
   smoothScroll?: boolean
   scrollThreshold?: number
   scrollDebounce?: number
+  useDocumentScroll?: boolean
 }
 
 export function useTerminalScroll({
   smoothScroll = true,
   scrollThreshold = 100,
-  scrollDebounce = 100
+  scrollDebounce = 100,
+  useDocumentScroll = false
 }: UseTerminalScrollOptions = {}) {
   const terminalRef = useRef<HTMLDivElement>(null)
   const [isScrolledToBottom, setIsScrolledToBottom] = useState(true)
@@ -19,15 +21,24 @@ export function useTerminalScroll({
   const scrollTimeoutRef = useRef<NodeJS.Timeout>()
   const userScrollTimeoutRef = useRef<NodeJS.Timeout>()
 
+  // Get the scrolling element (either the terminal container or document)
+  const getScrollElement = useCallback(() => {
+    if (useDocumentScroll) {
+      return document.documentElement || document.body
+    }
+    return terminalRef.current
+  }, [useDocumentScroll])
+
   // Check if terminal is scrolled to bottom
   const checkScrolledToBottom = useCallback(() => {
-    if (!terminalRef.current) return true
+    const element = getScrollElement()
+    if (!element) return true
 
-    const { scrollTop, scrollHeight, clientHeight } = terminalRef.current
+    const { scrollTop, scrollHeight, clientHeight } = element
     const scrolledToBottom = Math.abs(scrollHeight - clientHeight - scrollTop) < scrollThreshold
     setIsScrolledToBottom(scrolledToBottom)
     return scrolledToBottom
-  }, [scrollThreshold])
+  }, [scrollThreshold, getScrollElement])
 
   // Handle scroll events
   const handleScroll = useCallback(() => {
@@ -45,20 +56,31 @@ export function useTerminalScroll({
 
   // Scroll to bottom with improved reliability
   const scrollToBottom = useCallback((extraSpace = 0, immediate = false) => {
-    if (!terminalRef.current || (isUserScrolling && !isScrolledToBottom)) return
+    const element = getScrollElement()
+    if (!element || (isUserScrolling && !isScrolledToBottom)) return
 
-    const element = terminalRef.current
     const targetScrollTop = element.scrollHeight + extraSpace - element.clientHeight
 
     const performScroll = () => {
       try {
-        element.scrollTo({
-          top: targetScrollTop,
-          behavior: immediate || !smoothScroll ? 'auto' : 'smooth'
-        })
+        if (useDocumentScroll) {
+          window.scrollTo({
+            top: targetScrollTop,
+            behavior: immediate || !smoothScroll ? 'auto' : 'smooth'
+          })
+        } else {
+          element.scrollTo({
+            top: targetScrollTop,
+            behavior: immediate || !smoothScroll ? 'auto' : 'smooth'
+          })
+        }
       } catch (e) {
         // Fallback for older browsers
-        element.scrollTop = targetScrollTop
+        if (useDocumentScroll) {
+          window.scrollTo(0, targetScrollTop)
+        } else {
+          element.scrollTop = targetScrollTop
+        }
       }
     }
 
@@ -80,10 +102,11 @@ export function useTerminalScroll({
       scrollTimeoutRef.current = setTimeout(performScroll, delay)
     })
 
-    // Final check and correction
+    // Final check and correction with scrollIntoView
     setTimeout(() => {
-      if (checkScrolledToBottom()) {
-        const lastChild = element.lastElementChild
+      if (!checkScrolledToBottom()) {
+        const element = getScrollElement()
+        const lastChild = element?.lastElementChild
         if (lastChild) {
           lastChild.scrollIntoView({
             behavior: immediate || !smoothScroll ? 'auto' : 'smooth',
@@ -92,7 +115,7 @@ export function useTerminalScroll({
         }
       }
     }, Math.max(...delays) + 50)
-  }, [isUserScrolling, isScrolledToBottom, smoothScroll, checkScrolledToBottom])
+  }, [isUserScrolling, isScrolledToBottom, smoothScroll, checkScrolledToBottom, getScrollElement, useDocumentScroll])
 
   // Cleanup
   useEffect(() => {

@@ -66,6 +66,64 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Ensure smooth scrolling */
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar for all elements */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000000;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #22c55e;
+  border-radius: 6px;
+  border: 2px solid #000000;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #35d673;
+}
+
+/* Enhanced scrollbar for terminal content */
+.terminal-content {
+  scrollbar-width: auto !important;
+}
+
+.terminal-content::-webkit-scrollbar {
+  width: 14px !important;
+  display: block !important;
+}
+
+.terminal-content::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.8) !important;
+  border-radius: 6px;
+}
+
+.terminal-content::-webkit-scrollbar-thumb {
+  background: #22c55e !important;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.terminal-content::-webkit-scrollbar-thumb:hover {
+  background: #35d673 !important;
+  background-clip: content-box;
+}
+
 /* Improved Project Card and Infrastructure Component Visibility */
 .project-card, .infrastructure-component {
   border: 2px solid var(--color-border);
@@ -165,6 +223,32 @@ body {
   overscroll-behavior: contain;
 }
 
+/* Scrollable container utility */
+.scrollable-container {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.scrollable-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollable-container::-webkit-scrollbar-track {
+  background: #000000;
+  border-radius: 4px;
+}
+
+.scrollable-container::-webkit-scrollbar-thumb {
+  background: var(--color-terminal-green);
+  border-radius: 4px;
+  border: 2px solid #000000;
+}
+
+.scrollable-container::-webkit-scrollbar-thumb:hover {
+  background: #35d673;
+}
+
 .terminal-chrome {
   background: linear-gradient(135deg, #1a1a1a 0%, #0d1117 100%);
   border-bottom: 1px solid var(--color-terminal-green);
@@ -204,6 +288,30 @@ body {
   background-color: var(--color-terminal-yellow);
   animation: pulse 2s infinite;
   z-index: 50;
+  pointer-events: none;
+}
+
+/* Scroll enhancement for terminal pages */
+.terminal-page {
+  height: 100vh;
+  max-height: 100vh;
+}
+
+/* Ensure full page terminal scrolls properly */
+.terminal-page .terminal-container {
+  height: 100vh;
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ensure input visibility */
+.terminal-input-sticky {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(4px);
 }
 
 @keyframes pulse {
@@ -251,12 +359,15 @@ body {
     border-radius: 0;
     height: 100vh;
     width: 100vw;
+    max-height: 100vh;
   }
   
   .terminal-content {
     font-size: 14px;
     line-height: 1.4;
     padding: 8px;
+    overflow-y: auto;
+    max-height: calc(100vh - 80px);
   }
   
   .terminal-chrome {
@@ -273,6 +384,13 @@ body {
   input, textarea, select {
     font-size: 16px;
   }
+  
+  /* Enable momentum scrolling on iOS */
+  .terminal-content,
+  .terminal-container {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
 }
 
 /* Tablet terminal optimizations */
@@ -281,12 +399,15 @@ body {
     border-radius: 8px;
     height: 90vh;
     width: 95vw;
+    max-height: 90vh;
   }
   
   .terminal-content {
     font-size: 14px;
     line-height: 1.5;
     padding: 12px;
+    overflow-y: auto;
+    max-height: calc(90vh - 120px);
   }
 }
 
@@ -297,11 +418,14 @@ body {
     height: 80vh;
     width: 90vw;
     max-width: 1400px;
+    max-height: 80vh;
   }
   
   .terminal-content {
     font-size: 16px;
     line-height: 1.6;
     padding: 16px;
+    overflow-y: auto;
+    max-height: calc(80vh - 140px);
   }
 }

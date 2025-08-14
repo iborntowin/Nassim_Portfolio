@@ -14,6 +14,7 @@ import { TerminalOutput } from './terminal-output'
 import { TerminalInput } from './terminal-input'
 import { MatrixRain } from './matrix-rain'
 import { useTerminalEffects } from '../hooks/use-terminal-effects'
+import { useTerminalScroll } from '../hooks/use-terminal-scroll'
 import { InlineContactForm, type ContactFormData } from '../forms/inline-contact-form'
 import { LegendModeOverlay } from '../effects/legend-mode-overlay'
 import { AmbientCursorEffects, SystemActivityAnimations, PageTransition } from '../effects'
@@ -104,7 +105,8 @@ export function FullPageTerminal() {
   } = useTerminalScroll({
     smoothScroll: !shouldDisableFeature('animations'),
     scrollThreshold: 50,
-    scrollDebounce: 150
+    scrollDebounce: 150,
+    useDocumentScroll: false
   })
 
   // Enhanced scroll function for suggestions
@@ -270,6 +272,15 @@ export function FullPageTerminal() {
       addLine('🚀 Welcome to the Cloud Engineer Command Console!', 'success')
       addLine('💡 Type "help" to see available commands', 'info')
       addLine('💡 Try "sudo become-legend" for a surprise!', 'info')
+      addLine('', 'output')
+      
+      // Add more content to ensure scrolling is needed
+      for (let i = 1; i <= 20; i++) {
+        addLine(`📋 System diagnostic line ${i} - All systems operational`, 'info')
+      }
+      
+      addLine('', 'output')
+      addLine('✅ Terminal ready for commands', 'success')
       addLine('', 'output')
 
       setIsBooting(false)
@@ -609,7 +620,7 @@ export function FullPageTerminal() {
   }, [restoreFocus])
 
   return (
-    <div className="fixed inset-0 bg-black text-green-400 font-mono">
+    <div className="h-screen bg-black text-green-400 font-mono terminal-page">
       {isMounted && (
         <>
           <AmbientCursorEffects
@@ -649,21 +660,18 @@ export function FullPageTerminal() {
           <div
             ref={terminalRef}
             onScroll={handleScroll}
-            className={`relative flex-1 overflow-y-auto p-4 bg-black/95 backdrop-blur-sm ${
+            className={`terminal-content relative flex-1 p-4 bg-black/95 backdrop-blur-sm overflow-y-scroll ${
               !isScrolledToBottom ? 'scroll-indicator' : ''
             }`}
             style={{
-              height: 'calc(100vh - 3rem)',
-              maxHeight: 'calc(100vh - 3rem)',
-              scrollbarWidth: 'thin',
+              scrollbarWidth: 'auto',
               scrollbarColor: '#22c55e #000000',
               overscrollBehavior: 'contain',
-              WebkitOverflowScrolling: 'touch',
-              willChange: 'scroll-position'
+              WebkitOverflowScrolling: 'touch'
             }}
           >
             {/* Terminal Lines */}
-            <div className="space-y-1">
+            <div className="space-y-1 pb-4">
               {lines.map((line) => (
                 <TerminalOutput
                   key={line.id}
@@ -671,56 +679,56 @@ export function FullPageTerminal() {
                   legendMode={legendMode}
                 />
               ))}
-            </div>
 
-            {/* Contact Form */}
-            <AnimatePresence>
-              {showContactForm && (
-                <InlineContactForm
-                  onSubmit={handleContactFormSubmit}
-                  onCancel={handleContactFormCancel}
-                  initialData={contactFormData}
-                />
-              )}
-            </AnimatePresence>
-
-            {/* Current Input Line */}
-            {!isBooting && !showContactForm && (
-              <div className="relative" style={!isMounted ? { display: 'none' } : {}}>
-                <TerminalInput
-                  ref={inputRef}
-                  user={context.user}
-                  host={context.host}
-                  path={context.currentPath}
-                  value={currentInput}
-                  onChange={handleInputChange}
-                  onKeyDown={handleKeyDown}
-                  suggestions={suggestions}
-                  showSuggestions={showSuggestions}
-                  isProcessing={isProcessing}
-                  legendMode={legendMode}
-                  onFocus={() => {
-                    if (isMounted) {
-                      setTimeout(() => {
-                        if (showSuggestions) {
-                          scrollForSuggestions()
-                        } else {
-                          scrollToBottom(150, false)
-                        }
-                      }, 50)
-                    }
-                  }}
-                />
-
-                {/* Enhanced spacing for suggestions visibility */}
-                {showSuggestions && (
-                  <div className="h-80 w-full" />
+              {/* Contact Form */}
+              <AnimatePresence>
+                {showContactForm && (
+                  <InlineContactForm
+                    onSubmit={handleContactFormSubmit}
+                    onCancel={handleContactFormCancel}
+                    initialData={contactFormData}
+                  />
                 )}
-              </div>
-            )}
+              </AnimatePresence>
 
-            {/* Additional bottom padding to ensure content is always scrollable */}
-            <div className="h-32 w-full" />
+              {/* Current Input Line */}
+              {!isBooting && !showContactForm && (
+                <div className="mt-4 pt-4 border-t border-gray-800/30" style={!isMounted ? { display: 'none' } : {}}>
+                  <TerminalInput
+                    ref={inputRef}
+                    user={context.user}
+                    host={context.host}
+                    path={context.currentPath}
+                    value={currentInput}
+                    onChange={handleInputChange}
+                    onKeyDown={handleKeyDown}
+                    suggestions={suggestions}
+                    showSuggestions={showSuggestions}
+                    isProcessing={isProcessing}
+                    legendMode={legendMode}
+                    onFocus={() => {
+                      if (isMounted) {
+                        setTimeout(() => {
+                          if (showSuggestions) {
+                            scrollForSuggestions()
+                          } else {
+                            scrollToBottom(150, false)
+                          }
+                        }, 50)
+                      }
+                    }}
+                  />
+
+                  {/* Enhanced spacing for suggestions visibility */}
+                  {showSuggestions && (
+                    <div className="h-80 w-full" />
+                  )}
+                </div>
+              )}
+
+              {/* Additional bottom padding to ensure scrollability */}
+              <div className="h-32 w-full" />
+            </div>
           </div>
         </TerminalContainer>
       </PageTransition>

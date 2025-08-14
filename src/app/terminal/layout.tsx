@@ -44,9 +44,9 @@ export default function TerminalLayout({
   children: React.ReactNode
 }) {
   return (
-    <main className="min-h-screen bg-black overflow-hidden relative">
+    <div className="min-h-screen bg-black">
       <PersonStructuredData />
       {children}
-    </main>
+    </div>
   )
 }
