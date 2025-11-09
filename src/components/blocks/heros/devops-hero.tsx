@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { ChevronRight, Rocket, ArrowDown } from 'lucide-react';
 
 const TYPING_SPEED = 100;
@@ -116,9 +117,18 @@ export default function DevOpsHero() {
   const [currentRole, setCurrentRole] = useState(0);
   const [displayText, setDisplayText] = useState("Full-Stack Developer");
   const [isTyping, setIsTyping] = useState(true);
+  const [mounted, setMounted] = useState(false);
+  const router = useRouter();
 
-  // Typing animation
+  // Set mounted on client to prevent hydration mismatch
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Typing animation - only run on client
+  useEffect(() => {
+    if (!mounted) return;
+
     const currentRoleText = roles[currentRole];
     let timeoutId: NodeJS.Timeout;
 
@@ -144,7 +154,7 @@ export default function DevOpsHero() {
     }
 
     return () => clearTimeout(timeoutId);
-  }, [displayText, isTyping, currentRole]);
+  }, [displayText, isTyping, currentRole, mounted]);
 
   // Static particles for consistent rendering
   const staticParticles = [];
@@ -215,16 +225,15 @@ export default function DevOpsHero() {
 
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 mb-12">
-                <button className="group relative px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-xl overflow-hidden hover:scale-105 transition-transform">
+                <button 
+                  onClick={() => router.push('/terminal')}
+                  className="group relative px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-xl overflow-hidden hover:scale-105 transition-transform"
+                >
                   <span className="relative flex items-center">
                     <Rocket className="w-5 h-5 mr-2" />
                     Start Your Project
                     <ChevronRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                   </span>
-                </button>
-
-                <button className="px-8 py-4 border-2 border-blue-500 text-blue-500 font-semibold rounded-xl hover:bg-blue-500 hover:text-white transition-all duration-300 hover:scale-105">
-                  View Portfolio
                 </button>
               </div>
             </div>
