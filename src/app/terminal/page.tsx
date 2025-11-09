@@ -1,5 +1,4 @@
 import { Metadata } from 'next'
-import { FullPageTerminal } from '@/components/terminal/full-page/full-page-terminal'
 import { PersonStructuredData } from '@/components/seo/structured-data'
 
 export const metadata: Metadata = {

@@ -1,11 +1,6 @@
 "use client"
 
-import dynamic from 'next/dynamic'
-
-const FullPageTerminal = dynamic(
-  () => import('@/components/terminal/full-page/full-page-terminal').then(mod => ({ default: mod.FullPageTerminal })),
-  { ssr: false }
-)
+import { FullPageTerminal } from '@/components/terminal/full-page/terminal-main'
 
 export function TerminalClient() {
   return <FullPageTerminal />
