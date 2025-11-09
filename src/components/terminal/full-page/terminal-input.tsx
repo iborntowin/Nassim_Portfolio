@@ -117,49 +117,62 @@ export const TerminalInput = forwardRef<HTMLInputElement, TerminalInputProps>(
               initial={{ opacity: 0, y: -5 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -5 }}
-              transition={{ duration: 0.15, ease: "easeOut" }}
-              className={`absolute top-full left-0 mt-2 bg-gray-900/95 backdrop-blur-sm border ${
-                legendMode ? 'border-yellow-400/30' : 'border-green-400/30'
-              } rounded-lg shadow-xl z-50 min-w-64 max-w-96`}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className={`absolute top-full left-0 mt-2 bg-gray-900/98 backdrop-blur-md border-2 ${
+                legendMode ? 'border-yellow-400/40' : 'border-green-400/40'
+              } rounded-lg shadow-2xl z-50 w-full max-w-2xl`}
               style={{
-                maxHeight: '200px',
-                overflowY: 'auto'
+                maxHeight: '380px',
+                overflowY: 'auto',
+                scrollbarWidth: 'thin',
+                scrollbarColor: legendMode ? '#fbbf24 #1f2937' : '#22c55e #1f2937'
               }}
             >
-              <div className="p-2">
-                <div className={`text-xs ${
+              <div className="p-3">
+                <div className={`text-xs font-bold ${
                   legendMode ? 'text-yellow-400' : 'text-green-400'
-                } mb-2 px-2`}>
-                  Suggestions ({suggestions.length})
+                } mb-2 px-2 sticky top-0 bg-gray-900/98 backdrop-blur-md pb-2 z-10 border-b ${
+                  legendMode ? 'border-yellow-400/30' : 'border-green-400/30'
+                }`}>
+                  💡 Available Commands ({suggestions.length})
                 </div>
-                {suggestions.slice(0, 8).map((suggestion, index) => (
+                <div className="space-y-1 mt-2">
+                {suggestions.map((suggestion, index) => (
                   <HoverTransition key={`${suggestion}-${index}`}>
                     <motion.div
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.05 }}
-                      className={`px-3 py-1 text-sm font-mono cursor-pointer rounded transition-colors ${
+                      transition={{ delay: index * 0.02, duration: 0.2 }}
+                      className={`px-4 py-2.5 text-sm font-mono cursor-pointer rounded-md transition-all duration-150 ${
                         legendMode 
-                          ? 'text-yellow-200 hover:bg-yellow-400/10' 
-                          : 'text-green-300 hover:bg-green-400/10'
-                      }`}
+                          ? 'text-yellow-100 hover:bg-yellow-400/20 hover:text-yellow-50 hover:border-yellow-400/50' 
+                          : 'text-green-200 hover:bg-green-400/20 hover:text-green-50 hover:border-green-400/50'
+                      } border border-transparent hover:shadow-md hover:translate-x-1`}
                       onClick={() => {
                         onChange(suggestion + ' ')
                       }}
                     >
+                      <span className={`mr-2 ${legendMode ? 'text-yellow-400' : 'text-green-400'}`}>›</span>
                       {suggestion}
                     </motion.div>
                   </HoverTransition>
                 ))}
+                </div>
                 
                 {/* Keyboard hints */}
                 <div className={`border-t ${
-                  legendMode ? 'border-yellow-400/20' : 'border-green-400/20'
-                } mt-2 pt-2 px-2`}>
-                  <div className="text-xs text-gray-400">
-                    <span className="mr-3">Tab: Complete</span>
-                    <span className="mr-3">↑↓: History</span>
-                    <span>Esc: Close</span>
+                  legendMode ? 'border-yellow-400/30' : 'border-green-400/30'
+                } mt-3 pt-3 px-2 sticky bottom-0 bg-gray-900/98 backdrop-blur-md`}>
+                  <div className="text-xs text-gray-400 flex gap-4">
+                    <span className="flex items-center gap-1">
+                      <kbd className="px-1.5 py-0.5 bg-gray-800 rounded text-[10px]">Tab</kbd> Complete
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <kbd className="px-1.5 py-0.5 bg-gray-800 rounded text-[10px]">↑↓</kbd> History
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <kbd className="px-1.5 py-0.5 bg-gray-800 rounded text-[10px]">Esc</kbd> Close
+                    </span>
                   </div>
                 </div>
               </div>

@@ -40,16 +40,37 @@ export function FullPageTerminal() {
 
   const inputRef = useRef<HTMLInputElement>(null)
   const terminalRef = useRef<HTMLDivElement>(null)
+  const suggestionsRef = useRef<HTMLDivElement>(null)
   const lineIdCounter = useRef(0)
 
-  // Simple scroll to bottom
+  // Scroll to bottom
   const scrollToBottom = useCallback(() => {
     if (terminalRef.current) {
-      setTimeout(() => {
-        terminalRef.current!.scrollTop = terminalRef.current!.scrollHeight
-      }, 0)
+      requestAnimationFrame(() => {
+        if (terminalRef.current) {
+          terminalRef.current.scrollTop = terminalRef.current.scrollHeight
+        }
+      })
     }
   }, [])
+
+  // Scroll to show suggestions properly
+  const scrollToShowSuggestions = useCallback(() => {
+    if (!terminalRef.current) return
+
+    requestAnimationFrame(() => {
+      if (terminalRef.current) {
+        terminalRef.current.scrollTop = terminalRef.current.scrollHeight
+      }
+    })
+  }, [])
+
+  // Auto-scroll when suggestions appear
+  useEffect(() => {
+    if (showSuggestions && suggestions.length > 0) {
+      scrollToShowSuggestions()
+    }
+  }, [showSuggestions, suggestions.length, scrollToShowSuggestions])
 
   // Context
   const [context, setContext] = useState<CommandContext>({
@@ -335,9 +356,15 @@ export function FullPageTerminal() {
                   legendMode={legendMode}
                 />
 
-                {/* Space for suggestions */}
-                {showSuggestions && (
-                  <div className="h-64" />
+                {/* Dynamic spacing for suggestions dropdown */}
+                {showSuggestions && suggestions.length > 0 && (
+                  <div 
+                    ref={suggestionsRef}
+                    style={{ 
+                      height: `${Math.min(suggestions.length * 42 + 120, 400)}px`,
+                      pointerEvents: 'none'
+                    }} 
+                  />
                 )}
               </div>
             )}

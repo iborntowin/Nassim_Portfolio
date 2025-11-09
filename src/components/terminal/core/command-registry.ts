@@ -2428,13 +2428,20 @@ export const COMMAND_REGISTRY: Record<string, Command> = {
 
 // Auto-completion suggestions
 export function getCommandSuggestions(input: string): string[] {
+  if (!input || input.trim() === '') {
+    return []
+  }
+
   const commands = Object.keys(COMMAND_REGISTRY)
   const aliases = Object.values(COMMAND_REGISTRY).flatMap(cmd => cmd.aliases || [])
   const allCommands = Array.from(new Set([...commands, ...aliases])) // Remove duplicates
   
-  return allCommands
+  const matches = allCommands
     .filter(cmd => cmd.toLowerCase().startsWith(input.toLowerCase()))
-    .slice(0, 10)
+    .sort((a, b) => a.length - b.length) // Sort by length (shorter first)
+  
+  // Return up to 15 matches
+  return matches.slice(0, 15)
 }
 
 // Command parser
