@@ -11,7 +11,8 @@ interface JourneyStep {
   id: string
   title: string
   description: string
-  image: string
+  image?: string
+  video?: string
   icon: React.ComponentType<any>
   color: string
   features: string[]
@@ -71,12 +72,22 @@ const journeySteps: JourneyStep[] = [
     icon: FileText,
     color: 'from-pink-500 to-rose-500',
     features: ['Contract creation', 'Terms definition', 'Digital signatures', 'Status tracking']
+  },
+  {
+    id: 'updates',
+    title: 'System Updates',
+    description: 'Automated system updates and maintenance',
+    video: '/videos/update.mp4',
+    icon: CheckCircle,
+    color: 'from-emerald-500 to-green-500',
+    features: ['Automatic updates', 'Version management', 'Data migration', 'System maintenance']
   }
 ]
 
 export default function CessionAppJourney() {
   const shouldReduceMotion = useReducedMotion()
   const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set())
+  const [playingVideos, setPlayingVideos] = useState<Set<number>>(new Set())
   const sectionRef = useRef(null)
   const isInView = useInView(sectionRef, { once: true, margin: "-50px" })
 
@@ -102,8 +113,7 @@ export default function CessionAppJourney() {
       opacity: 1,
       y: 0,
       transition: {
-        duration: shouldReduceMotion ? 0.2 : 0.6,
-        ease: "easeOut"
+        duration: shouldReduceMotion ? 0.2 : 0.6
       }
     }
   }), [shouldReduceMotion])
@@ -114,8 +124,7 @@ export default function CessionAppJourney() {
       opacity: 1,
       scale: 1,
       transition: {
-        duration: shouldReduceMotion ? 0.2 : 0.5,
-        ease: "easeOut"
+        duration: shouldReduceMotion ? 0.2 : 0.5
       }
     }
   }), [shouldReduceMotion])
@@ -242,27 +251,70 @@ export default function CessionAppJourney() {
                   {/* Decorative Background */}
                   <div className={`absolute -inset-4 bg-gradient-to-r ${step.color} rounded-2xl opacity-20 group-hover:opacity-30 transition-opacity duration-500 blur-xl`}></div>
                   
-                  {/* Main Image Container */}
+                  {/* Main Media Container */}
                   <div className="relative bg-white rounded-2xl shadow-2xl overflow-hidden group-hover:shadow-3xl transition-all duration-500 transform group-hover:scale-[1.02]">
                     {/* Loading skeleton */}
                     {!loadedImages.has(index) && (
                       <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 animate-pulse rounded-2xl" />
                     )}
                     
-                    {/* Optimized image */}
+                    {/* Optimized media */}
                     <div className={`transition-opacity duration-500 ${loadedImages.has(index) ? 'opacity-100' : 'opacity-0'}`}>
-                      <Image
-                        src={step.image}
-                        alt={step.title}
-                        width={800}
-                        height={600}
-                        className="w-full h-auto object-cover"
-                        priority={index < 2}
-                        loading={index < 2 ? "eager" : "lazy"}
-                        onLoad={() => handleImageLoad(index)}
-                        placeholder="blur"
-                        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
-                      />
+                      {step.video ? (
+                        <motion.div
+                          ref={(el) => {
+                            if (el) {
+                              const observer = new IntersectionObserver(
+                                (entries) => {
+                                  entries.forEach((entry) => {
+                                    if (entry.isIntersecting) {
+                                      const video = el.querySelector('video') as HTMLVideoElement;
+                                      if (video && !playingVideos.has(index)) {
+                                        video.play().catch(() => {
+                                          // Autoplay failed, user interaction required
+                                        });
+                                        setPlayingVideos(prev => new Set(prev).add(index));
+                                      }
+                                    }
+                                  });
+                                },
+                                { threshold: 0.5, rootMargin: '0px 0px -100px 0px' }
+                              );
+                              observer.observe(el);
+                            }
+                          }}
+                          className="relative"
+                        >
+                          <video
+                            src={step.video}
+                            className="w-full h-auto object-cover"
+                            muted
+                            loop
+                            playsInline
+                            onLoadedData={() => handleImageLoad(index)}
+                            poster={`data:image/svg+xml;base64,${btoa(`
+                              <svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="100%" height="100%" fill="#1a1a1a"/>
+                                <circle cx="400" cy="300" r="50" fill="#00ff88" opacity="0.3"/>
+                                <text x="400" y="320" text-anchor="middle" fill="#00ff88" font-family="Arial" font-size="16">Loading...</text>
+                              </svg>
+                            `)}`}
+                          />
+                        </motion.div>
+                      ) : step.image ? (
+                        <Image
+                          src={step.image}
+                          alt={step.title}
+                          width={800}
+                          height={600}
+                          className="w-full h-auto object-cover"
+                          priority={index < 2}
+                          loading={index < 2 ? "eager" : "lazy"}
+                          onLoad={() => handleImageLoad(index)}
+                          placeholder="blur"
+                          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+                        />
+                      ) : null}
                     </div>
                     
                     {/* Overlay on Hover */}
@@ -314,9 +366,9 @@ export default function CessionAppJourney() {
             <span className="font-semibold text-lg">Complete Workflow Achieved!</span>
           </div>
           <p className="text-[var(--color-text-secondary)] mt-4 max-w-2xl mx-auto">
-            From user registration to contract management, every step is optimized for efficiency, 
+            From user registration to system updates, every step is optimized for efficiency, 
             security, and user experience. The platform handles complex business logic while 
-            maintaining an intuitive interface.
+            maintaining an intuitive interface and seamless maintenance processes.
           </p>
         </motion.div>
       </div>
