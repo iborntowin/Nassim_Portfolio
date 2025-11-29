@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { ArrowRight, UserPlus, LogIn, LayoutDashboard, Users, UserCheck, FileText, CheckCircle } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { AnimatedBackground } from '@/components/ui/animated-background'
-import { useState, useCallback, useRef, useMemo } from 'react'
+import { useState, useCallback, useRef, useMemo, useEffect } from 'react'
 
 interface JourneyStep {
   id: string

@@ -11,6 +11,8 @@ import { DetailedProject } from '@/lib/projects-data'
 import { ProjectStructuredData } from '@/components/seo/structured-data'
 import CessionAppJourney from '@/components/projects/cession-app-journey'
 import CessionAdvancedFeatures from '@/components/projects/cession-advanced-features'
+import CessionPremiumShowcase from '@/components/projects/cession-premium-showcase'
+import CessionKeyboardShortcuts from '@/components/projects/cession-keyboard-shortcuts'
 
 interface CessionAppDetailPageProps {
   project: DetailedProject
@@ -161,7 +163,7 @@ export default function CessionAppDetailPage({ project }: CessionAppDetailPagePr
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                   <Image
                     src="/images/projects/1/dashboard.png"
-                    alt="Cession App Dashboard"
+                    alt="Cession App Dashboard Overview"
                     width={600}
                     height={400}
                     className="w-full h-auto object-cover"
@@ -220,6 +222,9 @@ export default function CessionAppDetailPage({ project }: CessionAppDetailPagePr
 
         {/* User Journey Pipeline */}
         <CessionAppJourney />
+
+        {/* Premium Module Showcase */}
+        <CessionPremiumShowcase />
 
         {/* Advanced Features */}
         <CessionAdvancedFeatures />
@@ -435,6 +440,9 @@ export default function CessionAppDetailPage({ project }: CessionAppDetailPagePr
           </div>
         </section>
       </div>
+
+      {/* Keyboard Shortcuts */}
+      <CessionKeyboardShortcuts />
     </>
   )
 }

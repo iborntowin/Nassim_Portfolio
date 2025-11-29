@@ -102,26 +102,71 @@ export function FullPageTerminal() {
 
   // Boot sequence
   useEffect(() => {
+    // Prevent double execution in strict mode
+    let isCancelled = false
+
     const bootSequence = async () => {
+      if (isCancelled) return
+
       const bootMessages = [
-        'Initializing Nassim\'s Cloud Engineer Console...',
-        'Loading kernel modules... OK',
-        'Starting network services... OK',
-        'Mounting cloud filesystems... OK',
-        'Initializing AI subsystems... OK',
-        'Loading DevOps automation tools... OK',
-        'Connecting to Kubernetes clusters... OK',
-        'Establishing secure connections... OK',
-        'System ready. Welcome, Cloud Engineer!'
+        { text: '█░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 2%', delay: 100 },
+        { text: '████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 8%', delay: 80 },
+        { text: '████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 16%', delay: 80 },
+        { text: '███████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 22%', delay: 100 },
+        { text: '██████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 28%', delay: 80 },
+        { text: '███████████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 38%', delay: 100 },
+        { text: '████████████████████████░░░░░░░░░░░░░░░░░░░░░░░░░░ 48%', delay: 80 },
+        { text: '█████████████████████████████░░░░░░░░░░░░░░░░░░░░░ 58%', delay: 100 },
+        { text: '██████████████████████████████████░░░░░░░░░░░░░░░░ 68%', delay: 80 },
+        { text: '███████████████████████████████████████░░░░░░░░░░░ 78%', delay: 100 },
+        { text: '████████████████████████████████████████████░░░░░░ 88%', delay: 80 },
+        { text: '████████████████████████████████████████████████░░ 96%', delay: 100 },
+        { text: '██████████████████████████████████████████████████ 100%', delay: 150 },
       ]
 
-      for (let i = 0; i < bootMessages.length; i++) {
-        await new Promise(resolve => setTimeout(resolve, 200))
-        addLine(bootMessages[i], i === bootMessages.length - 1 ? 'success' : 'info')
+      // Progress bar animation
+      for (const msg of bootMessages) {
+        if (isCancelled) return
+        await new Promise(resolve => setTimeout(resolve, msg.delay))
+        setLines(prev => {
+          const filtered = prev.filter(l => !l.content.includes('█') || !l.content.includes('%'))
+          return [...filtered, {
+            id: `boot-progress-${Date.now()}`,
+            type: 'info',
+            content: msg.text,
+            timestamp: Date.now()
+          }]
+        })
       }
 
+      if (isCancelled) return
       await new Promise(resolve => setTimeout(resolve, 300))
+
+      // Clear progress bar and show boot messages
+      setLines([])
+
+      const systemMessages = [
+        { text: '[  OK  ] Started Cloud Engineer Console', type: 'success' as const },
+        { text: '[  OK  ] Loaded kernel modules', type: 'success' as const },
+        { text: '[  OK  ] Network services initialized', type: 'success' as const },
+        { text: '[  OK  ] Connected to Kubernetes clusters', type: 'success' as const },
+        { text: '[  OK  ] AI subsystems online', type: 'success' as const },
+        { text: '[  OK  ] DevOps automation tools ready', type: 'success' as const },
+      ]
+
+      for (const msg of systemMessages) {
+        if (isCancelled) return
+        await new Promise(resolve => setTimeout(resolve, 150))
+        addLine(msg.text, msg.type)
+      }
+
+      if (isCancelled) return
+      await new Promise(resolve => setTimeout(resolve, 400))
+      
+      // Add the ASCII banner
       addLine(ASCII_BANNERS.welcome, 'system')
+      
+      await new Promise(resolve => setTimeout(resolve, 200))
       addLine('', 'output')
       addLine('🚀 Welcome to the Cloud Engineer Command Console!', 'success')
       addLine('💡 Type "help" to see available commands', 'info')
@@ -137,7 +182,11 @@ export function FullPageTerminal() {
     }
 
     bootSequence()
-  }, [addLine])
+
+    return () => {
+      isCancelled = true
+    }
+  }, []) // Empty dependency array - run only once
 
   // Execute command
   const executeTerminalCommand = useCallback(async (command: string) => {
