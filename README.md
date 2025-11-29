@@ -1,4 +1,4 @@
-# Nassim Maaoui - Professional Portfolio
+# Nassim Maaouia - Professional Portfolio
 
 [![Next.js](https://img.shields.io/badge/Next.js-15.3.5-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
@@ -10,7 +10,7 @@
 
 ## 🚀 Live Demo & Performance
 
-**🌐 [View Live Portfolio](https://nassimmaaoui.dev)** | **📱 [Mobile Demo](https://nassimmaaoui.dev)** | **🎯 [Project Showcase](https://nassimmaaoui.dev/#technical-portfolio)**
+**🌐 [View Live Portfolio](https://nassimmaaouia.dev)** | **📱 [Mobile Demo](https://nassimmaaouia.dev)** | **🎯 [Project Showcase](https://nassimmaaouia.dev/#technical-portfolio)**
 
 ### Performance Metrics
 - ⚡ **99.9% Uptime** - Enterprise-grade reliability
@@ -233,8 +233,8 @@ npm run seo-check    # SEO validation
 ### **Environment Configuration**
 ```bash
 # Create .env.local file
-NEXT_PUBLIC_SITE_URL=https://nassimmaaoui.dev
-NEXT_PUBLIC_GITHUB_USERNAME=nassimmaaoui
+NEXT_PUBLIC_SITE_URL=https://nassimmaaouia.dev
+NEXT_PUBLIC_GITHUB_USERNAME=iborntowin
 ```
 
 ## 📚 Project Portfolio
@@ -358,9 +358,9 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 ## 📧 Contact & Support
 
 ### **Professional Contact**
-- **Portfolio**: [nassimmaaoui.dev](https://nassimmaaoui.dev)
+- **Portfolio**: [nassimmaaouia.dev](https://nassimmaaouia.dev)
 - **GitHub**: [@iborntowin](https://github.com/iborntowin)
-- **Email**: [contact@nassimmaaoui.dev](mailto:contact@nassimmaaoui.dev)
+- **Email**: [contact@nassimmaaouia.dev](mailto:contact@nassimmaaouia.dev)
 
 ### **Technical Expertise**
 - **Full-Stack Development**: React, Next.js, Spring Boot, Node.js
@@ -378,11 +378,11 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 <div align="center">
 
-**Built with ❤️ by [Nassim Maaoui](https://nassimmaaoui.dev)**
+**Built with ❤️ by [Nassim Maaouia](https://nassimmaaouia.dev)**
 
 *Transforming ideas into scalable, high-performance digital solutions*
 
 [![GitHub followers](https://img.shields.io/github/followers/iborntowin?style=social)](https://github.com/iborntowin)
-[![Portfolio](https://img.shields.io/badge/Portfolio-nassimmaaoui.dev-blue?style=social&logo=vercel)](https://nassimmaaoui.dev)
+[![Portfolio](https://img.shields.io/badge/Portfolio-nassimmaaouia.dev-blue?style=social&logo=vercel)](https://nassimmaaouia.dev)
 
 </div>

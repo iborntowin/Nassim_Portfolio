@@ -221,6 +221,18 @@ export function FullPageTerminal() {
         return
       }
 
+      if (result.data?.action === 'navigate' && result.data?.url) {
+        result.output.forEach((line) => {
+          addLine(line, result.type, result.animation)
+        })
+        setIsProcessing(false)
+        // Navigate to the URL after a brief delay to show the message
+        setTimeout(() => {
+          window.location.href = result.data.url
+        }, 800)
+        return
+      }
+
       if (result.animation === 'matrix' || command.includes('matrix')) {
         setShowMatrix(true)
         setTimeout(() => setShowMatrix(false), 3000)

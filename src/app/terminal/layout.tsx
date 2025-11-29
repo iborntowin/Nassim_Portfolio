@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import { PersonStructuredData } from '@/components/seo/structured-data'
 
 export const metadata: Metadata = {
-  title: 'Terminal Interface - Nassim Maaoui | Cloud Engineer Console',
+  title: 'Terminal Interface - Nassim Maaouia | Cloud Engineer Console',
   description: 'Interactive terminal interface showcasing cloud-native engineering, DevOps automation, and AI-powered systems. Experience the portfolio through a living command-line interface.',
   keywords: [
     'terminal interface',
@@ -14,13 +14,13 @@ export const metadata: Metadata = {
     'kubernetes',
     'terraform',
     'ansible',
-    'nassim maaoui'
+    'nassim maaouia'
   ].join(', '),
   openGraph: {
-    title: 'Terminal Interface - Nassim Maaoui',
+    title: 'Terminal Interface - Nassim Maaouia',
     description: 'Interactive terminal interface for cloud-native engineering portfolio',
     type: 'website',
-    url: 'https://nassimmaaoui.dev/terminal',
+    url: 'https://nassimmaaouia.dev/terminal',
     images: [
       {
         url: '/images/terminal-og.jpg',
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Terminal Interface - Nassim Maaoui',
+    title: 'Terminal Interface - Nassim Maaouia',
     description: 'Interactive terminal interface for cloud-native engineering portfolio',
     images: ['/images/terminal-og.jpg'],
   },

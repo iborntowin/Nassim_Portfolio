@@ -8,14 +8,14 @@ export function PersonStructuredData({ className }: PersonStructuredDataProps) {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Person",
-    "name": "Nassim Maaoui",
+    "name": "Nassim Maaouia",
     "jobTitle": "Full-Stack Developer & AI Engineer",
     "description": "Experienced Full-Stack Developer and AI Engineer specializing in modern web technologies, machine learning, embedded systems, and productivity tools.",
-    "url": "https://nassimmaaoui.dev",
+    "url": "https://nassimmaaouia.dev",
     "sameAs": [
-      "https://github.com/nassimmaaoui",
-      "https://linkedin.com/in/nassimmaaoui",
-      "https://twitter.com/nassimmaaoui"
+      "https://github.com/iborntowin",
+      "https://linkedin.com/in/nassimmaaouia",
+      "https://twitter.com/nassimmaaouia"
     ],
     "knowsAbout": [
       "Full-Stack Development",
@@ -74,11 +74,11 @@ export function ProjectStructuredData({ project, className }: ProjectStructuredD
     "@type": "SoftwareApplication",
     "name": project.name,
     "description": project.description,
-    "url": `https://nassimmaaoui.dev/projects/${project.id}`,
+    "url": `https://nassimmaaouia.dev/projects/${project.id}`,
     "author": {
       "@type": "Person",
-      "name": "Nassim Maaoui",
-      "url": "https://nassimmaaoui.dev"
+      "name": "Nassim Maaouia",
+      "url": "https://nassimmaaouia.dev"
     },
     "programmingLanguage": project.techStack.map(tech => tech.name),
     "applicationCategory": project.category,
@@ -86,13 +86,13 @@ export function ProjectStructuredData({ project, className }: ProjectStructuredD
     "codeRepository": project.githubUrl,
     "screenshot": project.images.map(img => ({
       "@type": "ImageObject",
-      "url": `https://nassimmaaoui.dev${img.src}`,
+      "url": `https://nassimmaaouia.dev${img.src}`,
       "caption": img.caption || img.alt
     })),
     "dateCreated": "2024",
     "creator": {
       "@type": "Person",
-      "name": "Nassim Maaoui"
+      "name": "Nassim Maaouia"
     },
     "keywords": [
       project.name,
@@ -100,7 +100,7 @@ export function ProjectStructuredData({ project, className }: ProjectStructuredD
       project.category,
       "Software Development",
       "Programming",
-      "Nassim Maaoui"
+      "Nassim Maaouia"
     ].join(", ")
   }
 
@@ -121,18 +121,18 @@ export function WebsiteStructuredData({ className }: { className?: string }) {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "Nassim Maaoui Portfolio",
-    "description": "Portfolio website of Nassim Maaoui, Full-Stack Developer and AI Engineer",
-    "url": "https://nassimmaaoui.dev",
+    "name": "Nassim Maaouia Portfolio",
+    "description": "Portfolio website of Nassim Maaouia, Full-Stack Developer and AI Engineer",
+    "url": "https://nassimmaaouia.dev",
     "author": {
       "@type": "Person",
-      "name": "Nassim Maaoui"
+      "name": "Nassim Maaouia"
     },
     "potentialAction": {
       "@type": "SearchAction",
       "target": {
         "@type": "EntryPoint",
-        "urlTemplate": "https://nassimmaaoui.dev/projects?search={search_term_string}"
+        "urlTemplate": "https://nassimmaaouia.dev/projects?search={search_term_string}"
       },
       "query-input": "required name=search_term_string"
     }

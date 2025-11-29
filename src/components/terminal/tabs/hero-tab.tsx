@@ -24,7 +24,7 @@ import { Metadata } from 'next'
 import { Suspense } from 'react'
 
 export const metadata: Metadata = {
-  title: 'Nassim Maaoui - Portfolio',
+  title: 'Nassim Maaouia - Portfolio',
   description: 'Full-Stack Developer & AI Engineer'
 }
 

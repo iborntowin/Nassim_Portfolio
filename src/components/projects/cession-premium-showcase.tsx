@@ -50,8 +50,7 @@ const modules: Module[] = [
     gradient: 'bg-gradient-to-br from-blue-500/10 to-cyan-500/10',
     images: [
       { src: '/images/projects/1/signup.png', label: 'User Registration' },
-      { src: '/images/projects/1/login.png', label: 'Secure Login' },
-      { src: '/images/projects/1/auth.jpg', label: 'Authentication Flow' }
+      { src: '/images/projects/1/login.png', label: 'Secure Login' }
     ],
     features: [
       { icon: Lock, title: 'JWT Authentication', description: 'Secure token-based authentication system' },
@@ -73,8 +72,7 @@ const modules: Module[] = [
     images: [
       { src: '/images/projects/1/clients.png', label: 'Client Directory' },
       { src: '/images/projects/1/create_new_client.png', label: 'Create New Client' },
-      { src: '/images/projects/1/clients-analytics.png', label: 'Client Performance Analytics' },
-      { src: '/images/projects/1/clients-analytics2.png', label: 'Client Engagement Insights' }
+      { src: '/images/projects/1/clients-analytics.png', label: 'Client Performance Analytics' }
     ],
     features: [
       { icon: Users, title: 'Client Directory', description: 'Centralized client information hub' },
@@ -122,8 +120,7 @@ const modules: Module[] = [
     gradient: 'bg-gradient-to-br from-pink-500/10 to-rose-500/10',
     images: [
       { src: '/images/projects/1/cession.png', label: 'Contract Creation Interface' },
-      { src: '/images/projects/1/Détails_Cession.png', label: 'Detailed Contract View' },
-      { src: '/images/projects/1/contracts.jpg', label: 'Contract Management Overview' }
+      { src: '/images/projects/1/Détails_Cession.png', label: 'Detailed Contract View' }
     ],
     features: [
       { icon: FileText, title: 'Digital Contracts', description: 'Paperless contract management' },
@@ -144,9 +141,7 @@ const modules: Module[] = [
     gradient: 'bg-gradient-to-br from-teal-500/10 to-cyan-500/10',
     images: [
       { src: '/images/projects/1/Mobile Data Export & Sync.png', label: 'Mobile Data Synchronization' },
-      { src: '/images/projects/1/mobile.jpg', label: 'Mobile App Interface' },
-      { src: '/images/projects/1/update.png', label: 'System Update Process' },
-      { src: '/images/projects/1/update2.png', label: 'Automated Maintenance' }
+      { src: '/images/projects/1/update.png', label: 'System Update Process' }
     ],
     features: [
       { icon: Smartphone, title: 'Mobile Optimized', description: 'Native-like mobile experience' },
@@ -166,7 +161,6 @@ const modules: Module[] = [
     color: 'from-indigo-500 to-purple-500',
     gradient: 'bg-gradient-to-br from-indigo-500/10 to-purple-500/10',
     images: [
-      { src: '/images/projects/1/Settings.png', label: 'System Configuration Panel' },
       { src: '/images/projects/1/language.png', label: 'Multi-Language Settings' }
     ],
     features: [
@@ -381,7 +375,7 @@ export default function CessionPremiumShowcase() {
                         )}
 
                         {/* Image or Video */}
-                        {(module.id === 'mobile-updates' && (image.src.includes('update.png') || image.src.includes('update2.png'))) ? (
+                        {(module.id === 'mobile-updates' && image.src.includes('update.png')) ? (
                           <VideoPlayer
                             src="/videos/update.mp4"
                             poster={image.src}

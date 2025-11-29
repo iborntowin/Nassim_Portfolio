@@ -3,7 +3,7 @@ import { EnhancedTerminal } from '@/components/terminal/enhanced/enhanced-termin
 import { PersonStructuredData } from '@/components/seo/structured-data'
 
 export const metadata: Metadata = {
-  title: 'Enhanced Terminal - Nassim Maaoui | Advanced Cloud Engineer Console',
+  title: 'Enhanced Terminal - Nassim Maaouia | Advanced Cloud Engineer Console',
   description: 'Experience the ultimate interactive terminal interface showcasing advanced cloud-native engineering, DevOps automation, and AI-powered systems. The most immersive command-line portfolio experience.',
   keywords: [
     'enhanced terminal interface',
@@ -14,14 +14,14 @@ export const metadata: Metadata = {
     'terraform console',
     'ansible terminal',
     'ai powered terminal',
-    'nassim maaoui enhanced',
+    'nassim maaouia enhanced',
     'cloud engineer portfolio'
   ].join(', '),
   openGraph: {
-    title: 'Enhanced Terminal Interface - Nassim Maaoui',
+    title: 'Enhanced Terminal Interface - Nassim Maaouia',
     description: 'The ultimate interactive terminal interface for cloud-native engineering portfolio',
     type: 'website',
-    url: 'https://nassimmaaoui.dev/enhanced-terminal',
+    url: 'https://nassimmaaouia.dev/enhanced-terminal',
     images: [
       {
         url: '/images/enhanced-terminal-og.jpg',
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Enhanced Terminal Interface - Nassim Maaoui',
+    title: 'Enhanced Terminal Interface - Nassim Maaouia',
     description: 'The ultimate interactive terminal interface for cloud-native engineering portfolio',
     images: ['/images/enhanced-terminal-og.jpg'],
   },

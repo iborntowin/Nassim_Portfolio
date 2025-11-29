@@ -174,7 +174,7 @@ const projectsData: DetailedProject[] = [
       { name: 'JWT Auth', color: 'text-purple-400 bg-purple-400/10' }
     ],
     stats: { stars: 194, forks: 42, commits: 87 },
-    githubUrl: 'https://github.com/nassimmaaoui/cession-app',
+    githubUrl: 'https://github.com/iborntowin/cession-app',
     featured: true,
     images: [
       { src: '/images/projects/1/dashboard.png', alt: 'Cession App Dashboard', caption: 'Main dashboard with session overview' },
@@ -291,7 +291,7 @@ const projectsData: DetailedProject[] = [
       { name: 'TensorRT', color: 'text-green-500 bg-green-500/10' }
     ],
     stats: { stars: 271, forks: 64, commits: 142 },
-    githubUrl: 'https://github.com/nassimmaaoui/board-ai',
+    githubUrl: 'https://github.com/iborntowin/board-ai',
     featured: true,
     images: [
       { src: '/images/projects/2/hero.jpg', alt: 'Board-AI Detection Interface', caption: 'Real-time component detection in action' },
@@ -402,7 +402,7 @@ const projectsData: DetailedProject[] = [
       { name: 'Signal Analysis', color: 'text-pink-400 bg-pink-400/10' }
     ],
     stats: { stars: 198, forks: 49, commits: 91 },
-    githubUrl: 'https://github.com/nassimmaaoui/neurovigil',
+    githubUrl: 'https://github.com/iborntowin/neurovigil',
     images: [
       { src: '/images/projects/3/hero.jpg', alt: 'NeuroVigil System', caption: 'EEG-based fatigue detection system' }
     ],
@@ -446,7 +446,7 @@ const projectsData: DetailedProject[] = [
       { name: 'Low-Power Protocols', color: 'text-cyan-400 bg-cyan-400/10' }
     ],
     stats: { stars: 305, forks: 77, commits: 198 },
-    githubUrl: 'https://github.com/nassimmaaoui/nanosatellite-comm',
+    githubUrl: 'https://github.com/iborntowin/nanosatellite-comm',
     featured: true,
     images: [
       { src: '/images/projects/4/hero.jpg', alt: 'Nanosatellite Communication', caption: 'LoRaWAN communication module' }
@@ -492,7 +492,7 @@ const projectsData: DetailedProject[] = [
       { name: 'PDF/Email Integration', color: 'text-blue-400 bg-blue-400/10' }
     ],
     stats: { stars: 221, forks: 41, commits: 116 },
-    githubUrl: 'https://github.com/nassimmaaoui/goldentouch',
+    githubUrl: 'https://github.com/iborntowin/goldentouch',
     featured: true,
     images: [
       { src: '/images/projects/5/hero.jpg', alt: 'GoldenTouch Platform', caption: 'AI-powered event management dashboard' }

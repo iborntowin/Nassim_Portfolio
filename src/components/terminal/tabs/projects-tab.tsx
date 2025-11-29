@@ -42,7 +42,7 @@ const projects: Project[] = [
     forks: 42,
     commits: 87,
     language: 'Java/Svelte',
-    demo: 'https://cession-demo.nassimmaaoui.dev'
+    demo: 'https://cession-demo.nassimmaaouia.dev'
   },
   {
     id: 'board-ai',
@@ -294,7 +294,7 @@ export function ProjectsTab({ isActive }: TerminalTabProps) {
                   )}
                   
                   <a
-                    href={`https://github.com/nassimmaaoui/${selectedProject.id}`}
+                    href={`https://github.com/iborntowin/${selectedProject.id}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-1 px-3 py-1 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded transition-colors"
@@ -375,7 +375,7 @@ export function ProjectsTab({ isActive }: TerminalTabProps) {
                         <div className="flex justify-between">
                           <span className="text-gray-400">Repository:</span>
                           <a 
-                            href={`https://github.com/nassimmaaoui/${selectedProject.id}`}
+                            href={`https://github.com/iborntowin/${selectedProject.id}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-blue-400 hover:text-blue-300 flex items-center gap-1"

@@ -173,7 +173,7 @@ export function InteractiveTerminal({ projects }: { projects: Project[] }) {
         {
           id: generateWelcomeId(8),
           type: 'output', 
-          content: 'Try: git clone https://github.com/nassimmaaoui/cession-app.git',
+          content: 'Try: git clone https://github.com/iborntowin/cession-app.git',
           timestamp: Date.now()
         }
       ]
@@ -202,7 +202,7 @@ export function InteractiveTerminal({ projects }: { projects: Project[] }) {
 
   const getAvailableCommands = () => {
     const baseCommands = ['help', 'clear', 'tutorial', 'pwd', 'whoami', 'date', 'history']
-    const gitCommands = validRepos.map(repo => `git clone https://github.com/nassimmaaoui/${repo}.git`)
+    const gitCommands = validRepos.map(repo => `git clone https://github.com/iborntowin/${repo}.git`)
     
     if (clonedRepo && !isInRepo) {
       return [...baseCommands, ...gitCommands, `cd ${clonedRepo}`]
@@ -278,7 +278,7 @@ export function InteractiveTerminal({ projects }: { projects: Project[] }) {
   }
 
   const simulateCloning = async (repoName: string) => {
-    addLine(`git clone https://github.com/nassimmaaoui/${repoName}.git`, 'command')
+    addLine(`git clone https://github.com/iborntowin/${repoName}.git`, 'command')
     
     // Simulate cloning process
     await new Promise(resolve => setTimeout(resolve, 500))
@@ -337,7 +337,7 @@ export function InteractiveTerminal({ projects }: { projects: Project[] }) {
       addLine('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'output')
       addLine('', 'output')
       addLine('📁 Navigation Commands:', 'output')
-      addLine('  git clone https://github.com/nassimmaaoui/[repo].git - Clone repository', 'output')
+      addLine('  git clone https://github.com/iborntowin/[repo].git - Clone repository', 'output')
       addLine('  cd [directory]  - Change directory', 'output')
       addLine('  cd ..           - Go back to parent directory', 'output')
       addLine('  ls              - List files and folders', 'output')
@@ -369,7 +369,7 @@ export function InteractiveTerminal({ projects }: { projects: Project[] }) {
         addLine(`  ${repo}`, 'output')
       })
       addLine('', 'output')
-      addLine('💡 Try: git clone https://github.com/nassimmaaoui/cession-app.git', 'success')
+      addLine('💡 Try: git clone https://github.com/iborntowin/cession-app.git', 'success')
       return
     }
 
@@ -433,7 +433,7 @@ export function InteractiveTerminal({ projects }: { projects: Project[] }) {
       addLine('', 'output')
       addLine('🎯 Try This Exercise:', 'success')
       addLine('  1. Type "git c" + Tab (should complete to "git clone")', 'output')
-      addLine('  2. Add "https://github.com/nassimmaaoui/c" + Tab', 'output')
+      addLine('  2. Add "https://github.com/iborntowin/c" + Tab', 'output')
       addLine('  3. Select "cession-app" from suggestions', 'output')
       addLine('  4. Press Enter to clone the repository', 'output')
       addLine('  5. Type "cd c" + Tab to enter the directory', 'output')
@@ -450,7 +450,7 @@ export function InteractiveTerminal({ projects }: { projects: Project[] }) {
     }
 
     if (trimmedCommand.startsWith('git clone')) {
-      const match = trimmedCommand.match(/git clone https:\/\/github\.com\/nassimmaaoui\/(.+)\.git/)
+      const match = trimmedCommand.match(/git clone https:\/\/github\.com\/iborntowin\/(.+)\.git/)
       if (match) {
         const repoName = match[1]
         if (validRepos.includes(repoName)) {

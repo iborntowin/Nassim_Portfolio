@@ -161,12 +161,12 @@ export const SKILLS_DATA = {
 
 // About/Contact data
 export const ABOUT_DATA = {
-  name: 'Nassim Maaoui',
+  name: 'Nassim Maaouia',
   title: 'Cloud Engineer & DevOps Architect',
   location: 'Tunisia',
-  email: 'nassim.maaoui@example.com',
-  github: 'https://github.com/nassimmaaoui',
-  linkedin: 'https://linkedin.com/in/nassimmaaoui',
+  email: 'nassim.maaouia@example.com',
+  github: 'https://github.com/iborntowin',
+  linkedin: 'https://linkedin.com/in/nassimmaaouia',
   bio: 'Passionate cloud engineer specializing in building scalable, cloud-native systems. Expert in DevOps automation, AI/ML integration, and modern web technologies.',
   experience: '5+ years',
   specializations: [
@@ -275,7 +275,7 @@ export const COMMAND_REGISTRY: Record<string, Command> = {
       output: [
         `${context.user}@${context.host}`,
         '',
-        '👨‍💻 Nassim Maaoui - Cloud Engineer & DevOps Architect',
+        '👨‍💻 Nassim Maaouia - Cloud Engineer & DevOps Architect',
         '🌍 Location: Tunisia',
         '🚀 Specialization: Cloud-Native Systems, AI/ML, Automation',
         '⚡ Current Status: Building the future, one deployment at a time',
@@ -447,10 +447,68 @@ export const COMMAND_REGISTRY: Record<string, Command> = {
           '',
           '💡 Commands:',
           `   • deploy ${project.id}     - Simulate deployment`,
+          `   • open ${project.id}       - Open project page in browser`,
           `   • projects --category ${project.category} - View similar projects`,
           ''
         ],
         type: 'info'
+      }
+    }
+  },
+
+  open: {
+    name: 'open',
+    aliases: ['goto', 'navigate'],
+    description: 'Open project page in browser',
+    usage: 'open <project-id>',
+    category: 'navigation',
+    handler: (args) => {
+      if (args.length === 0) {
+        const projects = getAllProjects()
+        return {
+          success: false,
+          output: [
+            'Error: Please specify a project ID',
+            'Usage: open <project-id>',
+            '',
+            'Available projects:',
+            ...projects.map(p => `  • ${p.id} - ${p.name}`)
+          ],
+          type: 'error'
+        }
+      }
+
+      const projectId = args[0]
+      const project = getProjectById(projectId)
+
+      if (!project) {
+        const projects = getAllProjects()
+        return {
+          success: false,
+          output: [
+            `Project "${projectId}" not found.`,
+            '',
+            'Available projects:',
+            ...projects.map(p => `  • ${p.id} - ${p.name}`)
+          ],
+          type: 'error'
+        }
+      }
+
+      // Return special action to open project page
+      return {
+        success: true,
+        output: [
+          `🚀 Opening ${project.name}...`,
+          `📂 Navigating to /projects/${project.id}`,
+          '',
+          '💡 Use browser back button or type "terminal" to return'
+        ],
+        type: 'success',
+        data: {
+          action: 'navigate',
+          url: `/projects/${project.id}`
+        }
       }
     }
   },
@@ -1853,19 +1911,19 @@ export const COMMAND_REGISTRY: Record<string, Command> = {
           success: true,
           output: [
             'commit a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0 (HEAD -> main, origin/main)',
-            'Author: Nassim Maaoui <nassim@example.com>',
+            'Author: Nassim Maaouia <nassim@example.com>',
             'Date:   Mon Jan 15 10:30:45 2024 +0100',
             '',
             '    feat: enhance terminal with advanced cloud commands',
             '',
             'commit b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0a1',
-            'Author: Nassim Maaoui <nassim@example.com>',
+            'Author: Nassim Maaouia <nassim@example.com>',
             'Date:   Sun Jan 14 14:22:33 2024 +0100',
             '',
             '    fix: improve kubernetes integration and monitoring',
             '',
             'commit c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0a1b2',
-            'Author: Nassim Maaoui <nassim@example.com>',
+            'Author: Nassim Maaouia <nassim@example.com>',
             'Date:   Sat Jan 13 09:15:21 2024 +0100',
             '',
             '    feat: add AI-powered deployment automation'
@@ -2146,16 +2204,16 @@ export const COMMAND_REGISTRY: Record<string, Command> = {
           output: [
             '',
             '╔═══════════════════════════════════════════════════════════════════════════════╗',
-            '║                           NASSIM MAAOUI - RESUME                             ║',
+            '║                           NASSIM MAAOUIA - RESUME                            ║',
             '║                     Cloud Engineer & DevOps Architect                        ║',
             '╚═══════════════════════════════════════════════════════════════════════════════╝',
             '',
             '👨‍💻 PERSONAL INFORMATION',
-            '   Name: Nassim Maaoui',
+            '   Name: Nassim Maaouia',
             '   Location: Tunisia',
             '   Email: nassim@example.com',
-            '   LinkedIn: linkedin.com/in/nassimmaaoui',
-            '   GitHub: github.com/nassimmaaoui',
+            '   LinkedIn: linkedin.com/in/nassimmaaouia',
+            '   GitHub: github.com/iborntowin',
             '',
             '🎯 PROFESSIONAL SUMMARY',
             '   Experienced Cloud Engineer specializing in scalable architectures,',
