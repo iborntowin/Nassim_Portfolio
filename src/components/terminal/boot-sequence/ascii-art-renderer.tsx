@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
-// ASCII art for "Nassim Maaouia"
+// ASCII art for "Nassim Maaoui"
 const ASCII_ART_NAME = `
 ███╗   ██╗ █████╗ ███████╗███████╗██╗███╗   ███╗
 ████╗  ██║██╔══██╗██╔════╝██╔════╝██║████╗ ████║
@@ -94,7 +94,7 @@ export const ASCIIArtRenderer: React.FC<ASCIIArtRendererProps> = ({
     return (
       <div className={`w-full h-64 ${className} flex items-center justify-center`}>
         <div className="text-green-400 font-mono text-2xl font-bold animate-pulse drop-shadow-[0_0_20px_rgba(34,197,94,1)]">
-          NASSIM MAAOUIA
+          NASSIM MAAOUI
         </div>
       </div>
     );

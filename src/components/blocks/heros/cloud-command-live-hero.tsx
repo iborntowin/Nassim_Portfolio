@@ -46,7 +46,7 @@ function StaticHero() {
               <div className="relative">
                 <h1 className="text-6xl lg:text-7xl font-bold text-white mb-4 tracking-tight relative">
                   <span className="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-                    Nassim Maaouia
+                    Nassim Maaoui
                   </span>
                 </h1>
               </div>
@@ -180,7 +180,7 @@ function AnimatedHero() {
               >
                 <h1 className="text-6xl lg:text-7xl font-bold text-white mb-4 tracking-tight relative">
                   <span className="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-                    Nassim Maaouia
+                    Nassim Maaoui
                   </span>
                   <motion.div
                     animate={{ opacity: [0.5, 1, 0.5] }}

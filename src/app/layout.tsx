@@ -14,12 +14,12 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Nassim Maaouia - Full-Stack Developer & AI Engineer',
-    template: '%s | Nassim Maaouia Portfolio'
+    default: 'Nassim Maaoui - Full-Stack Developer & AI Engineer',
+    template: '%s | Nassim Maaoui Portfolio'
   },
   description: 'Experienced Full-Stack Developer and AI Engineer specializing in modern web technologies, machine learning, embedded systems, and productivity tools. Explore my portfolio of innovative projects.',
   keywords: [
-    'Nassim Maaouia',
+    'Nassim Maaoui',
     'Full-Stack Developer',
     'AI Engineer',
     'Machine Learning',
@@ -42,39 +42,39 @@ export const metadata: Metadata = {
     'PostgreSQL',
     'DevOps'
   ],
-  authors: [{ name: 'Nassim Maaouia' }],
-  creator: 'Nassim Maaouia',
-  publisher: 'Nassim Maaouia',
+  authors: [{ name: 'Nassim Maaoui' }],
+  creator: 'Nassim Maaoui',
+  publisher: 'Nassim Maaoui',
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://nassimmaaouia.dev'),
+  metadataBase: new URL('https://nassimmaaoui.dev'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://nassimmaaouia.dev',
-    title: 'Nassim Maaouia - Full-Stack Developer & AI Engineer',
+    url: 'https://nassimmaaoui.dev',
+    title: 'Nassim Maaoui - Full-Stack Developer & AI Engineer',
     description: 'Experienced Full-Stack Developer and AI Engineer specializing in modern web technologies, machine learning, embedded systems, and productivity tools.',
-    siteName: 'Nassim Maaouia Portfolio',
+    siteName: 'Nassim Maaoui Portfolio',
     images: [
       {
         url: '/images/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Nassim Maaouia - Full-Stack Developer & AI Engineer',
+        alt: 'Nassim Maaoui - Full-Stack Developer & AI Engineer',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Nassim Maaouia - Full-Stack Developer & AI Engineer',
+    title: 'Nassim Maaoui - Full-Stack Developer & AI Engineer',
     description: 'Experienced Full-Stack Developer and AI Engineer specializing in modern web technologies, machine learning, embedded systems, and productivity tools.',
-    creator: '@nassimmaaouia',
+    creator: '@nassimmaaoui',
     images: ['/images/og-image.jpg'],
   },
   robots: {

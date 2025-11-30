@@ -154,14 +154,14 @@ const education: Education[] = [
 ]
 
 const personalInfo = {
-  name: 'Nassim Maaouia',
+  name: 'Nassim Maaoui',
   title: 'Full-Stack Developer & AI Engineer',
   location: 'Tunisia',
   experience: '5+ Years',
-  email: 'contact@nassimmaaouia.dev',
+  email: 'contact@nassimmaaoui.dev',
   github: 'https://github.com/iborntowin',
-  linkedin: 'https://linkedin.com/in/nassimmaaouia',
-  twitter: 'https://twitter.com/nassimmaaouia'
+  linkedin: 'https://linkedin.com/in/nassimmaaoui',
+  twitter: 'https://twitter.com/nassimmaaoui'
 }
 
 const interests = [

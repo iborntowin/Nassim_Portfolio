@@ -42,7 +42,7 @@ const projects: Project[] = [
     forks: 42,
     commits: 87,
     language: 'Java/Svelte',
-    demo: 'https://cession-demo.nassimmaaouia.dev'
+    demo: 'https://cession-demo.nassimmaaoui.dev'
   },
   {
     id: 'board-ai',

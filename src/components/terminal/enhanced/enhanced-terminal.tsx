@@ -78,7 +78,7 @@ const ENHANCED_COMMANDS = {
     handler: () => [
       'nassim@cloud-console',
       '',
-      '👨‍💻 Nassim Maaouia - Cloud Engineer & DevOps Architect',
+      '👨‍💻 Nassim Maaoui - Cloud Engineer & DevOps Architect',
       '🌍 Location: Tunisia',
       '🚀 Specialization: Cloud-Native Systems, AI/ML, Automation',
       '⚡ Current Status: Building the future, one deployment at a time',

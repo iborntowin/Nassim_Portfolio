@@ -3,7 +3,7 @@ import { getAllProjects } from '@/lib/projects-data'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const projects = getAllProjects()
-  const baseUrl = 'https://nassimmaaouia.dev'
+  const baseUrl = 'https://nassimmaaoui.dev'
 
   const projectUrls = projects.map((project) => ({
     url: `${baseUrl}/projects/${project.id}`,

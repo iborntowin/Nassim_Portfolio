@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Terminal Interface - Nassim Maaouia | Cloud Engineer Console',
+  title: 'Terminal Interface - Nassim Maaoui | Cloud Engineer Console',
   description: 'Interactive terminal interface showcasing cloud-native engineering, DevOps automation, and AI-powered systems. Experience the portfolio through a living command-line interface.',
   keywords: [
     'terminal interface',
@@ -13,13 +13,13 @@ export const metadata: Metadata = {
     'kubernetes',
     'terraform',
     'ansible',
-    'nassim maaouia'
+    'nassim maaoui'
   ].join(', '),
   openGraph: {
-    title: 'Terminal Interface - Nassim Maaouia',
+    title: 'Terminal Interface - Nassim Maaoui',
     description: 'Interactive terminal interface for cloud-native engineering portfolio',
     type: 'website',
-    url: 'https://nassimmaaouia.dev/terminal',
+    url: 'https://nassimmaaoui.dev/terminal',
     images: [
       {
         url: '/images/terminal-og.jpg',
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Terminal Interface - Nassim Maaouia',
+    title: 'Terminal Interface - Nassim Maaoui',
     description: 'Interactive terminal interface for cloud-native engineering portfolio',
     images: ['/images/terminal-og.jpg'],
   },

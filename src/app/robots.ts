@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/api/', '/admin/'],
     },
-    sitemap: 'https://nassimmaaouia.dev/sitemap.xml',
+    sitemap: 'https://nassimmaaoui.dev/sitemap.xml',
   }
 }

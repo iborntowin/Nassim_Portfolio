@@ -73,7 +73,7 @@ const ansiblePlaybook: AnsibleTask[] = [
     name: "Verify deployment health",
     module: "uri",
     status: 'pending',
-    output: ["Checking https://nassimmaaouia.dev/health...", "Health check passed ✓"]
+    output: ["Checking https://nassimmaaoui.dev/health...", "Health check passed ✓"]
   }
 ]
 
@@ -222,8 +222,8 @@ export default function AnsibleTerminal() {
       `production-server : ok=${successCount}    changed=${changedCount}    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0`,
       "",
       "✅ Portfolio infrastructure deployed successfully!",
-      "🚀 Application available at: https://nassimmaaouia.dev",
-      "📊 Monitoring dashboard: https://grafana.nassimmaaouia.dev"
+      "🚀 Application available at: https://nassimmaaoui.dev",
+      "📊 Monitoring dashboard: https://grafana.nassimmaaoui.dev"
     ])
   }
 

@@ -54,7 +54,7 @@ const LogStream: React.FC<LogStreamProps> = ({
     security: [
       { level: 'INFO' as const, service: 'vault', message: 'Secret rotation completed: database-credentials' },
       { level: 'WARN' as const, service: 'falco', message: 'Suspicious network activity detected' },
-      { level: 'INFO' as const, service: 'cert-manager', message: 'TLS certificate renewed: *.nassimmaaouia.com' },
+      { level: 'INFO' as const, service: 'cert-manager', message: 'TLS certificate renewed: *.nassimmaaoui.com' },
       { level: 'INFO' as const, service: 'oauth2-proxy', message: 'User authentication successful' },
       { level: 'ERROR' as const, service: 'fail2ban', message: 'IP blocked due to repeated failed attempts' },
       { level: 'INFO' as const, service: 'kube-bench', message: 'Security scan completed: 98% compliance' }

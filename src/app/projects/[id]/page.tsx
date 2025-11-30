@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
   
   if (!project) {
     return {
-      title: 'Project Not Found - Nassim Maaouia',
+      title: 'Project Not Found - Nassim Maaoui',
     }
   }
 
@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
     project.name,
     ...project.techStack.map(tech => tech.name),
     project.category,
-    'Nassim Maaouia',
+    'Nassim Maaoui',
     'Software Engineer',
     'Portfolio',
     'Project',
@@ -39,33 +39,33 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
   ]
 
   return {
-    title: `${project.name} - Nassim Maaouia | ${project.category} Project`,
+    title: `${project.name} - Nassim Maaoui | ${project.category} Project`,
     description: project.description,
     keywords: keywords.join(', '),
-    authors: [{ name: 'Nassim Maaouia' }],
-    creator: 'Nassim Maaouia',
-    publisher: 'Nassim Maaouia',
+    authors: [{ name: 'Nassim Maaoui' }],
+    creator: 'Nassim Maaoui',
+    publisher: 'Nassim Maaoui',
     openGraph: {
-      title: `${project.name} - Nassim Maaouia`,
+      title: `${project.name} - Nassim Maaoui`,
       description: project.description,
       type: 'website',
       locale: 'en_US',
-      url: `https://nassimmaaouia.dev/projects/${project.id}`,
-      siteName: 'Nassim Maaouia Portfolio',
+      url: `https://nassimmaaoui.dev/projects/${project.id}`,
+      siteName: 'Nassim Maaoui Portfolio',
       images: [
         {
           url: `/images/projects/${project.id}/hero.jpg`,
           width: 1200,
           height: 630,
-          alt: `${project.name} - ${project.category} Project by Nassim Maaouia`,
+          alt: `${project.name} - ${project.category} Project by Nassim Maaoui`,
         },
       ],
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${project.name} - Nassim Maaouia`,
+      title: `${project.name} - Nassim Maaoui`,
       description: project.description,
-      creator: '@nassimmaaouia',
+      creator: '@nassimmaaoui',
       images: [`/images/projects/${project.id}/hero.jpg`],
     },
     robots: {
@@ -80,7 +80,7 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
       },
     },
     alternates: {
-      canonical: `https://nassimmaaouia.dev/projects/${project.id}`,
+      canonical: `https://nassimmaaoui.dev/projects/${project.id}`,
     },
   }
 }

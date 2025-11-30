@@ -19,7 +19,7 @@ export default function SplitWithCodeExample() {
                   <div className="w-8 h-8 bg-[var(--color-primary-accent)] rounded-lg flex items-center justify-center">
                     <span className="text-[var(--color-text-primary)] font-bold text-lg">N</span>
                   </div>
-                  <span className="text-[var(--color-text-primary)] font-[var(--font-inter)] font-semibold text-lg">Nassim Maaouia</span>
+                  <span className="text-[var(--color-text-primary)] font-[var(--font-inter)] font-semibold text-lg">Nassim Maaoui</span>
                 </div>
                 <div className="mt-24 sm:mt-32 lg:mt-16">
                   <a href="#" className="inline-flex space-x-6">

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { ChevronRight, Rocket, ArrowDown } from 'lucide-react';
 
@@ -15,26 +15,49 @@ const roles = [
   "Innovation Builder"
 ];
 
-const codeSnippet = `---
-# Ansible Infrastructure Automation Playbook
-- name: Deploy Web Application Infrastructure
+// Code sections with IDs for scrolling
+const codeSections = {
+  ansible: {
+    id: 'ansible-section',
+    startLine: 0,
+    code: `---
+# ═══════════════════════════════════════════════════════
+# 🚀 ANSIBLE - Infrastructure Automation Playbook
+# ═══════════════════════════════════════════════════════
+- name: Deploy Production Infrastructure
   hosts: production
   become: yes
+  gather_facts: yes
+  
   vars:
-    app_name: "web-app"
-    app_version: "v2.1.0"
-    docker_registry: "registry.company.com"
+    app_name: "portfolio-app"
+    app_version: "v3.0.0"
+    environment: "production"
     
+  pre_tasks:
+    - name: Validate deployment environment
+      assert:
+        that:
+          - environment is defined
+          - app_version is defined
+        fail_msg: "Required variables not set"`
+  },
+  docker: {
+    id: 'docker-section',
+    startLine: 20,
+    code: `
+# ═══════════════════════════════════════════════════════
+# 🐳 DOCKER - Container Orchestration
+# ═══════════════════════════════════════════════════════
   tasks:
-    - name: Update system packages
+    - name: Install Docker Engine
       apt:
-        update_cache: yes
-        upgrade: dist
-        
-    - name: Install Docker
-      apt:
-        name: docker.io
+        name:
+          - docker.io
+          - docker-compose
+          - containerd
         state: present
+        update_cache: yes
         
     - name: Start Docker service
       systemd:
@@ -44,81 +67,215 @@ const codeSnippet = `---
         
     - name: Pull application image
       docker_image:
-        name: "{{ docker_registry }}/{{ app_name }}"
+        name: "ghcr.io/{{ app_name }}"
         tag: "{{ app_version }}"
         source: pull
         
     - name: Deploy application container
       docker_container:
         name: "{{ app_name }}"
-        image: "{{ docker_registry }}/{{ app_name }}:{{ app_version }}"
+        image: "ghcr.io/{{ app_name }}:{{ app_version }}"
         state: started
         restart_policy: always
         ports:
-          - "80:8080"
+          - "3000:3000"
         env:
-          NODE_ENV: production
-          DATABASE_URL: "{{ vault_database_url }}"
-          
-    - name: Configure nginx reverse proxy
+          NODE_ENV: "{{ environment }}"
+          DATABASE_URL: "{{ vault_db_url }}"`
+  },
+  nginx: {
+    id: 'nginx-section',
+    startLine: 55,
+    code: `
+# ═══════════════════════════════════════════════════════
+# 🌐 NGINX - Reverse Proxy & Load Balancer
+# ═══════════════════════════════════════════════════════
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+        
+    - name: Configure Nginx reverse proxy
       template:
         src: nginx.conf.j2
         dest: /etc/nginx/sites-available/{{ app_name }}
+      vars:
+        upstream_port: 3000
+        ssl_enabled: true
+        http2_enabled: true
+        gzip_compression: true
       notify: restart nginx
       
-    - name: Enable nginx site
+    - name: Enable Nginx site
       file:
         src: /etc/nginx/sites-available/{{ app_name }}
         dest: /etc/nginx/sites-enabled/{{ app_name }}
         state: link
       notify: restart nginx
       
+    - name: Configure SSL certificate
+      command: >
+        certbot --nginx -d {{ domain }}
+        --non-interactive --agree-tos
+        --email admin@{{ domain }}`
+  },
+  linux: {
+    id: 'linux-section',
+    startLine: 85,
+    code: `
+# ═══════════════════════════════════════════════════════
+# 🐧 LINUX - System Configuration & Hardening
+# ═══════════════════════════════════════════════════════
+    - name: Update system packages
+      apt:
+        update_cache: yes
+        upgrade: dist
+        autoremove: yes
+        
+    - name: Configure system limits
+      pam_limits:
+        domain: '*'
+        limit_type: soft
+        limit_item: nofile
+        value: 65536
+        
+    - name: Optimize kernel parameters
+      sysctl:
+        name: "{{ item.key }}"
+        value: "{{ item.value }}"
+        state: present
+        reload: yes
+      loop:
+        - { key: 'net.core.somaxconn', value: '65535' }
+        - { key: 'vm.swappiness', value: '10' }
+        - { key: 'fs.file-max', value: '2097152' }
+        
   handlers:
     - name: restart nginx
       systemd:
         name: nginx
-        state: restarted`;
+        state: restarted
+        
+    - name: restart docker
+      systemd:
+        name: docker
+        state: restarted`
+  }
+};
 
-function CodeHighlighter({ code }: { code: string }) {
+const fullCodeSnippet = Object.values(codeSections).map(s => s.code).join('');
+
+interface CodeHighlighterProps {
+  code: string;
+  highlightSection?: string | null;
+  sectionRefs: React.MutableRefObject<{ [key: string]: HTMLDivElement | null }>;
+}
+
+function CodeHighlighter({ code, highlightSection, sectionRefs }: CodeHighlighterProps) {
   const lines = code.split('\n');
+  
+  // Find which section each line belongs to
+  const getSectionForLine = (lineIndex: number): string | null => {
+    const sections = Object.entries(codeSections);
+    for (let i = sections.length - 1; i >= 0; i--) {
+      if (lineIndex >= sections[i][1].startLine) {
+        return sections[i][0];
+      }
+    }
+    return 'ansible';
+  };
 
   return (
     <pre className="text-gray-300 whitespace-pre-wrap text-sm leading-6">
-      {lines.map((line, lineIndex) => (
-        <div key={lineIndex} className="min-h-[1.5rem]">
-          {line.split(/(\b(?:apiVersion|kind|metadata|spec|containers|image|resources|kubectl|aws|terraform|resource|provider|name|hosts|become|vars|tasks|apt|systemd|docker_image|docker_container|template|file|handlers)\b|\b(?:true|false|null|yes|no)\b|\b\d+\.?\d*[a-zA-Z]*\b|["'][^"']*["']|#.*$)/).map((part, partIndex) => {
-            if (!part) return null;
+      {lines.map((line, lineIndex) => {
+        const section = getSectionForLine(lineIndex);
+        const isHighlighted = highlightSection && section === highlightSection;
+        const isSectionStart = line.includes('═══════════════');
+        
+        return (
+          <div 
+            key={lineIndex} 
+            ref={isSectionStart && section ? (el) => { sectionRefs.current[section] = el; } : undefined}
+            data-section={section}
+            className={`min-h-[1.5rem] transition-all duration-300 ${
+              isHighlighted 
+                ? 'bg-blue-500/10 border-l-2 border-blue-500 pl-2 -ml-2' 
+                : ''
+            }`}
+          >
+            {line.split(/(\b(?:apiVersion|kind|metadata|spec|containers|image|resources|kubectl|aws|terraform|resource|provider|name|hosts|become|vars|tasks|apt|systemd|docker_image|docker_container|template|file|handlers|pre_tasks|assert|pam_limits|sysctl|command|gather_facts|loop)\b|\b(?:true|false|null|yes|no)\b|\b\d+\.?\d*[a-zA-Z]*\b|["'][^"']*["']|#.*$)/).map((part, partIndex) => {
+              if (!part) return null;
 
-            if (/\b(apiVersion|kind|metadata|spec|containers|image|resources|kubectl|aws|terraform|resource|provider|name|hosts|become|vars|tasks|apt|systemd|docker_image|docker_container|template|file|handlers)\b/.test(part)) {
-              return <span key={partIndex} className="text-blue-400 font-semibold">{part}</span>;
-            }
-            if (/\b(true|false|null|yes|no)\b/.test(part)) {
-              return <span key={partIndex} className="text-orange-400">{part}</span>;
-            }
-            if (/\b\d+\.?\d*[a-zA-Z]*\b/.test(part)) {
-              return <span key={partIndex} className="text-green-400">{part}</span>;
-            }
-            if (/["'][^"']*["']/.test(part)) {
-              return <span key={partIndex} className="text-green-300">{part}</span>;
-            }
-            if (/#.*$/.test(part)) {
-              return <span key={partIndex} className="text-gray-400">{part}</span>;
-            }
+              // Section headers (emoji lines)
+              if (/[🚀🐳🌐🐧]/.test(part)) {
+                return <span key={partIndex} className="text-yellow-400 font-bold">{part}</span>;
+              }
+              // Separator lines
+              if (/═+/.test(part)) {
+                return <span key={partIndex} className="text-slate-500">{part}</span>;
+              }
+              if (/\b(apiVersion|kind|metadata|spec|containers|image|resources|kubectl|aws|terraform|resource|provider|name|hosts|become|vars|tasks|apt|systemd|docker_image|docker_container|template|file|handlers|pre_tasks|assert|pam_limits|sysctl|command|gather_facts|loop)\b/.test(part)) {
+                return <span key={partIndex} className="text-blue-400 font-semibold">{part}</span>;
+              }
+              if (/\b(true|false|null|yes|no)\b/.test(part)) {
+                return <span key={partIndex} className="text-orange-400">{part}</span>;
+              }
+              if (/\b\d+\.?\d*[a-zA-Z]*\b/.test(part)) {
+                return <span key={partIndex} className="text-green-400">{part}</span>;
+              }
+              if (/["'][^"']*["']/.test(part)) {
+                return <span key={partIndex} className="text-green-300">{part}</span>;
+              }
+              if (/#.*$/.test(part)) {
+                return <span key={partIndex} className="text-gray-400 italic">{part}</span>;
+              }
 
-            return <span key={partIndex}>{part}</span>;
-          })}
-        </div>
-      ))}
+              return <span key={partIndex}>{part}</span>;
+            })}
+          </div>
+        );
+      })}
     </pre>
   );
 }
+
+const techBadges = [
+  { name: 'Ansible', section: 'ansible', color: 'from-red-500 to-red-600', icon: '🚀' },
+  { name: 'Docker', section: 'docker', color: 'from-blue-500 to-blue-600', icon: '🐳' },
+  { name: 'Nginx', section: 'nginx', color: 'from-green-500 to-green-600', icon: '🌐' },
+  { name: 'Linux', section: 'linux', color: 'from-yellow-500 to-orange-500', icon: '🐧' }
+];
 
 export default function DevOpsHero() {
   const [currentRole, setCurrentRole] = useState(0);
   const [displayText, setDisplayText] = useState("Full-Stack Developer");
   const [isTyping, setIsTyping] = useState(true);
   const [mounted, setMounted] = useState(false);
+  const [activeSection, setActiveSection] = useState<string | null>(null);
   const router = useRouter();
+  const codeContainerRef = useRef<HTMLDivElement>(null);
+  const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+
+  // Handle section click - scroll to section and highlight
+  const handleSectionClick = (sectionKey: string) => {
+    setActiveSection(sectionKey);
+    
+    // Scroll to section in code container
+    const sectionElement = sectionRefs.current[sectionKey];
+    if (sectionElement && codeContainerRef.current) {
+      const container = codeContainerRef.current;
+      const elementTop = sectionElement.offsetTop;
+      container.scrollTo({
+        top: elementTop - 20,
+        behavior: 'smooth'
+      });
+    }
+    
+    // Remove highlight after 3 seconds
+    setTimeout(() => {
+      setActiveSection(null);
+    }, 3000);
+  };
 
   // Set mounted on client to prevent hydration mismatch
   useEffect(() => {
@@ -256,24 +413,48 @@ export default function DevOpsHero() {
                       ansible-playbook.yaml
                     </span>
                   </div>
+                  {activeSection && (
+                    <span className="text-xs px-2 py-1 bg-blue-500/20 text-blue-400 rounded-full animate-pulse">
+                      📍 {activeSection.charAt(0).toUpperCase() + activeSection.slice(1)} Section
+                    </span>
+                  )}
                 </div>
 
                 {/* Code content */}
-                <div className="p-6 h-96 overflow-y-auto bg-slate-900">
-                  <CodeHighlighter code={codeSnippet} />
+                <div 
+                  ref={codeContainerRef}
+                  className="p-6 h-96 overflow-y-auto bg-slate-900 scroll-smooth"
+                >
+                  <CodeHighlighter 
+                    code={fullCodeSnippet} 
+                    highlightSection={activeSection}
+                    sectionRefs={sectionRefs}
+                  />
                 </div>
               </div>
 
-              {/* Tech badges */}
+              {/* Tech badges - Now clickable */}
               <div className="absolute -top-4 -right-4 space-y-2">
-                {['Ansible', 'Docker', 'Nginx', 'Linux'].map((tech, index) => (
-                  <div
-                    key={tech}
-                    className="bg-blue-500/10 backdrop-blur-sm border border-blue-500/20 px-3 py-1 rounded-full text-blue-500 text-xs font-semibold hover:scale-110 hover:rotate-3 transition-transform cursor-pointer"
+                {techBadges.map((tech, index) => (
+                  <button
+                    key={tech.name}
+                    onClick={() => handleSectionClick(tech.section)}
+                    className={`group flex items-center gap-2 backdrop-blur-sm border px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 cursor-pointer
+                      ${activeSection === tech.section 
+                        ? `bg-gradient-to-r ${tech.color} text-white border-transparent shadow-lg scale-110` 
+                        : 'bg-blue-500/10 border-blue-500/20 text-blue-500 hover:scale-110 hover:bg-blue-500/20'
+                      }`}
+                    style={{ animationDelay: `${index * 100}ms` }}
                   >
-                    {tech}
-                  </div>
+                    <span className="group-hover:animate-bounce">{tech.icon}</span>
+                    {tech.name}
+                  </button>
                 ))}
+              </div>
+
+              {/* Click hint */}
+              <div className="absolute -bottom-8 right-0 text-xs text-slate-500 flex items-center gap-1">
+                <span>👆 Click badges to navigate</span>
               </div>
             </div>
           </div>

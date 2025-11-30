@@ -13,9 +13,9 @@ const quickLinks = [
 
 const socialLinks = [
   { name: 'GitHub', href: 'https://github.com/iborntowin', icon: Github, color: 'hover:text-gray-400' },
-  { name: 'LinkedIn', href: 'https://linkedin.com/in/nassimmaaouia', icon: Linkedin, color: 'hover:text-blue-400' },
-  { name: 'Twitter', href: 'https://twitter.com/nassimmaaouia', icon: Twitter, color: 'hover:text-cyan-400' },
-  { name: 'Email', href: 'mailto:nassim.maaouia@example.com', icon: Mail, color: 'hover:text-green-400' }
+  { name: 'LinkedIn', href: 'https://linkedin.com/in/nassimmaaoui', icon: Linkedin, color: 'hover:text-blue-400' },
+  { name: 'Twitter', href: 'https://twitter.com/nassimmaaoui', icon: Twitter, color: 'hover:text-cyan-400' },
+  { name: 'Email', href: 'mailto:nassim.maaoui@example.com', icon: Mail, color: 'hover:text-green-400' }
 ];
 
 const services = [
@@ -155,7 +155,7 @@ export default function EnhancedFooter() {
           <div className="flex flex-col md:flex-row justify-between items-center">
             {/* Copyright */}
             <div className="text-slate-400 text-sm mb-4 md:mb-0">
-              © {new Date().getFullYear()} Nassim Maaouia. All rights reserved.
+              © {new Date().getFullYear()} Nassim Maaoui. All rights reserved.
             </div>
 
             {/* Built by signature */}
@@ -163,7 +163,7 @@ export default function EnhancedFooter() {
               <span>Built with</span>
               <Heart className="w-4 h-4 mx-2 text-red-400 fill-current" />
               <span>by</span>
-              <span className="ml-2 text-white font-semibold">Nassim Maaouia</span>
+              <span className="ml-2 text-white font-semibold">Nassim Maaoui</span>
             </div>
           </div>
 
