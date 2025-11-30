@@ -13,9 +13,9 @@ const quickLinks = [
 
 const socialLinks = [
   { name: 'GitHub', href: 'https://github.com/iborntowin', icon: Github, color: 'hover:text-gray-400' },
-  { name: 'LinkedIn', href: 'https://linkedin.com/in/nassimmaaoui', icon: Linkedin, color: 'hover:text-blue-400' },
+  { name: 'LinkedIn', href: 'https://www.linkedin.com/in/maaoui-nassim-1a5636279/', icon: Linkedin, color: 'hover:text-blue-400' },
   { name: 'Twitter', href: 'https://twitter.com/nassimmaaoui', icon: Twitter, color: 'hover:text-cyan-400' },
-  { name: 'Email', href: 'mailto:nassim.maaoui@example.com', icon: Mail, color: 'hover:text-green-400' }
+  { name: 'Email', href: 'mailto:nassimmaaoui@outlook.com', icon: Mail, color: 'hover:text-green-400' }
 ];
 
 const services = [

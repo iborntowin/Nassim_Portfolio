@@ -1,7 +1,7 @@
 "'use client';"
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion' // Fixed import path
-import { ChevronRight, Zap, Brain, Rocket, Star, ArrowDown } from 'lucide-react'
+import { ChevronRight, Zap, Brain, Terminal, Star, ArrowDown } from 'lucide-react'
 
 const TYPING_SPEED = 100
 const PAUSE_DURATION = 2000
@@ -259,8 +259,8 @@ export default function CleanHero() {
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-[#8b5cf6] to-[#3b82f6] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   <span className="relative flex items-center">
-                    <Rocket className="w-5 h-5 mr-2" />
-                    Start Your Project
+                    <Terminal className="w-5 h-5 mr-2" />
+                    Launch Terminal Mode
                     <ChevronRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </motion.button>

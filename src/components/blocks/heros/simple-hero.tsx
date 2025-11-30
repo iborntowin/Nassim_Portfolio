@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronRight, Rocket, ArrowDown } from 'lucide-react';
+import { ChevronRight, Terminal, ArrowDown } from 'lucide-react';
 
 const roles = [
   "Full-Stack Developer",
@@ -204,8 +204,8 @@ export default function SimpleHero() {
                   className="group relative px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-xl overflow-hidden"
                 >
                   <span className="relative flex items-center">
-                    <Rocket className="w-5 h-5 mr-2" />
-                    Start Your Project
+                    <Terminal className="w-5 h-5 mr-2" />
+                    Launch Terminal Mode
                     <ChevronRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </motion.button>

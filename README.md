@@ -360,7 +360,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 ### **Professional Contact**
 - **Portfolio**: [nassimmaaoui.dev](https://nassimmaaoui.dev)
 - **GitHub**: [@iborntowin](https://github.com/iborntowin)
-- **Email**: [contact@nassimmaaoui.dev](mailto:contact@nassimmaaoui.dev)
+- **Email**: [nassimmaaoui@outlook.com](mailto:nassimmaaoui@outlook.com)
 
 ### **Technical Expertise**
 - **Full-Stack Development**: React, Next.js, Spring Boot, Node.js

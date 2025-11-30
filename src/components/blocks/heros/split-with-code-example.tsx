@@ -1,6 +1,6 @@
 "use client"
 
-import { ChevronRight } from 'lucide-react'
+import { ChevronRight, Terminal } from 'lucide-react'
 
 export default function SplitWithCodeExample() {
   return (
@@ -40,10 +40,11 @@ export default function SplitWithCodeExample() {
                 </p>
                 <div className="mt-10 flex items-center gap-x-6">
                   <a
-                    href="#"
-                    className="rounded-lg bg-[var(--color-primary-accent)] px-6 py-3 text-sm font-[var(--font-inter)] font-semibold text-[var(--color-text-primary)] shadow-lg hover:bg-[var(--color-primary-accent)]/90 transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary-accent)]"
+                    href="/terminal"
+                    className="inline-flex items-center gap-2 rounded-lg bg-[var(--color-primary-accent)] px-6 py-3 text-sm font-[var(--font-inter)] font-semibold text-[var(--color-text-primary)] shadow-lg hover:bg-[var(--color-primary-accent)]/90 transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary-accent)]"
                   >
-                    Start Your Project
+                    <Terminal className="w-4 h-4" />
+                    Launch Terminal Mode
                   </a>
                   <a href="#" className="text-sm font-[var(--font-inter)] font-semibold text-[var(--color-text-primary)]">
                     View Technical Portfolio <span aria-hidden="true" className="text-[var(--color-secondary-accent)]">→</span>

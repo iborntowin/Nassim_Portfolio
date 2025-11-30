@@ -158,9 +158,9 @@ const personalInfo = {
   title: 'Full-Stack Developer & AI Engineer',
   location: 'Tunisia',
   experience: '5+ Years',
-  email: 'contact@nassimmaaoui.dev',
+  email: 'nassimmaaoui@outlook.com',
   github: 'https://github.com/iborntowin',
-  linkedin: 'https://linkedin.com/in/nassimmaaoui',
+  linkedin: 'https://www.linkedin.com/in/maaoui-nassim-1a5636279/',
   twitter: 'https://twitter.com/nassimmaaoui'
 }
 

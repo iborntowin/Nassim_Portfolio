@@ -14,7 +14,7 @@ export function PersonStructuredData({ className }: PersonStructuredDataProps) {
     "url": "https://nassimmaaoui.dev",
     "sameAs": [
       "https://github.com/iborntowin",
-      "https://linkedin.com/in/nassimmaaoui",
+      "https://www.linkedin.com/in/maaoui-nassim-1a5636279/",
       "https://twitter.com/nassimmaaoui"
     ],
     "knowsAbout": [

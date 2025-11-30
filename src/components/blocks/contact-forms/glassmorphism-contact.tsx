@@ -247,10 +247,10 @@ export default function GlassmorphismContact() {
             Prefer a direct approach? Reach out via email:
           </p>
           <a
-            href="mailto:nassim.maaoui@example.com"
+            href="mailto:nassimmaaoui@outlook.com"
             className="text-blue-400 hover:text-blue-300 font-semibold text-lg transition-colors duration-300"
           >
-            nassim.maaoui@example.com
+            nassimmaaoui@outlook.com
           </a>
         </motion.div>
       </div>

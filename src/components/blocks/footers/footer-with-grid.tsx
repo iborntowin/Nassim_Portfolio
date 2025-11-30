@@ -41,10 +41,10 @@ export function FooterWithGrid() {
             <div className="text-sm">
               <span className="text-[var(--color-text-secondary)]">Building the future of web development at </span>
               <Link
-                href="mailto:nassim@example.com"
+                href="mailto:nassimmaaoui@outlook.com"
                 className="font-medium text-[var(--color-primary-accent)] hover:text-[var(--color-secondary-accent)] transition-colors"
               >
-                nassim@example.com
+                nassimmaaoui@outlook.com
               </Link>
             </div>
             <div className="mt-2 text-sm">
@@ -257,7 +257,7 @@ const TECHNICAL_LINKS: FooterLink[] = [
   },
   {
     title: "LinkedIn",
-    href: "https://linkedin.com/in/nassim",
+    href: "https://www.linkedin.com/in/maaoui-nassim-1a5636279/",
     icon: ExternalLink,
     external: true,
   },
@@ -266,7 +266,7 @@ const TECHNICAL_LINKS: FooterLink[] = [
 const BUSINESS_LINKS: FooterLink[] = [
   {
     title: "Contact",
-    href: "mailto:nassim@example.com",
+    href: "mailto:nassimmaaoui@outlook.com",
     icon: ExternalLink,
   },
   {
