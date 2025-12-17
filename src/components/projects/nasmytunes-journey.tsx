@@ -19,10 +19,19 @@ interface JourneyStep {
 
 const journeySteps: JourneyStep[] = [
   {
+    id: 'web-interface',
+    title: 'Modern Web UI',
+    description: 'Glassmorphism design with real-time progress',
+    image: '/images/projects/6/Modern Web UI.png',
+    icon: Globe,
+    color: 'from-pink-500 to-rose-500',
+    features: ['Responsive design', 'Real-time updates', 'Mobile compatibility', 'Glassmorphism UI']
+  },
+  {
     id: 'playlist-input',
     title: 'Playlist Analysis',
     description: 'Paste your Spotify playlist URL for instant analysis',
-    image: '/images/projects/1/hero.jpg',
+    image: '/images/projects/6/Playlist Analysis.png',
     icon: Music,
     color: 'from-green-500 to-emerald-500',
     features: ['Spotify API integration', 'Playlist validation', 'Track metadata extraction', 'Real-time preview']
@@ -31,46 +40,10 @@ const journeySteps: JourneyStep[] = [
     id: 'cli-interface',
     title: 'CLI Interface',
     description: 'Powerful command-line interface for batch processing',
-    image: '/images/projects/1/cli.jpg',
+    image: '/images/projects/6/CLI Interface.png',
     icon: Terminal,
     color: 'from-blue-500 to-cyan-500',
     features: ['Cross-platform compatibility', 'Batch processing', 'Progress tracking', 'Error handling']
-  },
-  {
-    id: 'conversion-engine',
-    title: 'Advanced Conversion',
-    description: 'Multi-layer bypass system with YouTube integration',
-    image: '/images/projects/1/architecture.jpg',
-    icon: Zap,
-    color: 'from-purple-500 to-violet-500',
-    features: ['YouTube bypass techniques', 'FFmpeg integration', '192kbps quality', 'Rate limiting protection']
-  },
-  {
-    id: 'web-interface',
-    title: 'Modern Web UI',
-    description: 'Glassmorphism design with real-time progress',
-    image: '/images/projects/1/demo.jpg',
-    icon: Globe,
-    color: 'from-pink-500 to-rose-500',
-    features: ['Responsive design', 'Real-time updates', 'Mobile compatibility', 'Glassmorphism UI']
-  },
-  {
-    id: 'download-system',
-    title: 'Download & Export',
-    description: 'ZIP file generation with high-quality MP3s',
-    image: '/images/projects/1/hero.jpg',
-    icon: Download,
-    color: 'from-orange-500 to-red-500',
-    features: ['ZIP file creation', 'Batch downloads', 'Quality preservation', 'Metadata retention']
-  },
-  {
-    id: 'deployment',
-    title: 'Cloud Deployment',
-    description: 'Professional deployment on Render platform',
-    image: '/images/projects/1/demo.jpg',
-    icon: Settings,
-    color: 'from-teal-500 to-cyan-500',
-    features: ['Render deployment', 'Auto-scaling', 'Demo mode', 'Performance optimization']
   }
 ]
 
@@ -103,7 +76,7 @@ export default function NasmyTunesJourney() {
       y: 0,
       transition: {
         duration: shouldReduceMotion ? 0.2 : 0.6,
-        ease: "easeOut"
+        ease: "easeOut" as any
       }
     }
   }), [shouldReduceMotion])
@@ -115,13 +88,13 @@ export default function NasmyTunesJourney() {
       scale: 1,
       transition: {
         duration: shouldReduceMotion ? 0.2 : 0.5,
-        ease: "easeOut"
+        ease: "easeOut" as any
       }
     }
   }), [shouldReduceMotion])
 
   return (
-    <section 
+    <section
       ref={sectionRef}
       className="relative py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[var(--color-primary-background)] to-[var(--color-secondary-background)] overflow-hidden"
     >
@@ -139,10 +112,10 @@ export default function NasmyTunesJourney() {
             Conversion Pipeline
           </h2>
           <p className="text-xl text-[var(--color-text-secondary)] max-w-3xl mx-auto mb-8">
-            From Spotify playlist to high-quality MP3s. Experience the complete conversion workflow 
+            From Spotify playlist to high-quality MP3s. Experience the complete conversion workflow
             with advanced bypass techniques and professional-grade audio processing.
           </p>
-          
+
           {/* Progress Indicator */}
           <div className="flex justify-center items-center gap-2 mb-8">
             {journeySteps.map((_, index) => (
@@ -241,14 +214,14 @@ export default function NasmyTunesJourney() {
                 >
                   {/* Decorative Background */}
                   <div className={`absolute -inset-4 bg-gradient-to-r ${step.color} rounded-2xl opacity-20 group-hover:opacity-30 transition-opacity duration-500 blur-xl`}></div>
-                  
+
                   {/* Main Image Container */}
                   <div className="relative bg-white rounded-2xl shadow-2xl overflow-hidden group-hover:shadow-3xl transition-all duration-500 transform group-hover:scale-[1.02]">
                     {/* Loading skeleton */}
                     {!loadedImages.has(index) && (
                       <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 animate-pulse rounded-2xl" />
                     )}
-                    
+
                     {/* Optimized image */}
                     <div className={`transition-opacity duration-500 ${loadedImages.has(index) ? 'opacity-100' : 'opacity-0'}`}>
                       <Image
@@ -264,7 +237,7 @@ export default function NasmyTunesJourney() {
                         blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
                       />
                     </div>
-                    
+
                     {/* Overlay on Hover */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                       <div className="absolute bottom-6 left-6 right-6">
@@ -314,8 +287,8 @@ export default function NasmyTunesJourney() {
             <span className="font-semibold text-lg">High-Quality MP3s Ready!</span>
           </div>
           <p className="text-[var(--color-text-secondary)] mt-4 max-w-2xl mx-auto">
-            From playlist analysis to final download, every step is optimized for quality and performance. 
-            Advanced bypass techniques ensure reliable conversion while maintaining professional-grade 
+            From playlist analysis to final download, every step is optimized for quality and performance.
+            Advanced bypass techniques ensure reliable conversion while maintaining professional-grade
             audio quality at 192kbps.
           </p>
         </motion.div>

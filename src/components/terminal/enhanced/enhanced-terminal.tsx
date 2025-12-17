@@ -32,6 +32,7 @@ const ENHANCED_COMMANDS = {
       '  uptime              - Show system uptime',
       '  free -h             - Show memory usage',
       '  df -h               - Show disk usage',
+      '  exit                - Exit terminal session',
       '',
       '🚀 PROJECTS & PORTFOLIO:',
       '  projects            - List all projects',
@@ -71,6 +72,20 @@ const ENHANCED_COMMANDS = {
   clear: {
     description: 'Clear the terminal screen',
     handler: () => ({ action: 'clear' })
+  },
+
+  exit: {
+    description: 'Exit terminal session',
+    handler: () => {
+      // Return a special action or just redirect
+      setTimeout(() => {
+        window.location.href = '/'
+      }, 1000)
+      return {
+        output: ['Goodbye! 👋', 'Redirecting to portfolio...'],
+        action: 'message' // or similar, depending on how it's handled. checking execution logic
+      }
+    }
   },
 
   whoami: {
@@ -273,7 +288,7 @@ export function EnhancedTerminal() {
   const [showMatrix, setShowMatrix] = useState(false)
   const [isMaximized, setIsMaximized] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
-  
+
   const terminalRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const lineIdCounter = useRef(0)
@@ -281,7 +296,7 @@ export function EnhancedTerminal() {
   // Robust focus restoration function
   const restoreFocus = useCallback(() => {
     const focusAttempts = [50, 100, 200, 300, 500, 1000]
-    
+
     focusAttempts.forEach(delay => {
       setTimeout(() => {
         if (inputRef.current && !isProcessing) {
@@ -295,22 +310,22 @@ export function EnhancedTerminal() {
   const scrollToBottom = useCallback((extraSpace = 0) => {
     if (terminalRef.current) {
       const element = terminalRef.current
-      
+
       // Force immediate scroll to bottom with extra space
       element.scrollTop = element.scrollHeight + extraSpace
-      
+
       // Use requestAnimationFrame for smoother follow-up
       requestAnimationFrame(() => {
         if (element) {
           element.scrollTop = element.scrollHeight + extraSpace
-          
+
           // Additional scroll attempt
           setTimeout(() => {
             element.scrollTop = element.scrollHeight + extraSpace
           }, 10)
         }
       })
-      
+
       // Also try scrollIntoView as a fallback
       const lastChild = element.lastElementChild
       if (lastChild) {
@@ -320,7 +335,7 @@ export function EnhancedTerminal() {
   }, [])
 
   const addLine = useCallback((
-    content: string, 
+    content: string,
     type: TerminalLine['type'] = 'output'
   ) => {
     const newLine: TerminalLine = {
@@ -335,7 +350,7 @@ export function EnhancedTerminal() {
   // Set mounted state and add global focus management
   useEffect(() => {
     setIsMounted(true)
-    
+
     // Global focus management
     const handleGlobalClick = (e: MouseEvent) => {
       // If clicking inside the terminal, ensure input is focused
@@ -345,9 +360,9 @@ export function EnhancedTerminal() {
         }, 10)
       }
     }
-    
+
     document.addEventListener('click', handleGlobalClick)
-    
+
     return () => {
       document.removeEventListener('click', handleGlobalClick)
     }
@@ -356,7 +371,7 @@ export function EnhancedTerminal() {
   // Boot sequence
   useEffect(() => {
     if (!isMounted) return
-    
+
     const bootSequence = async () => {
       const bootMessages = [
         'Initializing Enhanced Cloud Engineer Console...',
@@ -392,7 +407,7 @@ export function EnhancedTerminal() {
       addLine('💡 Type "help" to see available commands', 'info')
       addLine('💡 Try "sudo become-legend" for a surprise!', 'info')
       addLine('', 'output')
-      
+
       setIsBooting(false)
       inputRef.current?.focus()
     }
@@ -419,17 +434,17 @@ export function EnhancedTerminal() {
 
     setIsProcessing(true)
     addLine(`nassim@cloud-console:~$ ${command}`, 'command')
-    
+
     // Add to history
     const newHistory = [...commandHistory.filter(h => h !== command), command]
     setCommandHistory(newHistory)
     setHistoryIndex(-1)
 
     const cmd = command.toLowerCase().trim()
-    
+
     // Check for multi-word commands first
     let commandHandler = ENHANCED_COMMANDS[cmd as keyof typeof ENHANCED_COMMANDS]
-    
+
     // If not found, try to find multi-word commands
     if (!commandHandler) {
       const multiWordCommands = Object.keys(ENHANCED_COMMANDS).filter(key => key.includes(' '))
@@ -442,27 +457,27 @@ export function EnhancedTerminal() {
     }
 
     if (commandHandler) {
-      const result = commandHandler.handler()
-      
-      if (typeof result === 'object' && result.action) {
+      const result = commandHandler.handler() as any
+
+      if (!Array.isArray(result) && result.action) {
         if (result.action === 'clear') {
           setLines([])
           setIsProcessing(false)
           return
         }
-        
+
         if (result.action === 'legend') {
           setLegendMode(true)
           // LegendModeOverlay will handle its own timing and call onComplete
         }
-        
+
         if (result.action === 'matrix') {
           setShowMatrix(true)
           setTimeout(() => setShowMatrix(false), 5000)
         }
-        
-        if (result.output) {
-          result.output.forEach(line => addLine(line, 'success'))
+
+        if ('output' in result && result.output) {
+          result.output.forEach((line: string) => addLine(line, 'success'))
         }
       } else if (Array.isArray(result)) {
         result.forEach(line => addLine(line, 'output'))
@@ -473,7 +488,7 @@ export function EnhancedTerminal() {
     }
 
     setIsProcessing(false)
-    
+
     // Restore focus and scroll to bottom after command execution
     restoreFocus()
     setTimeout(() => {
@@ -491,18 +506,18 @@ export function EnhancedTerminal() {
           restoreFocus()
         }
         break
-        
+
       case 'ArrowUp':
         e.preventDefault()
         if (commandHistory.length > 0) {
-          const newIndex = historyIndex === -1 
-            ? commandHistory.length - 1 
+          const newIndex = historyIndex === -1
+            ? commandHistory.length - 1
             : Math.max(0, historyIndex - 1)
           setHistoryIndex(newIndex)
           setCurrentInput(commandHistory[newIndex])
         }
         break
-        
+
       case 'ArrowDown':
         e.preventDefault()
         if (historyIndex !== -1) {
@@ -516,7 +531,7 @@ export function EnhancedTerminal() {
           }
         }
         break
-        
+
       case 'l':
         if (e.ctrlKey) {
           e.preventDefault()
@@ -577,7 +592,7 @@ export function EnhancedTerminal() {
               {legendMode && <Crown className="w-4 h-4 text-yellow-400 inline ml-2" />}
             </span>
           </div>
-          
+
           <div className="flex items-center gap-2">
             <button
               onClick={() => setIsMaximized(!isMaximized)}
@@ -589,7 +604,7 @@ export function EnhancedTerminal() {
         </div>
 
         {/* Terminal Content */}
-        <div 
+        <div
           ref={terminalRef}
           className="flex-1 overflow-y-auto p-4 bg-black/95 backdrop-blur-sm"
           style={{ scrollBehavior: 'smooth' }}
@@ -602,15 +617,14 @@ export function EnhancedTerminal() {
                 key={line.id}
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
-                className={`${
-                  line.type === 'success' ? 'text-green-400' :
+                className={`${line.type === 'success' ? 'text-green-400' :
                   line.type === 'error' ? 'text-red-400' :
-                  line.type === 'warning' ? 'text-yellow-400' :
-                  line.type === 'info' ? 'text-blue-400' :
-                  line.type === 'command' ? 'text-white' :
-                  line.type === 'system' ? 'text-cyan-400' :
-                  'text-gray-300'
-                } ${legendMode ? 'text-shadow-lg' : ''}`}
+                    line.type === 'warning' ? 'text-yellow-400' :
+                      line.type === 'info' ? 'text-blue-400' :
+                        line.type === 'command' ? 'text-white' :
+                          line.type === 'system' ? 'text-cyan-400' :
+                            'text-gray-300'
+                  } ${legendMode ? 'text-shadow-lg' : ''}`}
               >
                 {line.content}
               </motion.div>
@@ -633,9 +647,8 @@ export function EnhancedTerminal() {
                   // Ensure input area is visible when focused
                   setTimeout(() => scrollToBottom(), 100)
                 }}
-                className={`flex-1 bg-transparent outline-none ${
-                  legendMode ? 'text-yellow-400' : 'text-green-400'
-                } ${isProcessing ? 'opacity-50' : ''}`}
+                className={`flex-1 bg-transparent outline-none ${legendMode ? 'text-yellow-400' : 'text-green-400'
+                  } ${isProcessing ? 'opacity-50' : ''}`}
                 disabled={isProcessing}
                 autoFocus
               />

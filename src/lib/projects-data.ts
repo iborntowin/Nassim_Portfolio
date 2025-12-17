@@ -64,10 +64,9 @@ const projectsData: DetailedProject[] = [
     liveUrl: 'https://nasmytunes.onrender.com',
     featured: true,
     images: [
-      { src: '/images/projects/1/hero.jpg', alt: 'NasmyTunes Interface', caption: 'Modern glassmorphism UI with real-time conversion progress' },
-      { src: '/images/projects/1/cli.jpg', alt: 'CLI Interface', caption: 'Easy-to-use command line interface for batch processing' },
-      { src: '/images/projects/1/architecture.jpg', alt: 'System Architecture', caption: 'Multi-layer bypass system with advanced YouTube handling' },
-      { src: '/images/projects/1/demo.jpg', alt: 'Live Demo', caption: 'Professional web interface with responsive design' }
+      { src: '/images/projects/6/Modern Web UI.png', alt: 'NasmyTunes Interface', caption: 'Modern glassmorphism UI with real-time conversion progress' },
+      { src: '/images/projects/6/Playlist Analysis.png', alt: 'Playlist Analysis', caption: 'Detailed analysis of Spotify playlists' },
+      { src: '/images/projects/6/CLI Interface.png', alt: 'CLI Interface', caption: 'Easy-to-use command line interface for batch processing' }
     ],
     workflow: [
       {

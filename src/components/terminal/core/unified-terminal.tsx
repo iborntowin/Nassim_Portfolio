@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { TerminalTab, KeyboardShortcut } from '../types/terminal.types'
 import { useTerminalState } from '../hooks/use-terminal-state'
@@ -8,11 +8,11 @@ import { useKeyboardShortcuts } from '../hooks/use-keyboard-shortcuts'
 import { TerminalHeader } from './terminal-header'
 import { TerminalInput } from './terminal-input'
 import { HeroTab } from '../tabs/hero-tab'
-import { 
-  Home, 
-  FolderOpen, 
-  Server, 
-  Brain, 
+import {
+  Home,
+  FolderOpen,
+  Server,
+  Brain,
   Terminal as TerminalIcon,
   Code,
   Zap,
@@ -38,10 +38,10 @@ interface UnifiedTerminalProps {
   onClose?: () => void
 }
 
-export function UnifiedTerminal({ 
-  className = '', 
+export function UnifiedTerminal({
+  className = '',
   initialTab = 'hero',
-  onClose 
+  onClose
 }: UnifiedTerminalProps) {
   const {
     state,
@@ -192,12 +192,12 @@ export function UnifiedTerminal({
           await new Promise(resolve => setTimeout(resolve, 800))
           addLine(bootMessages[i], i === bootMessages.length - 1 ? 'success' : 'info')
         }
-        
+
         await new Promise(resolve => setTimeout(resolve, 1000))
         setIsBooting(false)
         setActiveTabId(initialTab)
       }
-      
+
       bootSequence()
     }
   }, [isBooting, bootMessages, addLine, initialTab, setActiveTabId])
@@ -205,10 +205,10 @@ export function UnifiedTerminal({
   const handleCommand = (command: string) => {
     addLine(`${getPrompt()} ${command}`, 'command')
     addToHistory(command)
-    
+
     // Handle global commands
     const cmd = command.toLowerCase().trim()
-    
+
     switch (cmd) {
       case 'clear':
         clearLines()
@@ -220,6 +220,7 @@ export function UnifiedTerminal({
         addLine('  tabs     - List available tabs', 'output')
         addLine('  whoami   - Show current user', 'output')
         addLine('  pwd      - Show current directory', 'output')
+        addLine('  exit     - Exit terminal session', 'output')
         break
       case 'tabs':
         addLine('Available tabs:', 'info')
@@ -233,9 +234,17 @@ export function UnifiedTerminal({
       case 'pwd':
         addLine(state.currentDirectory, 'output')
         break
+      case 'exit':
+        addLine('Goodbye! 👋', 'success')
+        addLine('Redirecting to portfolio...', 'info')
+        setTimeout(() => {
+          window.location.href = '/'
+        }, 1000)
+        break
       default:
         addLine(`Command not found: ${command}`, 'error')
         addLine('Type "help" for available commands', 'info')
+        break
     }
   }
 
@@ -244,7 +253,7 @@ export function UnifiedTerminal({
   }
 
   const getAutocompleteOptions = (input: string) => {
-    const commands = ['clear', 'help', 'tabs', 'whoami', 'pwd']
+    const commands = ['clear', 'help', 'tabs', 'whoami', 'pwd', 'exit']
     return commands
       .filter(cmd => cmd.startsWith(input.toLowerCase()))
       .map(cmd => ({
@@ -295,13 +304,12 @@ export function UnifiedTerminal({
                       key={line.id}
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
-                      className={`${
-                        line.type === 'success' ? 'text-green-400' :
+                      className={`${line.type === 'success' ? 'text-green-400' :
                         line.type === 'error' ? 'text-red-400' :
-                        line.type === 'warning' ? 'text-yellow-400' :
-                        line.type === 'info' ? 'text-blue-400' :
-                        'text-gray-300'
-                      }`}
+                          line.type === 'warning' ? 'text-yellow-400' :
+                            line.type === 'info' ? 'text-blue-400' :
+                              'text-gray-300'
+                        }`}
                     >
                       {line.content}
                     </motion.div>

@@ -265,6 +265,23 @@ export const COMMAND_REGISTRY: Record<string, Command> = {
     })
   },
 
+  exit: {
+    name: 'exit',
+    aliases: ['quit', 'logout'],
+    description: 'Exit terminal session',
+    usage: 'exit',
+    category: 'system',
+    handler: () => ({
+      success: true,
+      output: ['Goodbye! 👋', 'Redirecting to portfolio...'],
+      type: 'system',
+      data: { 
+        action: 'navigate',
+        url: '/'
+      }
+    })
+  },
+
   whoami: {
     name: 'whoami',
     description: 'Display current user information',
