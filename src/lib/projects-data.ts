@@ -47,6 +47,128 @@ export interface DetailedProject {
 
 const projectsData: DetailedProject[] = [
   {
+    id: '7',
+    name: 'InventoryERP – Enterprise Inventory & Management',
+    description: 'A modern, secure desktop ERP application built with Tauri, React, and Rust. Features multi-module inventory management, Quick Sell POS, invoicing, user management with RBAC, and full i18n support.',
+    longDescription: 'InventoryERP is a comprehensive enterprise resource planning solution designed for small to medium businesses. Built as a native desktop application using Tauri (Rust backend) and React (TypeScript frontend), it provides complete inventory management, a keyboard-driven Quick Sell POS, invoice generation, customer/supplier management, batch/lot tracking, and financial dashboards — all in a secure, offline-capable, single-executable package (~15MB). The application features enterprise-grade security with Argon2id password hashing, role-based access control, session management, and comprehensive audit trails. With full internationalization (English & French), light/dark/system themes, and animated UI powered by Framer Motion, it delivers a modern user experience with millisecond response times thanks to the Rust + SQLite backend.',
+    category: 'Full-Stack',
+    techStack: [
+      { name: 'Tauri', color: 'text-orange-400 bg-orange-400/10' },
+      { name: 'React', color: 'text-cyan-400 bg-cyan-400/10' },
+      { name: 'Rust', color: 'text-red-400 bg-red-400/10' },
+      { name: 'TypeScript', color: 'text-blue-400 bg-blue-400/10' },
+      { name: 'SQLite', color: 'text-green-400 bg-green-400/10' },
+      { name: 'Tailwind CSS', color: 'text-sky-400 bg-sky-400/10' }
+    ],
+    stats: { stars: 0, forks: 0, commits: 120 },
+    githubUrl: 'https://github.com/iborntowin/InventoryERP',
+    featured: true,
+    images: [
+      { src: '/images/projects/erp/dashboard.png', alt: 'Dashboard', caption: 'Real-time KPI widgets, interactive charts, top-selling products, and low stock alerts' },
+      { src: '/images/projects/erp/login.png', alt: 'Login', caption: 'Secure login with Argon2id hashing and session management' },
+      { src: '/images/projects/erp/quick_sell.png', alt: 'Quick Sell', caption: 'Keyboard-driven POS with category shortcuts and fast checkout' },
+      { src: '/images/projects/erp/factures.png', alt: 'Factures', caption: 'Professional invoice management with payment tracking' },
+      { src: '/images/projects/erp/facture_params.png', alt: 'Facture Params', caption: 'Customizable invoice parameters and prefix configuration' },
+      { src: '/images/projects/erp/Invoice Details.png', alt: 'Invoice Details', caption: 'Detailed invoice view with line items and payment status' },
+      { src: '/images/projects/erp/users.png', alt: 'Users', caption: 'User management with RBAC, account locking, and audit logs' },
+      { src: '/images/projects/erp/theme.png', alt: 'Theme', caption: 'Light, Dark, and System-follow theme modes with smooth transitions' },
+      { src: '/images/projects/erp/languge.png', alt: 'Language', caption: 'Full internationalization with English and French support' },
+      { src: '/images/projects/erp/database_maintainense.png', alt: 'Database Maintenance', caption: 'Database maintenance tools with backup, optimization, and integrity checks' },
+      { src: '/images/projects/erp/archived_data.png', alt: 'Archived Data', caption: 'Archived data management for historical records and compliance' }
+    ],
+    workflow: [
+      {
+        title: 'Architecture & Stack Selection',
+        description: 'Chose Tauri + React + Rust for a native, secure, and performant desktop app',
+        icon: '🏗️',
+        details: [
+          'Selected Tauri 2.x for native desktop with minimal footprint (~15MB)',
+          'Designed Rust backend for memory safety and millisecond responses',
+          'Chose SQLite for offline-capable, zero-config database',
+          'Planned modular React frontend with TypeScript'
+        ]
+      },
+      {
+        title: 'Security & Auth System',
+        description: 'Implemented enterprise-grade security with RBAC and audit trails',
+        icon: '🔒',
+        details: [
+          'Argon2id password hashing for maximum security',
+          'Role-based access control (Admin, Manager, Cashier)',
+          'Session management with configurable timeouts',
+          'Comprehensive audit logging for compliance'
+        ]
+      },
+      {
+        title: 'Core Module Development',
+        description: 'Built inventory, sales, purchases, customers, suppliers, and warehouse modules',
+        icon: '⚙️',
+        details: [
+          'Product catalog with SKU/barcode, category, and stock alerts',
+          'Quick Sell POS with keyboard shortcuts (F2, F3, F4, 1-9)',
+          'Purchase order management with partial receiving',
+          'Customer/supplier databases with full CRUD and analytics'
+        ]
+      },
+      {
+        title: 'Invoice & Batch Tracking',
+        description: 'Professional invoicing and complete batch lifecycle management',
+        icon: '📄',
+        details: [
+          'Invoice generation with customizable prefixes and templates',
+          'Batch/lot tracking with manufacturing and expiry dates',
+          'Expiration monitoring with 30-day warning dashboard',
+          'Complete audit trail per batch for regulatory compliance'
+        ]
+      },
+      {
+        title: 'UI/UX & Internationalization',
+        description: 'Polished UI with themes, animations, and multi-language support',
+        icon: '🎨',
+        details: [
+          'Light/Dark/System themes with smooth transitions',
+          'Full i18n with English and French (100% coverage)',
+          'Framer Motion powered animations and micro-interactions',
+          'Responsive design with glassmorphism card components'
+        ]
+      }
+    ],
+    challenges: [
+      'Bridging the Tauri IPC layer between React frontend and Rust backend efficiently',
+      'Ensuring offline-first data integrity with SQLite concurrency',
+      'Building a keyboard-driven POS that feels as fast as native retail systems',
+      'Managing complex RBAC permissions across 10+ modules'
+    ],
+    solutions: [
+      'Designed typed Tauri invoke commands with Rust serde serialization for zero-cost IPC',
+      'Used Mutex-guarded SQLite connections with WAL mode for safe concurrent access',
+      'Implemented F-key shortcuts and category number keys for sub-100ms checkout flow',
+      'Built hierarchical permission system with middleware guards on both frontend and backend'
+    ],
+    impact: [
+      'Single ~15MB executable replacing cloud ERP subscriptions',
+      'Millisecond response times with Rust + SQLite backend',
+      'Complete offline capability — no internet required',
+      'Enterprise security with Argon2id, RBAC, and full audit trails'
+    ],
+    keyFeatures: [
+      'Native desktop app via Tauri (Windows, macOS, Linux)',
+      'Rust backend with SQLite for blazing performance',
+      'Quick Sell POS with keyboard shortcuts',
+      'Multi-module ERP (Inventory, Sales, Purchases, Invoicing)',
+      'Batch/Lot tracking with expiry monitoring',
+      'Role-based access control (Admin, Manager, Cashier)',
+      'Light/Dark/System theme support',
+      'Full i18n (English & French)',
+      'Database maintenance & backup tools',
+      'Professional invoice generation'
+    ],
+    architecture: 'Tauri 2.x desktop app with React 19 + TypeScript frontend, Rust backend with SQLite database, Tauri IPC for communication, and TanStack Query for data caching',
+    timeline: '5 months',
+    teamSize: 'Solo project',
+    role: 'Full-Stack Developer & Desktop App Architect'
+  },
+  {
     id: '1',
     name: 'NasmyTunes – Spotify to MP3 Converter',
     description: 'Convert Spotify playlists to high-quality MP3 files with CLI and web interfaces. Features advanced YouTube bypass techniques, real-time progress tracking, and professional glassmorphism UI.',
