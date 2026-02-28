@@ -442,7 +442,7 @@ const TerminalizedProjects: React.FC<TerminalizedProjectsProps> = ({
       {/* Category Filter */}
       <div className="mb-4 flex items-center space-x-2">
         <span className="text-gray-400 text-xs">Filter:</span>
-        {['all', 'Full-Stack', 'AI/ML', 'Embedded', 'Productivity', 'DevOps'].map((category) => (
+        {['all', 'Full-Stack', 'AI/ML', 'Embedded', 'Productivity', 'DevOps', 'Cloud/Infrastructure'].map((category) => (
           <button
             key={category}
             onClick={() => setFilterCategory(category)}

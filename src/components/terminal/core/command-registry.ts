@@ -337,7 +337,7 @@ export const COMMAND_REGISTRY: Record<string, Command> = {
       if (projects.length === 0) {
         output.push(`No projects found${category ? ` in category "${category}"` : ''}`)
         output.push('')
-        output.push('Available categories: Full-Stack, AI/ML, Embedded, Productivity, DevOps')
+        output.push('Available categories: Full-Stack, AI/ML, Embedded, Productivity, DevOps, Cloud/Infrastructure')
         return { success: false, output, type: 'warning' }
       }
 
@@ -362,7 +362,7 @@ export const COMMAND_REGISTRY: Record<string, Command> = {
       output.push('   • projects --detailed   - Show detailed project list')
       output.push('   • projects --category <category> - Filter by category')
       output.push('')
-      output.push('📂 Available categories: Full-Stack, AI/ML, Embedded, Productivity, DevOps')
+      output.push('📂 Available categories: Full-Stack, AI/ML, Embedded, Productivity, DevOps, Cloud/Infrastructure')
 
       return {
         success: true,

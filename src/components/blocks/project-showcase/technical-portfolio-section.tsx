@@ -17,7 +17,8 @@ const categoryIcons = {
   'AI/ML': Brain,
   'Embedded': Cpu,
   'Productivity': Wrench,
-  'DevOps': Server
+  'DevOps': Server,
+  'Cloud/Infrastructure': Database
 }
 
 export default function TechnicalPortfolioSection() {
@@ -85,7 +86,7 @@ export default function TechnicalPortfolioSection() {
         >
           <Tabs value={activeFilter} onValueChange={setActiveFilter} className="w-full">
             <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-6 bg-[var(--color-secondary-background)] border border-[var(--color-border)]">
-              {['All', 'Full-Stack', 'AI/ML', 'Embedded', 'Productivity', 'DevOps'].map((filter) => {
+              {['All', 'Full-Stack', 'AI/ML', 'Embedded', 'Productivity', 'DevOps', 'Cloud/Infrastructure'].map((filter) => {
                 const IconComponent = categoryIcons[filter as keyof typeof categoryIcons]
                 return (
                   <TabsTrigger

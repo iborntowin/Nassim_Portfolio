@@ -8,6 +8,7 @@ import ProjectDetailPage from './project-detail-page'
 import CessionAppDetailPage from './cession-app-detail-page'
 import NasmyTunesDetailPage from './nasmytunes-detail-page'
 import ErpDetailPage from './erp-detail-page'
+import OpenStackDetailPage from './openstack-detail-page'
 
 interface OptimizedProjectDetailWrapperProps {
   project: DetailedProject
@@ -44,7 +45,8 @@ export default function OptimizedProjectDetailWrapper({ project }: OptimizedProj
   }, [project.id])
 
   // Determine which component to render
-  const ProjectComponent = project.id === '7' ? ErpDetailPage :
+  const ProjectComponent = project.id === '8' ? OpenStackDetailPage :
+                           project.id === '7' ? ErpDetailPage :
                            project.id === '1' ? NasmyTunesDetailPage : 
                            project.id === '2' ? CessionAppDetailPage : 
                            ProjectDetailPage

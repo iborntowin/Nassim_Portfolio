@@ -27,7 +27,7 @@ export interface DetailedProject {
   name: string
   description: string
   longDescription: string
-  category: 'Full-Stack' | 'AI/ML' | 'Embedded' | 'Productivity' | 'DevOps'
+  category: 'Full-Stack' | 'AI/ML' | 'Embedded' | 'Productivity' | 'DevOps' | 'Cloud/Infrastructure'
   techStack: TechStackItem[]
   stats: ProjectStats
   githubUrl: string
@@ -46,6 +46,135 @@ export interface DetailedProject {
 }
 
 const projectsData: DetailedProject[] = [
+  {
+    id: '8',
+    name: 'OpenStack Infrastructure — Private Cloud Platform',
+    description: 'Designed, deployed, and validated a complete OpenStack cloud infrastructure covering compute, networking, storage, monitoring, automation, and security — fully production-ready.',
+    longDescription: 'A fully deployed, tested, and production-ready OpenStack private cloud infrastructure built end-to-end with a strong focus on reliability, automation, and real-world operations. The platform covers compute orchestration with Nova, software-defined networking with Neutron, image management with Glance, block and object storage with Cinder and Swift, and infrastructure-as-code provisioning with Heat. The environment includes a full monitoring stack with Prometheus and Grafana, enterprise security with Security Groups, WAF, Floating IPs, and persistent volumes. Every layer has been operationally validated — instance boot, volume attach/detach, floating IP assignment, and secure SSH access — demonstrating a well-architected private cloud built with automation and operational rigor.',
+    category: 'Cloud/Infrastructure',
+    techStack: [
+      { name: 'OpenStack', color: 'text-red-400 bg-red-400/10' },
+      { name: 'Nova', color: 'text-orange-400 bg-orange-400/10' },
+      { name: 'Neutron', color: 'text-blue-400 bg-blue-400/10' },
+      { name: 'Cinder', color: 'text-yellow-400 bg-yellow-400/10' },
+      { name: 'Swift', color: 'text-cyan-400 bg-cyan-400/10' },
+      { name: 'Glance', color: 'text-pink-400 bg-pink-400/10' },
+      { name: 'Heat', color: 'text-amber-400 bg-amber-400/10' },
+      { name: 'Prometheus', color: 'text-orange-500 bg-orange-500/10' },
+      { name: 'Grafana', color: 'text-green-400 bg-green-400/10' }
+    ],
+    stats: { stars: 0, forks: 0, commits: 85 },
+    githubUrl: 'https://github.com/iborntowin/openstack-infrastructure',
+    featured: true,
+    images: [
+      { src: '/images/projects/openstack/1770235637771.jpeg', alt: 'OpenStack Dashboard', caption: 'OpenStack Horizon dashboard with compute and network overview' },
+      { src: '/images/projects/openstack/1770235639020.jpeg', alt: 'Infrastructure Monitoring', caption: 'Prometheus & Grafana monitoring stack with real-time metrics' },
+      { src: '/images/projects/openstack/1770235639023.jpeg', alt: 'Network Topology', caption: 'Neutron network topology with floating IPs and security groups' },
+      { src: '/images/projects/openstack/1770235639246.jpeg', alt: 'Operational Validation', caption: 'Validated instance boot, volume attach, and SSH access' }
+    ],
+    workflow: [
+      {
+        title: 'Architecture & Planning',
+        description: 'Designed the full cloud architecture with compute, networking, and storage layers',
+        icon: '🏗️',
+        details: [
+          'Planned multi-node OpenStack deployment topology',
+          'Designed network architecture with Neutron (provider + tenant networks)',
+          'Selected storage backends for Cinder (block) and Swift (object)',
+          'Defined security model with Security Groups and WAF policies'
+        ]
+      },
+      {
+        title: 'Core Service Deployment',
+        description: 'Deployed and configured Nova, Neutron, Glance, Cinder, and Swift',
+        icon: '⚙️',
+        details: [
+          'Provisioned Nova compute nodes for VM orchestration',
+          'Configured Neutron with floating IPs and tenant isolation',
+          'Set up Glance image service with cloud-ready OS images',
+          'Deployed Cinder block storage and Swift object storage'
+        ]
+      },
+      {
+        title: 'Infrastructure as Code',
+        description: 'Automated provisioning and orchestration with Heat templates',
+        icon: '📜',
+        details: [
+          'Wrote Heat orchestration templates for automated stack creation',
+          'Defined reusable templates for networks, instances, and volumes',
+          'Implemented parameterized templates for environment flexibility',
+          'Automated full stack teardown and rebuild workflows'
+        ]
+      },
+      {
+        title: 'Security Hardening',
+        description: 'Implemented enterprise-grade security across all layers',
+        icon: '🔒',
+        details: [
+          'Configured Security Groups with least-privilege rules',
+          'Deployed WAF for web application protection',
+          'Set up Floating IPs for controlled external access',
+          'Enabled persistent volumes for data durability'
+        ]
+      },
+      {
+        title: 'Monitoring & Observability',
+        description: 'Built a full monitoring stack with Prometheus and Grafana',
+        icon: '📊',
+        details: [
+          'Deployed Prometheus for metrics collection across all services',
+          'Built Grafana dashboards for compute, network, and storage KPIs',
+          'Configured alerting rules for resource thresholds',
+          'Integrated log aggregation for centralized troubleshooting'
+        ]
+      },
+      {
+        title: 'Operational Validation',
+        description: 'End-to-end testing of every infrastructure capability',
+        icon: '✅',
+        details: [
+          'Validated instance boot and lifecycle management',
+          'Tested volume attach/detach and persistence',
+          'Verified floating IP assignment and external connectivity',
+          'Confirmed secure SSH access through security groups'
+        ]
+      }
+    ],
+    challenges: [
+      'Orchestrating multi-service OpenStack deployment with complex inter-service dependencies',
+      'Designing a secure and isolated network topology with Neutron across tenant boundaries',
+      'Ensuring storage reliability with Cinder and Swift under real-world failure scenarios',
+      'Building comprehensive monitoring across compute, network, and storage layers'
+    ],
+    solutions: [
+      'Used Heat templates for deterministic, repeatable deployments with dependency ordering',
+      'Implemented provider and tenant network separation with security groups and floating IPs',
+      'Configured persistent volumes with Cinder and multi-replica object storage with Swift',
+      'Deployed Prometheus exporters per service with Grafana dashboards for unified observability'
+    ],
+    impact: [
+      'Fully production-ready private cloud infrastructure',
+      'Automated provisioning via Heat — zero manual setup',
+      'Complete monitoring with Prometheus & Grafana',
+      'Validated end-to-end: boot, storage, networking, SSH'
+    ],
+    keyFeatures: [
+      'Full OpenStack deployment (Nova, Neutron, Glance, Cinder, Swift)',
+      'Infrastructure as Code with Heat orchestration',
+      'Software-defined networking with Neutron',
+      'Block storage (Cinder) & object storage (Swift)',
+      'Security Groups, WAF, and Floating IPs',
+      'Prometheus & Grafana monitoring stack',
+      'Automated provisioning and teardown',
+      'Operational validation across all layers',
+      'Scalable multi-tenant architecture',
+      'Production-ready with real-world testing'
+    ],
+    architecture: 'Multi-node OpenStack deployment with Nova compute, Neutron SDN, Glance image service, Cinder block storage, Swift object storage, Heat orchestration, and Prometheus + Grafana observability stack',
+    timeline: '3 months',
+    teamSize: 'Solo project',
+    role: 'Cloud Infrastructure Engineer & DevOps Architect'
+  },
   {
     id: '7',
     name: 'InventoryERP – Enterprise Inventory & Management',

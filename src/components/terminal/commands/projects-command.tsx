@@ -32,7 +32,7 @@ const ProjectsCommand: React.FC<ProjectsCommandProps> = ({
             Project category "{category}" not found.
           </div>
           <div className="text-gray-400">
-            Available categories: Full-Stack, AI/ML, Embedded, Productivity, DevOps
+            Available categories: Full-Stack, AI/ML, Embedded, Productivity, DevOps, Cloud/Infrastructure
           </div>
         </div>
       )
