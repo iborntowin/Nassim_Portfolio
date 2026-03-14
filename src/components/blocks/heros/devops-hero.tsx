@@ -8,11 +8,11 @@ const TYPING_SPEED = 100;
 const PAUSE_DURATION = 2000;
 
 const roles = [
+  "Cloud Engineer",
+  "DevOps Architect",
   "Full-Stack Developer",
-  "AI/ML Engineer", 
-  "Cloud Architect",
-  "Software Engineer",
-  "Innovation Builder"
+  "Infrastructure Builder",
+  "AI/ML Engineer"
 ];
 
 // Code sections with IDs for scrolling
@@ -366,7 +366,7 @@ export default function DevOpsHero() {
                 </h1>
 
                 <div className="text-2xl lg:text-3xl font-semibold text-slate-400 h-12 flex items-center">
-                  <span className="mr-2">I'm a</span>
+                  <span className="mr-2">I&apos;m a</span>
                   <span className="text-blue-500 min-w-[300px]">
                     {displayText}
                     <span className="ml-1 animate-pulse">|</span>
@@ -375,10 +375,25 @@ export default function DevOpsHero() {
               </div>
 
               {/* Description */}
-              <p className="text-xl text-slate-400 leading-relaxed mb-8 max-w-2xl">
-                Full-stack engineer passionate about creating innovative solutions that bridge technology and real-world impact. 
-                From AI-powered applications to scalable cloud infrastructure, I build systems that matter.
+              <p className="text-xl text-slate-400 leading-relaxed mb-6 max-w-2xl">
+                Cloud engineer building production-grade infrastructure at scale. 
+                From OpenStack private clouds to K8s orchestration and CI/CD automation — I architect systems for 99.99% uptime.
               </p>
+              {/* Cloud Provider Badges */}
+              <div className="flex flex-wrap gap-2 mb-8">
+                {[
+                  { name: 'AWS', color: 'border-orange-500/30 text-orange-400 bg-orange-500/10' },
+                  { name: 'OpenStack', color: 'border-red-500/30 text-red-400 bg-red-500/10' },
+                  { name: 'Kubernetes', color: 'border-blue-500/30 text-blue-400 bg-blue-500/10' },
+                  { name: 'Terraform', color: 'border-purple-500/30 text-purple-400 bg-purple-500/10' },
+                  { name: 'Docker', color: 'border-cyan-500/30 text-cyan-400 bg-cyan-500/10' },
+                  { name: 'Prometheus', color: 'border-yellow-500/30 text-yellow-400 bg-yellow-500/10' },
+                ].map((badge) => (
+                  <span key={badge.name} className={`px-3 py-1 text-xs font-mono font-medium border rounded-full ${badge.color}`}>
+                    {badge.name}
+                  </span>
+                ))}
+              </div>
 
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 mb-12">
@@ -390,6 +405,15 @@ export default function DevOpsHero() {
                     <Terminal className="w-5 h-5 mr-2" />
                     Launch Terminal Mode
                     <ChevronRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                </button>
+                <button 
+                  onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="group px-8 py-4 border border-slate-600 text-slate-300 font-semibold rounded-xl hover:border-blue-400 hover:text-blue-400 transition-all"
+                >
+                  <span className="flex items-center">
+                    View Projects
+                    <ArrowDown className="w-5 h-5 ml-2 group-hover:translate-y-1 transition-transform" />
                   </span>
                 </button>
               </div>

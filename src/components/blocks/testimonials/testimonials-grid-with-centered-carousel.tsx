@@ -40,12 +40,12 @@ const testimonials: Testimonial[] = [
   {
     id: 3,
     name: "Emily Watson",
-    role: "Engineering Director",
+    role: "VP of Infrastructure",
     company: "CloudScale Inc",
-    content: "Nassim's embedded systems expertise was crucial for our IoT project. The LoRaWAN implementation he developed achieved 40% better performance than our previous solution.",
+    content: "Nassim architected our private cloud migration from bare-metal to OpenStack, then built the Kubernetes platform on top. 99.99% uptime, fully automated with Terraform, and monitoring that catches issues before they become incidents.",
     rating: 5,
     avatar: "",
-    projectType: "Embedded Systems"
+    projectType: "Cloud Infrastructure"
   },
   {
     id: 4,
@@ -115,8 +115,8 @@ export default function TestimonialsCarousel() {
             Client Success Stories
           </h2>
           <p className="text-lg text-[var(--color-text-secondary)] max-w-3xl mx-auto">
-            Trusted by startups and enterprises to deliver high-impact solutions across 
-            full-stack development, AI/ML, and embedded systems.
+            Trusted by startups and enterprises to deliver production-grade cloud infrastructure, 
+            DevOps automation, and scalable full-stack applications.
           </p>
         </motion.div>
 

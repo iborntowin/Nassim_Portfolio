@@ -33,10 +33,9 @@ export function FooterWithGrid() {
       <div className="mx-auto max-w-7xl px-4 py-10 md:px-8 relative z-10">
         <div className="border-b border-[var(--color-secondary-background)] pb-8">
           <div className="mb-10 max-w-xl">
-            <Logo className="justify-start" />
             <p className="mb-4 text-[var(--color-text-secondary)] text-sm">
-              Full-stack developer crafting innovative solutions with modern technologies. 
-              Specialized in TypeScript, React, and scalable backend architectures.
+              Cloud engineer & DevOps architect building production-grade infrastructure. 
+              Specialized in AWS, OpenStack, Kubernetes, and infrastructure automation.
             </p>
             <div className="text-sm">
               <span className="text-[var(--color-text-secondary)]">Building the future of web development at </span>
@@ -202,42 +201,10 @@ export function FooterWithGrid() {
   );
 } 
 
-// Add Logo component to resolve missing reference
-const Logo = ({ className }: { className?: string }) => {
-  return (
-    <Link
-      href="/"
-      className={cn(
-        "flex flex-shrink-0 items-center justify-center space-x-2 py-2 text-center text-2xl font-bold selection:bg-emerald-500",
-        className
-      )}
-    >
-      <div className="relative flex h-8 w-8 items-center justify-center rounded-md border border-[var(--color-secondary-background)] bg-[var(--color-primary-background)] text-sm antialiased md:h-6 md:w-6">
-        <div className="absolute inset-x-0 -top-10 h-10 w-full rounded-full bg-white/[0.2] blur-xl" />
-        <div className="relative z-20 text-sm text-[var(--color-primary-accent)]">
-          <img
-            src="/logo.png"
-            height="32"
-            width="32"
-            alt="Logo"
-            className="block"
-          />
-        </div>
-      </div>
-      <div className="flex items-center gap-2 font-sans text-xl text-[var(--color-text-primary)]">
-        Nassim
-        <div className="relative rounded-sm border border-[var(--color-secondary-background)] bg-[var(--color-secondary-background)] px-2 py-0.5 text-xs font-bold text-[var(--color-text-primary)]">
-          dev
-        </div>
-      </div>
-    </Link>
-  );
-}; 
-
 type FooterLink = {
   title: string;
   href: string;
-  icon?: any;
+  icon?: React.ElementType;
   external?: boolean;
   highlight?: boolean;
 };
@@ -246,12 +213,6 @@ const TECHNICAL_LINKS: FooterLink[] = [
   {
     title: "GitHub",
     href: "https://github.com/nassim",
-    icon: ExternalLink,
-    external: true,
-  },
-  {
-    title: "Stack Overflow",
-    href: "https://stackoverflow.com/users/nassim",
     icon: ExternalLink,
     external: true,
   },
@@ -276,25 +237,27 @@ const BUSINESS_LINKS: FooterLink[] = [
     highlight: true,
   },
   {
-    title: "Services",
-    href: "/services",
+    title: "Projects",
+    href: "#projects",
   },
 ];
 
 const RESOURCES_LINKS: FooterLink[] = [
   {
-    title: "Blog",
-    href: "/blog",
+    title: "GitHub",
+    href: "https://github.com/iborntowin",
     icon: ExternalLink,
+    external: true,
   },
   {
-    title: "Documentation",
-    href: "/docs",
+    title: "LinkedIn",
+    href: "https://www.linkedin.com/in/maaoui-nassim-1a5636279/",
     icon: ExternalLink,
+    external: true,
   },
   {
     title: "Open Source",
-    href: "https://github.com/nassim?tab=repositories",
+    href: "https://github.com/iborntowin?tab=repositories",
     icon: ExternalLink,
     external: true,
   },

@@ -3,23 +3,21 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { Star, GitFork, GitCommit, Github, ExternalLink, Code, Database, Globe, Server, Brain, Cpu, Wrench, Eye, Sparkles, Trophy, Zap, Crown } from 'lucide-react'
+import { Star, GitFork, GitCommit, Github, ExternalLink, Code, Globe, Server, Brain, Cpu, Wrench, Eye, Sparkles, Trophy, Zap, Crown, Cloud } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { getAllProjects } from '@/lib/projects-data'
-// Removed InteractiveTerminal import
 
-const categoryIcons = {
-  'All': Globe,
-  'Full-Stack': Globe,
-  'AI/ML': Brain,
-  'Embedded': Cpu,
-  'Productivity': Wrench,
-  'DevOps': Server,
-  'Cloud/Infrastructure': Database
-}
+const filters = [
+  { label: 'All',                   icon: Globe,   activeGradient: 'from-blue-500 to-blue-700',         activeShadow: 'shadow-blue-500/40' },
+  { label: 'Full-Stack',            icon: Code,    activeGradient: 'from-cyan-500 to-blue-600',          activeShadow: 'shadow-cyan-500/40' },
+  { label: 'AI/ML',                 icon: Brain,   activeGradient: 'from-orange-500 to-red-600',         activeShadow: 'shadow-orange-500/40' },
+  { label: 'Embedded',              icon: Cpu,     activeGradient: 'from-indigo-500 to-purple-600',      activeShadow: 'shadow-indigo-500/40' },
+  { label: 'Productivity',          icon: Wrench,  activeGradient: 'from-green-500 to-emerald-600',      activeShadow: 'shadow-green-500/40' },
+  { label: 'DevOps',                icon: Server,  activeGradient: 'from-red-500 to-rose-600',           activeShadow: 'shadow-red-500/40' },
+  { label: 'Cloud/Infrastructure',  icon: Cloud,   activeGradient: 'from-yellow-500 to-orange-500',      activeShadow: 'shadow-yellow-500/40' },
+]
 
 export default function TechnicalPortfolioSection() {
   const [activeFilter, setActiveFilter] = useState('All')
@@ -84,23 +82,31 @@ export default function TechnicalPortfolioSection() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="mb-12"
         >
-          <Tabs value={activeFilter} onValueChange={setActiveFilter} className="w-full">
-            <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-6 bg-[var(--color-secondary-background)] border border-[var(--color-border)]">
-              {['All', 'Full-Stack', 'AI/ML', 'Embedded', 'Productivity', 'DevOps', 'Cloud/Infrastructure'].map((filter) => {
-                const IconComponent = categoryIcons[filter as keyof typeof categoryIcons]
-                return (
-                  <TabsTrigger
-                    key={filter}
-                    value={filter}
-                    className="relative flex items-center gap-2 text-xs font-medium transition-all data-[state=active]:bg-[var(--color-primary-accent)] data-[state=active]:text-[var(--color-text-primary)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
-                  >
-                    <IconComponent className="w-3 h-3" />
-                    <span className="hidden sm:inline">{filter}</span>
-                  </TabsTrigger>
-                )
-              })}
-            </TabsList>
-          </Tabs>
+          <div className="flex flex-wrap justify-center gap-2">
+            {filters.map((f) => {
+              const Icon = f.icon
+              const isActive = activeFilter === f.label
+              return (
+                <motion.button
+                  key={f.label}
+                  onClick={() => { setActiveFilter(f.label); setCurrentPage(0) }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className={`
+                    flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium
+                    border transition-all duration-200 select-none
+                    ${isActive
+                      ? `bg-gradient-to-r ${f.activeGradient} text-white border-transparent shadow-lg ${f.activeShadow}`
+                      : 'bg-[var(--color-secondary-background)] border-[var(--color-border)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:border-[var(--color-text-secondary)]/40'
+                    }
+                  `}
+                >
+                  <Icon className="w-3.5 h-3.5 shrink-0" />
+                  <span>{f.label}</span>
+                </motion.button>
+              )
+            })}
+          </div>
         </motion.div>
 
         {/* Project Grid */}

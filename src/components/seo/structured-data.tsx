@@ -9,8 +9,8 @@ export function PersonStructuredData({ className }: PersonStructuredDataProps) {
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "Nassim Maaoui",
-    "jobTitle": "Full-Stack Developer & AI Engineer",
-    "description": "Experienced Full-Stack Developer and AI Engineer specializing in modern web technologies, machine learning, embedded systems, and productivity tools.",
+    "jobTitle": "Cloud Engineer & DevOps Architect",
+    "description": "Cloud Engineer & DevOps Architect specializing in AWS, OpenStack, Kubernetes, Terraform, and CI/CD automation. Building production-grade infrastructure at scale.",
     "url": "https://nassimmaaoui.dev",
     "sameAs": [
       "https://github.com/iborntowin",
@@ -18,23 +18,25 @@ export function PersonStructuredData({ className }: PersonStructuredDataProps) {
       "https://twitter.com/nassimmaaoui"
     ],
     "knowsAbout": [
+      "Cloud Engineering",
+      "DevOps Architecture",
+      "AWS",
+      "OpenStack",
+      "Kubernetes",
+      "Terraform",
+      "Docker",
+      "CI/CD Automation",
+      "Infrastructure as Code",
+      "Prometheus & Grafana",
+      "Ansible",
+      "Linux Administration",
+      "Site Reliability Engineering",
       "Full-Stack Development",
-      "Artificial Intelligence",
-      "Machine Learning",
-      "Computer Vision",
-      "Embedded Systems",
-      "Web Development",
-      "Software Engineering",
+      "Python",
+      "TypeScript",
       "React",
       "Next.js",
-      "Python",
-      "TensorFlow",
-      "Spring Boot",
-      "Svelte",
-      "JavaScript",
-      "TypeScript",
-      "C++",
-      "Java",
+      "Machine Learning",
       "PostgreSQL"
     ],
     "hasOccupation": {
@@ -45,11 +47,12 @@ export function PersonStructuredData({ className }: PersonStructuredDataProps) {
         "name": "Tunisia"
       },
       "skills": [
-        "Full-Stack Development",
-        "AI/ML Engineering",
-        "Computer Vision",
-        "Embedded Systems",
-        "DevOps"
+        "Cloud Engineering",
+        "DevOps Architecture",
+        "Infrastructure as Code",
+        "Container Orchestration",
+        "Site Reliability Engineering",
+        "Full-Stack Development"
       ]
     }
   }

@@ -1,6 +1,5 @@
 'use client';
 
-import { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import TestimonialsCarousel from '@/components/blocks/testimonials/testimonials-grid-with-centered-carousel'
 import { StatsForChangelog } from '@/components/blocks/stats/statsforchangelog'
@@ -27,9 +26,11 @@ export default function HomePage() {
         <DevOpsHero />
 
         {/* Technical Portfolio Section */}
-        <TechnicalPortfolioSection />
+        <div id="projects">
+          <TechnicalPortfolioSection />
+        </div>
 
-        {/* Performance Stats */}
+        {/* Project Milestones Timeline */}
         <StatsForChangelog />
 
         {/* Testimonials */}
@@ -42,13 +43,13 @@ export default function HomePage() {
               Contact
             </h2>
             <p className="text-lg text-terminal-cyan max-w-2xl mx-auto">
-              Get in touch for collaborations, project inquiries, or just to say hello!
+              Get in touch for cloud consulting, infrastructure projects, or collaborations.
             </p>
           </div>
           <SimpleCenteredContactForm />
         </section>
 
-        {/* Advanced Technologies Showcase - Before Footer */}
+        {/* Advanced Technologies Showcase */}
         <AdvancedTechShowcase />
 
         {/* Footer */}

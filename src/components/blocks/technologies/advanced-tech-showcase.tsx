@@ -2,17 +2,16 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { 
-  Code, 
-  Database, 
-  Cloud, 
-  Smartphone, 
-  Brain, 
-  Server, 
-  Globe, 
+import {
+  Code,
+  Database,
+  Cloud,
+  Smartphone,
+  Brain,
+  Server,
+  Globe,
   Zap,
   Layers,
-  GitBranch,
   Shield,
   Cpu
 } from 'lucide-react'
@@ -53,11 +52,14 @@ const technologies: Technology[] = [
   { name: 'Hugging Face', category: 'AI/ML', icon: '🤗', color: 'from-yellow-400 to-orange-500', description: 'NLP models and transformers', proficiency: 81, projects: 4 },
   { name: 'scikit-learn', category: 'AI/ML', icon: '📊', color: 'from-blue-500 to-indigo-600', description: 'Machine learning algorithms and tools', proficiency: 88, projects: 7 },
 
-  // Cloud & DevOps
+  // Cloud & Infrastructure
   { name: 'AWS', category: 'Cloud', icon: '☁️', color: 'from-orange-400 to-yellow-500', description: 'Amazon Web Services cloud platform', proficiency: 86, projects: 9 },
-  { name: 'Docker', category: 'DevOps', icon: '🐳', color: 'from-blue-400 to-blue-600', description: 'Containerization and deployment', proficiency: 89, projects: 12 },
-  { name: 'Kubernetes', category: 'DevOps', icon: '⚙️', color: 'from-blue-500 to-purple-600', description: 'Container orchestration platform', proficiency: 82, projects: 5 },
-  { name: 'Ansible', category: 'DevOps', icon: '🔧', color: 'from-red-500 to-red-700', description: 'Infrastructure automation and configuration', proficiency: 84, projects: 6 },
+  { name: 'Docker', category: 'Cloud', icon: '🐳', color: 'from-blue-400 to-blue-600', description: 'Containerisation and image-based deployment', proficiency: 89, projects: 12 },
+  { name: 'Kubernetes', category: 'Cloud', icon: '⚙️', color: 'from-blue-500 to-purple-600', description: 'Container orchestration and workload management', proficiency: 82, projects: 5 },
+  { name: 'Ansible', category: 'Cloud', icon: '🔧', color: 'from-red-500 to-red-700', description: 'Agentless infrastructure configuration and automation', proficiency: 84, projects: 6 },
+  { name: 'Terraform', category: 'Cloud', icon: '🏗️', color: 'from-violet-500 to-purple-700', description: 'Infrastructure as Code across multi-cloud environments', proficiency: 83, projects: 7 },
+  { name: 'Prometheus', category: 'Cloud', icon: '🔥', color: 'from-orange-500 to-red-600', description: 'Metrics collection and alerting for cloud workloads', proficiency: 80, projects: 5 },
+  { name: 'Grafana', category: 'Cloud', icon: '📊', color: 'from-orange-400 to-yellow-600', description: 'Observability dashboards powered by live metric streams', proficiency: 81, projects: 5 },
 
   // Mobile & Other
   { name: 'React Native', category: 'Mobile', icon: '📱', color: 'from-cyan-400 to-blue-500', description: 'Cross-platform mobile development', proficiency: 83, projects: 4 },
@@ -73,7 +75,6 @@ const categories = [
   { name: 'Database', icon: Database, color: 'text-purple-400' },
   { name: 'AI/ML', icon: Brain, color: 'text-orange-400' },
   { name: 'Cloud', icon: Cloud, color: 'text-yellow-400' },
-  { name: 'DevOps', icon: GitBranch, color: 'text-red-400' },
   { name: 'Mobile', icon: Smartphone, color: 'text-pink-400' },
   { name: 'Systems', icon: Cpu, color: 'text-indigo-400' },
   { name: 'Desktop', icon: Layers, color: 'text-purple-400' },
