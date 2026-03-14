@@ -16,6 +16,10 @@ const TechnicalPortfolioSection = dynamic(() => import('@/components/blocks/proj
   ssr: false
 })
 
+const OpenSourcePanel = dynamic(() => import('@/components/blocks/open-source/open-source-panel'), {
+  ssr: false
+})
+
 export default function HomePage() {
   return (
     <>
@@ -29,6 +33,9 @@ export default function HomePage() {
         <div id="projects">
           <TechnicalPortfolioSection />
         </div>
+
+        {/* Open Source Contributions */}
+        <OpenSourcePanel />
 
         {/* Project Milestones Timeline */}
         <StatsForChangelog />

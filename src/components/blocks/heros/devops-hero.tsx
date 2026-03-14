@@ -343,17 +343,22 @@ export default function DevOpsHero() {
           {/* Left side - Content */}
           <div>
             <div>
-              {/* Status badge */}
-              <div className="flex items-center space-x-4 mb-8">
-                <div className="flex items-center space-x-2">
-                  <div className="relative">
-                    <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
-                    <div className="absolute inset-0 w-3 h-3 bg-blue-500 rounded-full animate-ping opacity-75"></div>
-                  </div>
-                  <span className="text-blue-500 font-semibold text-sm">Available for Projects</span>
-                </div>
-                <div className="h-4 w-px bg-slate-600"></div>
-                <span className="text-slate-400 text-sm">Cloud Solutions</span>
+              {/* Availability / Hire Me indicator */}
+              <div className="flex flex-wrap items-center gap-3 mb-8">
+                <a
+                  href="mailto:nassimmaaoui@outlook.com"
+                  className="group inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-green-500/10 border border-green-500/40 hover:bg-green-500/20 hover:border-green-400 transition-all duration-200"
+                >
+                  <span className="relative flex h-2.5 w-2.5 shrink-0">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+                  </span>
+                  <span className="text-green-400 font-semibold text-sm">Available for Hire</span>
+                  <span className="text-green-600 text-xs">·</span>
+                  <span className="text-green-500/80 text-xs font-medium group-hover:text-green-400 transition-colors">Let&apos;s talk →</span>
+                </a>
+                <div className="h-4 w-px bg-slate-600 hidden sm:block"></div>
+                <span className="text-slate-400 text-sm hidden sm:block">Cloud &amp; Infrastructure</span>
               </div>
 
               {/* Name and title */}
