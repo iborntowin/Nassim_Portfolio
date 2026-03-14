@@ -50,7 +50,7 @@ const projectsData: DetailedProject[] = [
     id: '8',
     name: 'OpenStack Infrastructure — Private Cloud Platform',
     description: 'Designed, deployed, and validated a complete OpenStack cloud infrastructure covering compute, networking, storage, monitoring, automation, and security — fully production-ready.',
-    longDescription: 'A fully deployed, tested, and production-ready OpenStack private cloud infrastructure built end-to-end with a strong focus on reliability, automation, and real-world operations. The platform covers compute orchestration with Nova, software-defined networking with Neutron, image management with Glance, block and object storage with Cinder and Swift, and infrastructure-as-code provisioning with Heat. The environment includes a full monitoring stack with Prometheus and Grafana, enterprise security with Security Groups, WAF, Floating IPs, and persistent volumes. Every layer has been operationally validated — instance boot, volume attach/detach, floating IP assignment, and secure SSH access — demonstrating a well-architected private cloud built with automation and operational rigor.',
+    longDescription: 'A two-phase private cloud platform built on OpenStack — from bare-metal infrastructure to full mobile control. Phase 1 delivers a production-ready cloud: Nova compute, Neutron SDN, Cinder & Swift storage, Heat IaC, and Prometheus + Grafana observability. Phase 2 adds a Telegram-based control plane: a bot that deploys instances, provisions full Kubernetes clusters, and adds workers to running clusters from a phone; an AI architecture recommender that designs optimal deployments from application requirements; and a Grafana alert bot that streams real-time node health directly to Telegram.',
     category: 'Cloud/Infrastructure',
     techStack: [
       { name: 'OpenStack', color: 'text-red-400 bg-red-400/10' },
@@ -60,17 +60,29 @@ const projectsData: DetailedProject[] = [
       { name: 'Swift', color: 'text-cyan-400 bg-cyan-400/10' },
       { name: 'Glance', color: 'text-pink-400 bg-pink-400/10' },
       { name: 'Heat', color: 'text-amber-400 bg-amber-400/10' },
+      { name: 'Kubernetes', color: 'text-blue-500 bg-blue-500/10' },
+      { name: 'Kubespray', color: 'text-indigo-400 bg-indigo-400/10' },
+      { name: 'Calico', color: 'text-purple-400 bg-purple-400/10' },
+      { name: 'Python', color: 'text-yellow-500 bg-yellow-500/10' },
+      { name: 'Telegram Bot API', color: 'text-sky-400 bg-sky-400/10' },
       { name: 'Prometheus', color: 'text-orange-500 bg-orange-500/10' },
-      { name: 'Grafana', color: 'text-green-400 bg-green-400/10' }
+      { name: 'Grafana', color: 'text-green-400 bg-green-400/10' },
+      { name: 'Ansible', color: 'text-red-500 bg-red-500/10' }
     ],
-    stats: { stars: 0, forks: 0, commits: 85 },
+    stats: { stars: 0, forks: 0, commits: 180 },
     githubUrl: 'https://github.com/iborntowin/openstack-infrastructure',
     featured: true,
     images: [
       { src: '/images/projects/openstack/1770235637771.jpeg', alt: 'OpenStack Dashboard', caption: 'OpenStack Horizon dashboard with compute and network overview' },
       { src: '/images/projects/openstack/1770235639020.jpeg', alt: 'Infrastructure Monitoring', caption: 'Prometheus & Grafana monitoring stack with real-time metrics' },
       { src: '/images/projects/openstack/1770235639023.jpeg', alt: 'Network Topology', caption: 'Neutron network topology with floating IPs and security groups' },
-      { src: '/images/projects/openstack/1770235639246.jpeg', alt: 'Operational Validation', caption: 'Validated instance boot, volume attach, and SSH access' }
+      { src: '/images/projects/openstack/1770235639246.jpeg', alt: 'Operational Validation', caption: 'Validated instance boot, volume attach, and SSH access' },
+      { src: '/images/projects/openstack/telegram/main-menu.PNG', alt: 'Telegram Bot Main Menu', caption: 'CloudCraft Bot main control menu — full infrastructure at your fingertips' },
+      { src: '/images/projects/openstack/telegram/list-instances.PNG', alt: 'List Instances via Telegram', caption: 'Real-time instance listing with status directly in Telegram' },
+      { src: '/images/projects/openstack/telegram/add-2-chosing_the_host.PNG', alt: 'K8s Deployment - Choose Host', caption: 'Interactive host selection for Kubernetes cluster deployment' },
+      { src: '/images/projects/openstack/telegram/add_worker-final.PNG', alt: 'Worker Node Added', caption: 'Worker node successfully added to running Kubernetes cluster' },
+      { src: '/images/projects/openstack/telegram/ai_infra_recommender.PNG', alt: 'AI Architecture Recommender', caption: 'AI recommender analyzing app requirements and proposing optimal cloud architecture' },
+      { src: '/images/projects/openstack/telegram/graphana_bot.PNG', alt: 'Grafana Alert Bot', caption: 'Grafana monitoring bot streaming node health alerts to Telegram' }
     ],
     workflow: [
       {
@@ -138,25 +150,81 @@ const projectsData: DetailedProject[] = [
           'Verified floating IP assignment and external connectivity',
           'Confirmed secure SSH access through security groups'
         ]
+      },
+      {
+        title: 'Telegram Infrastructure Control Bot',
+        description: 'Mobile command-and-control for the entire OpenStack cloud via Telegram',
+        icon: '📱',
+        details: [
+          'Deploy new VM instances from phone with interactive host selection',
+          'List, manage, and delete running instances in real time',
+          'Manage Cinder volumes and floating IP assignments',
+          'Full infrastructure lifecycle control without touching a terminal'
+        ]
+      },
+      {
+        title: 'Kubernetes Cluster Automation',
+        description: 'One-command K8s cluster provisioning and worker scaling via bot',
+        icon: '⚙️',
+        details: [
+          'Deploy full production-grade Kubernetes 1.28.10 clusters from Telegram',
+          'Kubespray + Ansible automation with Heat IaC underneath',
+          'Add worker nodes to existing running clusters interactively',
+          'Calico CNI, Prometheus + Grafana stack deployed automatically'
+        ]
+      },
+      {
+        title: 'AI Architecture Recommender',
+        description: 'Describe your application — AI designs the optimal cloud infrastructure',
+        icon: '🤖',
+        details: [
+          'Natural language input: describe your app and traffic requirements',
+          'AI analyzes requirements and proposes optimal node topology',
+          'Recommends instance types, worker counts, and networking strategy',
+          'One-click deployment of the recommended architecture'
+        ]
+      },
+      {
+        title: 'Grafana Health Monitoring Bot',
+        description: 'Node health and alerts streamed directly to Telegram via Grafana',
+        icon: '📊',
+        details: [
+          'Real-time Grafana dashboards accessible from Telegram',
+          'Automated alerts pushed to phone when node health degrades',
+          'CPU, memory, disk, and network KPIs per node',
+          'Proactive incident response without dashboard babysitting'
+        ]
       }
     ],
     challenges: [
       'Orchestrating multi-service OpenStack deployment with complex inter-service dependencies',
       'Designing a secure and isolated network topology with Neutron across tenant boundaries',
       'Ensuring storage reliability with Cinder and Swift under real-world failure scenarios',
-      'Building comprehensive monitoring across compute, network, and storage layers'
+      'Building comprehensive monitoring across compute, network, and storage layers',
+      'Building a stateful Telegram bot that safely drives Heat and Ansible without race conditions',
+      'Automating full Kubespray-based K8s cluster deployment through an async bot interface',
+      'Designing an AI recommender that maps free-form app descriptions to concrete infrastructure topologies',
+      'Streaming live Grafana alerts to Telegram without duplicating or missing events'
     ],
     solutions: [
       'Used Heat templates for deterministic, repeatable deployments with dependency ordering',
       'Implemented provider and tenant network separation with security groups and floating IPs',
       'Configured persistent volumes with Cinder and multi-replica object storage with Swift',
-      'Deployed Prometheus exporters per service with Grafana dashboards for unified observability'
+      'Deployed Prometheus exporters per service with Grafana dashboards for unified observability',
+      'Built a conversation-state machine in Python for the bot with per-user deployment locks',
+      'Wrapped Kubespray ansible-playbook calls inside the bot with real-time log streaming to chat',
+      'Used structured prompting with OpenAI to extract compute topology from natural language and map it to OpenStack flavors',
+      'Implemented Grafana webhook integration that routes alert payloads to targeted Telegram chats'
     ],
     impact: [
       'Fully production-ready private cloud infrastructure',
       'Automated provisioning via Heat — zero manual setup',
       'Complete monitoring with Prometheus & Grafana',
-      'Validated end-to-end: boot, storage, networking, SSH'
+      'Full K8s cluster deployed from a Telegram message',
+      'Worker nodes added to live clusters via phone',
+      'AI-designed architectures deployed in minutes',
+      'Real-time node health alerts pushed to Telegram',
+      'Entire cloud controlled from a smartphone'
     ],
     keyFeatures: [
       'Full OpenStack deployment (Nova, Neutron, Glance, Cinder, Swift)',
@@ -165,15 +233,17 @@ const projectsData: DetailedProject[] = [
       'Block storage (Cinder) & object storage (Swift)',
       'Security Groups, WAF, and Floating IPs',
       'Prometheus & Grafana monitoring stack',
-      'Automated provisioning and teardown',
-      'Operational validation across all layers',
-      'Scalable multi-tenant architecture',
-      'Production-ready with real-world testing'
+      'Telegram bot: deploy instances & manage cloud from phone',
+      'One-command Kubernetes cluster deployment via Telegram (Kubespray + Ansible)',
+      'Live worker-node addition to running K8s clusters from bot',
+      'AI infrastructure recommender: describe app → get optimal architecture',
+      'Grafana alert bot: real-time node health streamed to Telegram',
+      'Automated provisioning and teardown'
     ],
-    architecture: 'Multi-node OpenStack deployment with Nova compute, Neutron SDN, Glance image service, Cinder block storage, Swift object storage, Heat orchestration, and Prometheus + Grafana observability stack',
-    timeline: '3 months',
+    architecture: 'Two-phase platform: Phase 1 — multi-node OpenStack (Nova, Neutron, Glance, Cinder, Swift, Heat, Prometheus + Grafana). Phase 2 — Python Telegram bot suite for mobile infrastructure control, Kubespray/Ansible K8s automation, AI architecture recommender, and Grafana alert streaming.',
+    timeline: '5 months',
     teamSize: 'Solo project',
-    role: 'Cloud Infrastructure Engineer & DevOps Architect'
+    role: 'Cloud Infrastructure Engineer, DevOps Architect & Bot Developer'
   },
   {
     id: '7',

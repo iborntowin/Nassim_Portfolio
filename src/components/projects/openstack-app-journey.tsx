@@ -2,7 +2,7 @@
 
 import { motion, useReducedMotion, useInView } from 'framer-motion'
 import Image from 'next/image'
-import { ArrowRight, Server, Network, HardDrive, Shield, BarChart3, CheckCircle } from 'lucide-react'
+import { ArrowRight, Server, Network, HardDrive, Shield, BarChart3, CheckCircle, Bot, Cpu, Layers, Activity } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { useState, useCallback, useRef, useMemo } from 'react'
 
@@ -14,6 +14,7 @@ interface JourneyStep {
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>
   color: string
   features: string[]
+  isPortrait?: boolean  // true for telegram/phone screenshots
 }
 
 const journeySteps: JourneyStep[] = [
@@ -70,6 +71,46 @@ const journeySteps: JourneyStep[] = [
     icon: CheckCircle,
     color: 'from-teal-500 to-cyan-500',
     features: ['Instance boot ✔', 'Volume attach ✔', 'Floating IP ✔', 'SSH access ✔']
+  },
+  {
+    id: 'telegram-bot',
+    title: 'Telegram Infrastructure Control Bot',
+    description: 'A Python Telegram bot that puts the entire OpenStack cloud in your pocket — deploy instances, manage volumes, assign floating IPs, and control the full infrastructure lifecycle from a phone without touching a terminal.',
+    image: '/images/projects/openstack/telegram/main-menu.PNG',
+    icon: Bot,
+    color: 'from-sky-500 to-blue-500',
+    features: ['Deploy instances', 'Manage volumes', 'List & delete VMs', 'Floating IP control'],
+    isPortrait: true
+  },
+  {
+    id: 'k8s-automation',
+    title: 'Kubernetes Cluster Automation',
+    description: 'One message in Telegram triggers a full Kubespray + Ansible pipeline: Heat provisions the VMs, SSH verification confirms connectivity, inventory is generated, and a production K8s 1.28.10 cluster with Calico CNI and Grafana monitoring comes up — no manual steps. Worker nodes can be added to live clusters the same way.',
+    image: '/images/projects/openstack/telegram/add_worker-final.PNG',
+    icon: Layers,
+    color: 'from-indigo-500 to-violet-500',
+    features: ['Full cluster in one command', 'Add workers to live clusters', 'Kubespray + Ansible', 'Calico + Grafana auto-deployed'],
+    isPortrait: true
+  },
+  {
+    id: 'ai-recommender',
+    title: 'AI Architecture Recommender',
+    description: 'Describe your application — its traffic, state requirements, and scale — and the AI recommender maps those requirements to a concrete OpenStack deployment topology: instance counts, flavors, networking strategy, and storage layout. One click deploys the proposed architecture.',
+    image: '/images/projects/openstack/telegram/ai_infra_recommender.PNG',
+    icon: Cpu,
+    color: 'from-fuchsia-500 to-pink-500',
+    features: ['Natural language input', 'AI topology design', 'Flavor recommendations', 'One-click deploy'],
+    isPortrait: true
+  },
+  {
+    id: 'grafana-bot',
+    title: 'Grafana Health Monitoring Bot',
+    description: 'A dedicated Telegram bot that streams real-time Grafana alerts and node-health snapshots — CPU, memory, disk, network — directly to a Telegram chat. When a node degrades, the alert lands on the phone before anyone opens a dashboard.',
+    image: '/images/projects/openstack/telegram/graphana_bot.PNG',
+    icon: Activity,
+    color: 'from-orange-500 to-amber-500',
+    features: ['Real-time Grafana alerts', 'Node CPU/memory/disk KPIs', 'Proactive incident push', 'No dashboard babysitting'],
+    isPortrait: true
   }
 ]
 
@@ -117,11 +158,11 @@ export default function OpenStackAppJourney() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl lg:text-5xl font-bold text-[var(--color-text-primary)] mb-4">
-            Deployment Journey
+            Full Project Journey
           </h2>
           <p className="text-lg text-[var(--color-text-secondary)] max-w-2xl mx-auto">
-            Follow the complete path — from architecture planning to operational validation — 
-            and see how every OpenStack service was deployed and hardened.
+            From bare hardware to mobile-controlled Kubernetes clusters — explore every phase,
+            from OpenStack infrastructure through Telegram automation, AI-powered architecture, and real-time monitoring.
           </p>
         </motion.div>
 
@@ -133,20 +174,39 @@ export default function OpenStackAppJourney() {
           className="relative"
         >
           {/* Vertical line */}
-          <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-red-500 via-blue-500 to-green-500 opacity-30" />
+          <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-red-500 via-blue-500 via-teal-500 via-sky-500 to-orange-500 opacity-30" />
 
           {journeySteps.map((step, index) => {
             const isEven = index % 2 === 0
             const StepIcon = step.icon
-            
+
             return (
-              <motion.div
-                key={step.id}
-                variants={stepVariants}
-                className={`relative flex items-center mb-16 last:mb-0 ${
-                  isEven ? 'md:flex-row' : 'md:flex-row-reverse'
-                } flex-col md:gap-8`}
-              >
+              <div key={step.id}>
+                {/* Phase 2 Divider Banner */}
+                {index === 6 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6 }}
+                    className="relative z-10 flex items-center gap-4 my-12 mb-20"
+                  >
+                    <div className="flex-1 h-px bg-gradient-to-r from-transparent via-sky-500/50 to-transparent" />
+                    <div className="flex items-center gap-3 px-6 py-2 rounded-full bg-gradient-to-r from-sky-500/20 to-indigo-500/20 border border-sky-500/30">
+                      <Bot className="w-4 h-4 text-sky-400" />
+                      <span className="text-sm font-bold text-sky-400 tracking-wider uppercase">Phase 2 — K8s Automation & Mobile Control</span>
+                      <Bot className="w-4 h-4 text-indigo-400" />
+                    </div>
+                    <div className="flex-1 h-px bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent" />
+                  </motion.div>
+                )}
+
+                <motion.div
+                  variants={stepVariants}
+                  className={`relative flex items-center mb-16 last:mb-0 ${
+                    isEven ? 'md:flex-row' : 'md:flex-row-reverse'
+                  } flex-col md:gap-8`}
+                >
                 {/* Timeline Dot */}
                 <div className="absolute left-8 md:left-1/2 transform -translate-x-1/2 z-10">
                   <motion.div
@@ -160,23 +220,46 @@ export default function OpenStackAppJourney() {
                 {/* Content Card */}
                 <div className={`w-full md:w-[calc(50%-3rem)] ${isEven ? 'md:pr-4' : 'md:pl-4'} pl-20 md:pl-0`}>
                   <Card className="bg-[var(--color-primary-background)] border-[var(--color-border)] overflow-hidden hover:shadow-xl transition-all duration-300 group">
-                    {/* Image */}
-                    <div className="relative overflow-hidden">
-                      {!loadedImages.has(index) && (
-                        <div className="w-full h-48 bg-gradient-to-br from-gray-200 to-gray-300 animate-pulse" />
-                      )}
-                      <Image
-                        src={step.image}
-                        alt={step.title}
-                        width={600}
-                        height={350}
-                        className={`w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500 ${
-                          loadedImages.has(index) ? 'opacity-100' : 'opacity-0'
-                        }`}
-                        loading="lazy"
-                        onLoad={() => handleImageLoad(index)}
-                      />
-                    </div>
+                    {/* Image — landscape for Phase 1, phone frame for Phase 2 */}
+                    {step.isPortrait ? (
+                      <div className="relative overflow-hidden bg-gray-950 flex items-center justify-center py-5" style={{ minHeight: '180px' }}>
+                        <div
+                          className="relative rounded-[18px] border-[3px] border-gray-700 bg-gray-900 overflow-hidden shadow-2xl ring-1 ring-white/10 flex-shrink-0"
+                          style={{ width: '90px', aspectRatio: '9 / 20' }}
+                        >
+                          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-6 h-1.5 bg-gray-700 rounded-b-md z-10" />
+                          {!loadedImages.has(index) && (
+                            <div className="absolute inset-0 bg-gray-800 animate-pulse" />
+                          )}
+                          <Image
+                            src={step.image}
+                            alt={step.title}
+                            fill
+                            className={`object-cover object-top transition-opacity duration-500 ${loadedImages.has(index) ? 'opacity-100' : 'opacity-0'}`}
+                            loading="lazy"
+                            sizes="120px"
+                            onLoad={() => handleImageLoad(index)}
+                          />
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="relative overflow-hidden">
+                        {!loadedImages.has(index) && (
+                          <div className="w-full h-48 bg-gradient-to-br from-gray-200 to-gray-300 animate-pulse" />
+                        )}
+                        <Image
+                          src={step.image}
+                          alt={step.title}
+                          width={600}
+                          height={350}
+                          className={`w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500 ${
+                            loadedImages.has(index) ? 'opacity-100' : 'opacity-0'
+                          }`}
+                          loading="lazy"
+                          onLoad={() => handleImageLoad(index)}
+                        />
+                      </div>
+                    )}
 
                     <CardContent className="p-6">
                       <div className="flex items-center gap-3 mb-3">
@@ -209,6 +292,7 @@ export default function OpenStackAppJourney() {
                   </div>
                 )}
               </motion.div>
+              </div>
             )
           })}
         </motion.div>
