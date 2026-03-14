@@ -220,26 +220,19 @@ export default function OpenStackAppJourney() {
                 {/* Content Card */}
                 <div className={`w-full md:w-[calc(50%-3rem)] ${isEven ? 'md:pr-4' : 'md:pl-4'} pl-20 md:pl-0`}>
                   <Card className="bg-[var(--color-primary-background)] border-[var(--color-border)] overflow-hidden hover:shadow-xl transition-all duration-300 group">
-                    {/* Image — landscape for Phase 1, phone frame for Phase 2 */}
+                    {/* Image — landscape for Phase 1, gradient visual for Phase 2 */}
                     {step.isPortrait ? (
-                      <div className="relative overflow-hidden bg-gray-950 flex items-center justify-center py-5" style={{ minHeight: '180px' }}>
-                        <div
-                          className="relative rounded-[18px] border-[3px] border-gray-700 bg-gray-900 overflow-hidden shadow-2xl ring-1 ring-white/10 flex-shrink-0"
-                          style={{ width: '90px', aspectRatio: '9 / 20' }}
-                        >
-                          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-6 h-1.5 bg-gray-700 rounded-b-md z-10" />
-                          {!loadedImages.has(index) && (
-                            <div className="absolute inset-0 bg-gray-800 animate-pulse" />
-                          )}
-                          <Image
-                            src={step.image}
-                            alt={step.title}
-                            fill
-                            className={`object-cover object-top transition-opacity duration-500 ${loadedImages.has(index) ? 'opacity-100' : 'opacity-0'}`}
-                            loading="lazy"
-                            sizes="120px"
-                            onLoad={() => handleImageLoad(index)}
-                          />
+                      <div className="relative overflow-hidden flex items-center justify-center" style={{ minHeight: '170px' }}>
+                        {/* Tinted gradient background */}
+                        <div className={`absolute inset-0 bg-gradient-to-br ${step.color} opacity-10`} />
+                        {/* Dot grid texture */}
+                        <div className="absolute inset-0 opacity-[0.06]" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '18px 18px' }} />
+                        {/* Decorative blurred orbs */}
+                        <div className={`absolute -top-8 -right-8 w-28 h-28 rounded-full bg-gradient-to-r ${step.color} opacity-25 blur-2xl`} />
+                        <div className={`absolute -bottom-6 -left-6 w-24 h-24 rounded-full bg-gradient-to-r ${step.color} opacity-20 blur-2xl`} />
+                        {/* Large icon */}
+                        <div className={`relative z-10 w-20 h-20 rounded-2xl bg-gradient-to-r ${step.color} flex items-center justify-center shadow-2xl ring-4 ring-white/10`}>
+                          <StepIcon className="w-10 h-10 text-white" />
                         </div>
                       </div>
                     ) : (
