@@ -1,388 +1,123 @@
-# Nassim Maaoui - Professional Portfolio
+# Nassim Portfolio
 
-[![Next.js](https://img.shields.io/badge/Next.js-15.3.5-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.0-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
-[![Framer Motion](https://img.shields.io/badge/Framer_Motion-12.23-FF0055?style=for-the-badge&logo=framer)](https://www.framer.com/motion/)
-[![Vercel](https://img.shields.io/badge/Deployed_on-Vercel-000000?style=for-the-badge&logo=vercel)](https://vercel.com/)
+Professional portfolio built with Next.js, TypeScript, Tailwind CSS, and Framer Motion.
 
-> **A modern, interactive portfolio showcasing full-stack development, AI/ML engineering, and DevOps expertise with enterprise-grade architecture and performance optimizations.**
+This repository contains:
+- The portfolio web application.
+- A curated dataset of project case studies.
+- Static assets (images/videos) used by project pages.
 
-## 🚀 Live Demo & Performance
+## AI Agent Quick Context
 
-**🌐 [View Live Portfolio](https://nassimmaaoui.dev)** | **📱 [Mobile Demo](https://nassimmaaoui.dev)** | **🎯 [Project Showcase](https://nassimmaaoui.dev/#technical-portfolio)**
+If you are an AI agent reading this repository, use these files as the source of truth:
+- `src/lib/projects-data.ts`: canonical project inventory, categories, technologies, stats, roles, and timelines.
+- `src/components/blocks/project-showcase/technical-portfolio-section.tsx`: homepage project showcase section.
+- `src/components/pages/*detail-page.tsx`: detail page rendering components.
+- `src/app/projects/[id]/page.tsx`: dynamic route entry for projects.
+- `package.json`: actual dependencies and scripts.
 
-### Performance Metrics
-- ⚡ **99.9% Uptime** - Enterprise-grade reliability
-- 🚀 **<100ms** - First Contentful Paint
-- 📱 **100/100** - Lighthouse Performance Score
-- ♿ **WCAG 2.1 AA** - Accessibility Compliant
-- 🔒 **A+ Security** - SSL Labs Rating
+## Portfolio App Tech Stack
 
-## ✨ Key Features
+Core runtime:
+- Next.js 15.3.5 (App Router)
+- React 18.2
+- TypeScript 5
 
-### 🎨 **Interactive User Experience**
-- **Unified Terminal Interface** with tabbed navigation and keyboard shortcuts (Ctrl+1-5)
-- **Dynamic Hero Section** with real-time code snippets rotation
-- **Interactive Project Explorer** with live code viewing and GitHub integration
-- **Smooth Scroll Animations** powered by Framer Motion
-- **Responsive Design** optimized for all devices
-- **Dark Theme** with custom CSS variables system
+UI and animation:
+- Tailwind CSS 4
+- Framer Motion 12
+- Radix UI primitives
+- Lucide React
 
-### 🛠️ **Technical Excellence**
-- **Component-Based Architecture** with reusable UI components
-- **Type-Safe Development** with comprehensive TypeScript coverage
-- **Performance Optimized** with Next.js 15 and Turbopack
-- **SEO Optimized** with structured data and meta tags
-- **Accessibility First** with ARIA labels and keyboard navigation
+Forms, validation, and data UI:
+- React Hook Form
+- Zod
+- Recharts
+- Embla Carousel
 
-### 📊 **Project Showcase System**
-- **11 Featured Projects** across multiple technology stacks
-- **Interactive Filtering** by technology category
-- **Detailed Project Pages** with comprehensive documentation
-- **GitHub Integration** with live stats and repository links
-- **Technical Deep Dives** with architecture diagrams and workflows
+Interactive visuals:
+- React Three Fiber
+- @react-three/drei
+- TSParticles
 
-### 🔧 **Advanced Features**
-- **Unified Terminal System** with command history, tab completion, and autocomplete
-- **3D Animations** with React Three Fiber
-- **Particle Systems** for visual enhancement
-- **Advanced Code Syntax Highlighting** with custom themes
-- **Contact Form** with validation and email integration
-- **Performance Monitoring** with built-in analytics
-- **Keyboard Shortcuts** for seamless navigation (Ctrl+1-5 for tabs)
+## Project Inventory (from src/lib/projects-data.ts)
 
-## 🏗️ Architecture & Tech Stack
+| ID | Project | Category | Timeline | Role | Core Tech |
+|---|---|---|---|---|---|
+| 8 | OpenStack Infrastructure - Private Cloud Platform | Cloud/Infrastructure | 5 months | Cloud Infrastructure Engineer, DevOps Architect and Bot Developer | OpenStack, Nova, Neutron, Cinder, Swift, Glance, Heat, Kubernetes, Kubespray, Calico, Python, Telegram Bot API, Prometheus, Grafana, Ansible |
+| 7 | InventoryERP - Enterprise Inventory and Management | Full-Stack | 5 months | Full-Stack Developer and Desktop App Architect | Tauri, React, Rust, TypeScript, SQLite, Tailwind CSS |
+| 1 | NasmyTunes - Spotify to MP3 Converter | Productivity | 3 months | Full-Stack Developer and System Architect | Python, Spotify API, YouTube API, FFmpeg, Flask |
+| 2 | Cession App - Session and Contract Management | Full-Stack | 4 months | Full-Stack Developer and System Architect | Spring Boot, Svelte, PostgreSQL, JWT Auth |
+| 3 | Board-AI: Electronic Component Detection | AI/ML | 6 months | AI/ML Engineer and Computer Vision Specialist | Python, OpenCV, TensorFlow, TensorRT |
+| 4 | NeuroVigil: Driver Fatigue Detection | AI/ML | 5 months | Biomedical Engineer and Signal Processing Specialist | Python, SciPy, EEG Processing, Signal Analysis |
+| 5 | Nanosatellite Communication System | Embedded | 8 months | Embedded Systems Engineer and Protocol Designer | C++, STM32, LoRaWAN, Low-Power Protocols |
+| 6 | GoldenTouch - AI Event Platform | Full-Stack | 7 months | Full-Stack Developer and AI Integration Specialist | Symfony, JavaFX, Hugging Face API, PDF/Email Integration |
 
-### **Frontend Architecture**
-```
-├── Next.js 15 (App Router)
-├── TypeScript 5.0
-├── Tailwind CSS 4.0
-├── Framer Motion 12.23
-├── Radix UI Components
-└── React Three Fiber
-```
+## Category Totals
 
-### **Core Technologies**
+- Full-Stack: 3
+- AI/ML: 2
+- Embedded: 1
+- Productivity: 1
+- Cloud/Infrastructure: 1
+- Total projects: 8
 
-#### **Framework & Runtime**
-- **Next.js 15.3.5** - React framework with App Router
-- **React 18.2** - Component-based UI library
-- **TypeScript 5.0** - Type-safe development
-- **Node.js** - Server-side runtime
+## Repository Structure
 
-#### **Styling & Animation**
-- **Tailwind CSS 4.0** - Utility-first CSS framework
-- **Framer Motion 12.23** - Production-ready motion library
-- **CSS Variables** - Dynamic theming system
-- **Responsive Design** - Mobile-first approach
+Important paths:
+- `src/app`: Next.js routes, layouts, and metadata routes.
+- `src/components`: UI blocks, terminal system, project pages, and shared components.
+- `src/lib`: project data, SEO config, utilities, and performance helpers.
+- `public/images/projects`: project screenshots and media assets.
+- `scripts`: automation and infrastructure-related sample scripts.
 
-#### **UI Components & Libraries**
-- **Radix UI** - Accessible component primitives
-- **Lucide React** - Beautiful icon library
-- **React Hook Form** - Performant form handling
-- **Sonner** - Toast notifications
-- **Embla Carousel** - Touch-friendly carousels
+Main routes:
+- `/` home page.
+- `/projects/[id]` project detail pages.
+- `/terminal` terminal mode.
+- `/enhanced-terminal`, `/privacy`, `/terms`.
 
-#### **3D & Visual Effects**
-- **React Three Fiber** - 3D graphics with Three.js
-- **@react-three/drei** - Useful helpers for R3F
-- **Cobe** - Interactive globe visualization
-- **TSParticles** - Particle system animations
+## Local Development
 
-#### **Development & Build Tools**
-- **Turbopack** - Next-generation bundler
-- **ESLint** - Code linting and formatting
-- **PostCSS** - CSS processing
-- **Critters** - Critical CSS inlining
+Prerequisites:
+- Node.js 18+
+- npm
 
-### **Performance Optimizations**
+Install and run:
 
-#### **Image Optimization**
-```javascript
-// Next.js Image Configuration
-images: {
-  formats: ['image/webp', 'image/avif'],
-  deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
-  minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days
-}
-```
-
-#### **Bundle Optimization**
-- **Package Import Optimization** for Lucide React and Framer Motion
-- **Critical CSS Inlining** with Critters
-- **Static Generation** for optimal performance
-- **Compression** enabled for all assets
-
-#### **Caching Strategy**
-- **Static Assets**: 1 year cache with immutable headers
-- **Images**: 30-day cache with WebP/AVIF formats
-- **API Routes**: Optimized with appropriate cache headers
-
-## 🎨 UI/UX Highlights
-
-### **Design System**
-- **Consistent Color Palette** with CSS custom properties
-- **Typography Scale** with responsive font sizes
-- **Component Library** with Radix UI primitives
-- **Animation Guidelines** with Framer Motion presets
-
-### **Interactive Elements**
-- **Hover Effects** with smooth transitions
-- **Loading States** with skeleton components
-- **Micro-interactions** for enhanced user feedback
-- **Gesture Support** for touch devices
-
-### **Accessibility Features**
-- **WCAG 2.1 AA Compliance** with proper contrast ratios
-- **Keyboard Navigation** for all interactive elements
-- **Screen Reader Support** with semantic HTML and ARIA labels
-- **Focus Management** with visible focus indicators
-
-## ⚡ Performance & Scalability
-
-### **Core Web Vitals**
-- **LCP (Largest Contentful Paint)**: <1.2s
-- **FID (First Input Delay)**: <100ms
-- **CLS (Cumulative Layout Shift)**: <0.1
-- **FCP (First Contentful Paint)**: <1.0s
-
-### **Optimization Techniques**
-- **Code Splitting** with dynamic imports
-- **Image Optimization** with next/image
-- **Font Optimization** with next/font
-- **Bundle Analysis** with webpack-bundle-analyzer
-
-### **Scalability Features**
-- **Component Reusability** with consistent API patterns
-- **Type Safety** preventing runtime errors
-- **Performance Monitoring** with built-in metrics
-- **Error Boundaries** for graceful error handling
-
-## 🔒 Security Features
-
-### **Security Headers**
-```javascript
-// Security Configuration
-headers: [
-  { key: 'X-Frame-Options', value: 'DENY' },
-  { key: 'X-Content-Type-Options', value: 'nosniff' },
-  { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
-  { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' }
-]
-```
-
-### **Content Security**
-- **CSP Headers** for XSS protection
-- **HTTPS Enforcement** with HSTS
-- **Secure Image Loading** with content security policies
-- **Input Validation** with Zod schemas
-
-## 📱 Cross-Platform Support
-
-### **Device Compatibility**
-- **Desktop**: Optimized for all major browsers
-- **Tablet**: Touch-friendly interactions
-- **Mobile**: Responsive design with mobile-first approach
-- **PWA Ready**: Service worker and manifest support
-
-### **Browser Support**
-- **Chrome/Edge**: Full feature support
-- **Firefox**: Complete compatibility
-- **Safari**: Optimized for iOS and macOS
-- **Mobile Browsers**: Touch gestures and viewport optimization
-
-## 🛠️ Installation & Setup
-
-### **Prerequisites**
-- Node.js 18.0 or higher
-- npm, yarn, or pnpm package manager
-- Git for version control
-
-### **Quick Start**
 ```bash
-# Clone the repository
-git clone https://github.com/iborntowin/nassimmaaouiportfolio.git
-cd nassimmaaouiportfolio
-
-# Install dependencies
 npm install
-
-# Start development server with Turbopack
 npm run dev
-
-# Open browser
-open http://localhost:3000
 ```
 
-### **Available Scripts**
+Build and validation:
+
 ```bash
-# Development
-npm run dev          # Start development server with Turbopack
-npm run build        # Build for production
-npm run start        # Start production server
-npm run lint         # Run ESLint
-
-# Utilities
-npm run type-check   # TypeScript type checking
-npm run analyze      # Bundle analysis
-npm run seo-check    # SEO validation
+npm run lint
+npm run type-check
+npm run build
 ```
 
-### **Environment Configuration**
-```bash
-# Create .env.local file
-NEXT_PUBLIC_SITE_URL=https://nassimmaaoui.dev
-NEXT_PUBLIC_GITHUB_USERNAME=iborntowin
-```
+## Scripts
 
-## 📚 Project Portfolio
+- `npm run dev`: start development server with Turbopack.
+- `npm run build`: create production build.
+- `npm run start`: run production server.
+- `npm run lint`: run Next.js ESLint checks.
+- `npm run type-check`: run TypeScript type checking.
+- `npm run analyze`: build with bundle analysis.
+- `npm run seo-check`: build and export check.
+- `npm run generate-images`: run placeholder image generation script.
 
-### **Featured Projects Overview**
+## Notes for Automation
 
-> **All projects are fully documented with detailed case studies, technical deep-dives, and live demonstrations available on the portfolio website.**
+- Do not infer project count from old docs. Always read `src/lib/projects-data.ts`.
+- Project IDs are string values and map to dynamic routes (`/projects/{id}`).
+- Some projects have dedicated page components in `src/components/pages`.
+- Image-heavy sections depend on assets under `public/images/projects`.
 
-#### **🏆 Cession App - Session & Contract Management**
-- **Tech Stack**: Spring Boot, Svelte, PostgreSQL, JWT
-- **Highlights**: 60% faster contract processing, GDPR compliant
-- **GitHub**: 194 ⭐ | 42 🍴 | 87 commits
+## Contact
 
-#### **🤖 Board-AI - Electronic Component Detection**
-- **Tech Stack**: Python, OpenCV, TensorFlow, TensorRT
-- **Highlights**: 92% accuracy, 120ms inference time
-- **GitHub**: 271 ⭐ | 64 🍴 | 142 commits
-
-#### **🧠 NeuroVigil - Driver Fatigue Detection**
-- **Tech Stack**: Python, SciPy, EEG Processing
-- **Highlights**: 89% precision, <5% false positives
-- **GitHub**: 198 ⭐ | 49 🍴 | 91 commits
-
-#### **🛰️ Nanosatellite Communication System**
-- **Tech Stack**: C++, STM32, LoRaWAN
-- **Highlights**: 1.2 Mbps data rate, 40% performance gain
-- **GitHub**: 305 ⭐ | 77 🍴 | 198 commits
-
-#### **🎯 GoldenTouch - AI Event Platform**
-- **Tech Stack**: Symfony, JavaFX, Hugging Face API
-- **Highlights**: AI-powered feedback analysis, multi-channel notifications
-- **GitHub**: 221 ⭐ | 41 🍴 | 116 commits
-
-### **Technology Categories**
-- **Full-Stack Development**: 4 projects
-- **AI/ML Engineering**: 3 projects  
-- **Embedded Systems**: 1 project
-- **Productivity Tools**: 3 projects
-
-## 🧪 Testing & Quality Assurance
-
-### **Code Quality**
-- **TypeScript**: 100% type coverage
-- **ESLint**: Strict linting rules
-- **Prettier**: Consistent code formatting
-- **Husky**: Pre-commit hooks
-
-### **Performance Testing**
-- **Lighthouse CI**: Automated performance audits
-- **Bundle Analysis**: Size optimization monitoring
-- **Core Web Vitals**: Real user monitoring
-
-### **Accessibility Testing**
-- **axe-core**: Automated accessibility testing
-- **Manual Testing**: Screen reader compatibility
-- **Keyboard Navigation**: Complete keyboard support
-
-## 🚀 Deployment & DevOps
-
-### **Deployment Strategy**
-- **Platform**: Vercel (Recommended)
-- **Build**: Next.js static optimization
-- **CDN**: Global edge network
-- **SSL**: Automatic HTTPS certificates
-
-### **CI/CD Pipeline**
-```yaml
-# Automated deployment workflow
-- Code push to main branch
-- Automated testing and linting
-- Build optimization and bundling
-- Deployment to Vercel
-- Performance monitoring
-```
-
-### **Infrastructure as Code**
-The project includes comprehensive DevOps configurations:
-- **Terraform**: AWS infrastructure provisioning
-- **Kubernetes**: Container orchestration
-- **Docker**: Containerization support
-- **Monitoring**: Health checks and alerting
-
-### **Performance Monitoring**
-- **Real User Monitoring**: Core Web Vitals tracking
-- **Error Tracking**: Comprehensive error logging
-- **Analytics**: User behavior insights
-- **Uptime Monitoring**: 99.9% availability tracking
-
-## 🤝 Contributing
-
-### **Development Guidelines**
-1. **Fork** the repository
-2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
-3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
-4. **Push** to the branch (`git push origin feature/amazing-feature`)
-5. **Open** a Pull Request
-
-### **Code Standards**
-- Follow TypeScript best practices
-- Use semantic commit messages
-- Maintain test coverage above 80%
-- Follow accessibility guidelines
-
-### **Project Structure**
-```
-src/
-├── app/                 # Next.js App Router pages
-├── components/          # Reusable UI components
-│   ├── blocks/         # Page sections and layouts
-│   ├── ui/             # Base UI components
-│   └── seo/            # SEO and structured data
-├── lib/                # Utility functions and data
-├── hooks/              # Custom React hooks
-└── styles/             # Global styles and themes
-```
-
-## 📄 License
-
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
-
-## 📧 Contact & Support
-
-### **Professional Contact**
-- **Portfolio**: [nassimmaaoui.dev](https://nassimmaaoui.dev)
-- **GitHub**: [@iborntowin](https://github.com/iborntowin)
-- **Email**: [nassimmaaoui@outlook.com](mailto:nassimmaaoui@outlook.com)
-
-### **Technical Expertise**
-- **Full-Stack Development**: React, Next.js, Spring Boot, Node.js
-- **AI/ML Engineering**: Python, TensorFlow, Computer Vision, NLP
-- **DevOps & Cloud**: AWS, Kubernetes, Docker, Terraform
-- **Mobile Development**: React Native, Cross-platform solutions
-
-### **Collaboration Opportunities**
-- 🚀 **Startup Projects**: Full-stack development and technical leadership
-- 🏢 **Enterprise Solutions**: Scalable architecture and system design
-- 🤖 **AI/ML Projects**: Computer vision and machine learning implementations
-- ☁️ **Cloud Migration**: DevOps and infrastructure modernization
-
----
-
-<div align="center">
-
-**Built with ❤️ by [Nassim Maaoui](https://nassimmaaoui.dev)**
-
-*Transforming ideas into scalable, high-performance digital solutions*
-
-[![GitHub followers](https://img.shields.io/github/followers/iborntowin?style=social)](https://github.com/iborntowin)
-[![Portfolio](https://img.shields.io/badge/Portfolio-nassimmaaoui.dev-blue?style=social&logo=vercel)](https://nassimmaaoui.dev)
-
-</div>
+- Portfolio: https://nassimmaaoui.dev
+- GitHub: https://github.com/iborntowin
+- Email: nassimmaaoui@outlook.com
