@@ -114,28 +114,10 @@ const nextConfig = {
     ]
   },
 
-  // Bundle analyzer (only for webpack, not turbopack)
-  webpack: (config, { isServer }) => {
-    if (process.env.ANALYZE === 'true') {
-      const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
-      config.plugins.push(
-        new BundleAnalyzerPlugin({
-          analyzerMode: 'server',
-          analyzerPort: isServer ? 8888 : 8889,
-          openAnalyzer: true,
-        })
-      )
-    }
-
-    return config
-  },
-
-  // Turbopack configuration (experimental) - removed invalid config
+  // Turbopack (Next.js 16 default bundler)
+  turbopack: {},
 
   // Output configuration
-  output: 'standalone',
-  
-  // Enable static optimization
   trailingSlash: false,
   
   // PoweredByHeader
