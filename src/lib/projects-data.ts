@@ -1,3 +1,5 @@
+import { isProjectPublic } from './visibility'
+
 export interface TechStackItem {
   name: string
   color: string
@@ -865,18 +867,31 @@ const projectsData: DetailedProject[] = [
 ]
 
 export function getAllProjects(): DetailedProject[] {
+  return projectsData.filter(project => isProjectPublic(project.id))
+}
+
+/** Every project, including the ones hidden from the public site. */
+export function getAllProjectsIncludingHidden(): DetailedProject[] {
   return projectsData
 }
 
+/** Uses only public projects, so hidden ids behave like missing ones. */
 export function getProjectById(id: string): DetailedProject | undefined {
+  const project = projectsData.find(item => item.id === id)
+  return project && isProjectPublic(project.id) ? project : undefined
+}
+
+/** Look up a project even when it is hidden from the public site. */
+export function getProjectByIdIncludingHidden(id: string): DetailedProject | undefined {
   return projectsData.find(project => project.id === id)
 }
 
 export function getProjectsByCategory(category: string): DetailedProject[] {
-  if (category === 'All') return projectsData
-  return projectsData.filter(project => project.category === category)
+  const projects = getAllProjects()
+  if (category === 'All') return projects
+  return projects.filter(project => project.category === category)
 }
 
 export function getFeaturedProjects(): DetailedProject[] {
-  return projectsData.filter(project => project.featured)
+  return getAllProjects().filter(project => project.featured)
 }

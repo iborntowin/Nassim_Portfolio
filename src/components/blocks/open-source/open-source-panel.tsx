@@ -1,7 +1,7 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import { Github, Star, ArrowUpRight, Lock } from 'lucide-react'
+import { isProjectPublic } from '@/lib/visibility'
 
 const repos = [
   {
@@ -42,26 +42,17 @@ const repos = [
 ]
 
 const privateWork = [
-  'HuaweiHelper — internal RAN monitoring platform (Huawei Technologies)',
-  'Hackership — internship platform for Felcloud',
-  'Ansible Studio — desktop IDE for Ansible infrastructure',
-  'InventoryERP — Tauri + Rust desktop ERP',
-]
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: (i = 0) => ({ opacity: 1, y: 0, transition: { duration: 0.5, delay: i * 0.06 } }),
-}
+  { projectId: '9', label: 'HuaweiHelper — internal RAN monitoring platform (Huawei Technologies)' },
+  { projectId: '11', label: 'Ansible Studio — desktop IDE for Ansible infrastructure' },
+  { projectId: '10', label: 'Hackership — internship platform for Felcloud' },
+  { projectId: '7', label: 'InventoryERP — Tauri + Rust desktop ERP' },
+].filter((item) => isProjectPublic(item.projectId))
 
 export default function OpenSourcePanel() {
   return (
     <section className="bg-[var(--color-primary-background)] py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeUp}
+        <div
           className="flex flex-wrap items-end justify-between gap-6 mb-10"
         >
           <div className="max-w-2xl">
@@ -85,21 +76,16 @@ export default function OpenSourcePanel() {
             <Github className="w-4 h-4" />
             github.com/iborntowin
           </a>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
           <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
             {repos.map((repo, index) => (
-              <motion.a
+              <a
                 key={repo.name}
                 href={repo.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                custom={index}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={fadeUp}
                 className="group flex flex-col rounded-xl border border-[var(--color-secondary-background)] bg-[var(--color-secondary-background)]/40 p-5 hover:border-[var(--color-secondary-accent)]/50 transition-colors"
               >
                 <div className="flex items-center justify-between mb-2">
@@ -119,16 +105,11 @@ export default function OpenSourcePanel() {
                     {repo.stars}
                   </span>
                 </div>
-              </motion.a>
+              </a>
             ))}
           </div>
 
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            custom={2}
-            variants={fadeUp}
+          <div
             className="rounded-xl border border-[var(--color-secondary-background)] bg-[var(--color-secondary-background)]/40 p-5"
           >
             <div className="flex items-center gap-2 mb-3">
@@ -142,13 +123,13 @@ export default function OpenSourcePanel() {
             </p>
             <ul className="space-y-3">
               {privateWork.map((item) => (
-                <li key={item} className="flex gap-2 text-sm leading-relaxed text-[var(--color-text-secondary)]">
+                <li key={item.projectId} className="flex gap-2 text-sm leading-relaxed text-[var(--color-text-secondary)]">
                   <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-[var(--color-secondary-accent)]" />
-                  {item}
+                  {item.label}
                 </li>
               ))}
             </ul>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

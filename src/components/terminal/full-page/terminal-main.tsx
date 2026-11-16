@@ -163,14 +163,16 @@ export function FullPageTerminal() {
       if (isCancelled) return
       await new Promise(resolve => setTimeout(resolve, 400))
       
-      // Add the ASCII banner
-      addLine(ASCII_BANNERS.welcome, 'system')
-      
-      await new Promise(resolve => setTimeout(resolve, 200))
+      // Plain-text banner: readable at any width, unlike fixed-width ASCII art
       addLine('', 'output')
-      addLine('🚀 Welcome to the Cloud Engineer Command Console!', 'success')
-      addLine('💡 Type "help" to see available commands', 'info')
-      addLine('💡 Try "sudo become-legend" for a surprise!', 'info')
+      addLine('NASSIM MAAOUI', 'system')
+      addLine('Cloud & Infrastructure Engineer · ESPRIT, graduating June 2027', 'system')
+      addLine('Tunis, Tunisia · available for a 6-month internship from Dec 2026', 'system')
+      addLine('', 'output')
+
+      await new Promise(resolve => setTimeout(resolve, 150))
+      addLine('Welcome to the Cloud Engineer Command Console.', 'success')
+      addLine('💡 Type "help" for commands, "projects" to list work, "view 8" for the OpenStack cloud', 'info')
       addLine('', 'output')
 
       setIsBooting(false)

@@ -75,50 +75,6 @@ export const ASCII_BANNERS = {
 └─────────────────────────────────────────────────────────────────────────────┘`
 }
 
-// Project data for terminal commands
-export const PROJECTS_DATA = [
-  {
-    id: 'cession-app',
-    name: 'Cession App',
-    description: 'Session & Contract Management Platform',
-    tech: ['Spring Boot', 'Svelte', 'PostgreSQL', 'JWT'],
-    status: 'deployed',
-    stars: 194,
-    deployments: 12,
-    uptime: '99.9%'
-  },
-  {
-    id: 'board-ai',
-    name: 'Board-AI',
-    description: 'CNN-based Electronic Component Detection',
-    tech: ['Python', 'TensorFlow', 'OpenCV', 'TensorRT'],
-    status: 'deployed',
-    stars: 271,
-    accuracy: '92%',
-    inference: '120ms'
-  },
-  {
-    id: 'nanosatellite-comm',
-    name: 'NanoSat Comm',
-    description: 'Optimized LoRaWAN Communication Module',
-    tech: ['C++', 'STM32', 'LoRaWAN', 'Embedded'],
-    status: 'deployed',
-    stars: 305,
-    dataRate: '1.2 Mbps',
-    platforms: 5
-  },
-  {
-    id: 'goldentouch',
-    name: 'GoldenTouch',
-    description: 'AI-Powered Event Management Platform',
-    tech: ['Symfony', 'JavaFX', 'Hugging Face', 'AI'],
-    status: 'deployed',
-    stars: 221,
-    events: '500+',
-    aiAccuracy: '94%'
-  }
-]
-
 // Skills data
 export const SKILLS_DATA = {
   'cloud': {
@@ -177,11 +133,11 @@ export const ABOUT_DATA = {
     'Infrastructure as Code'
   ],
   achievements: [
-    '25+ Projects Deployed to Production',
-    '99.9% System Uptime Achieved',
-    '2.1k+ GitHub Stars Earned',
-    'Multiple Cloud Certifications',
-    'Open Source Contributor'
+    'Internal RAN monitoring platform in daily use at Huawei Technologies (23 sites)',
+    'OpenStack private cloud deployed from bare metal and validated end to end',
+    'Kubernetes clusters provisioned with Kubespray + Calico',
+    'B.Sc. Computer Systems Engineering, distinction (Très Bien)',
+    'President, Smartech FSB Robotics Club (20-member team)'
   ]
 }
 
@@ -294,14 +250,14 @@ export const COMMAND_REGISTRY: Record<string, Command> = {
         '',
         '👨‍💻 Nassim Maaoui - Cloud Engineer & DevOps Architect',
         '🌍 Location: Tunisia',
-        '🚀 Specialization: Cloud-Native Systems, AI/ML, Automation',
-        '⚡ Current Status: Building the future, one deployment at a time',
+        '🚀 Specialization: Cloud & network architecture, infrastructure automation, observability',
+        '🎓 ESPRIT — Computer Engineering (Cloud & Network Architecture), graduating June 2027',
+        '📅 Available for a 6-month internship from Dec 2026',
         '',
-        '📊 Quick Stats:',
-        '  • 25+ Projects Deployed',
-        '  • 99.9% Uptime Achieved',
-        '  • 2.1k+ GitHub Stars',
-        '  • 5+ Years Experience',
+        '📊 Snapshot:',
+        '  • 3 internships (Huawei Technologies, Tech4IoT, Eleonetech)',
+        '  • 1 internal platform in daily use at Huawei (23 radio sites)',
+        '  • Private OpenStack cloud + Kubernetes deployed from bare metal',
         ''
       ],
       type: 'info'
@@ -343,13 +299,14 @@ export const COMMAND_REGISTRY: Record<string, Command> = {
 
       projects.forEach(project => {
         const status = project.featured ? 'FEATURED' : 'ACTIVE'
-        output.push(`📦 ${project.name.padEnd(35)} ${status.padEnd(10)} ⭐ ${project.stats.stars}`)
+        const repo = project.githubUrl ? 'PUBLIC' : 'PRIVATE'
+        output.push(`📦 ${project.name.padEnd(42)} ${status.padEnd(9)} ${repo.padEnd(8)} ${project.timeline}`)
         output.push(`   ${project.description}`)
-        output.push(`   Category: ${project.category} | Timeline: ${project.timeline}`)
+        output.push(`   Category: ${project.category}`)
         
         if (detailed) {
           output.push(`   Tech Stack: ${project.techStack.map(t => t.name).join(', ')}`)
-          output.push(`   GitHub: ${project.githubUrl}`)
+          if (project.githubUrl) output.push(`   GitHub: ${project.githubUrl}`)
           if (project.liveUrl) output.push(`   Live URL: ${project.liveUrl}`)
           output.push(`   Role: ${project.role}`)
         }
@@ -441,11 +398,9 @@ export const COMMAND_REGISTRY: Record<string, Command> = {
           `📋 Description: ${project.description}`,
           `🏷️  Project ID: ${project.id}`,
           `📂 Category: ${project.category}`,
-          `⭐ GitHub Stars: ${project.stats.stars}`,
-          `🍴 Forks: ${project.stats.forks}`,
-          `📝 Commits: ${project.stats.commits}`,
           `⏱️  Timeline: ${project.timeline}`,
           `👤 Role: ${project.role}`,
+          `🔗 Repository: ${project.githubUrl ?? 'private / internal'}`,
           ...(project.teamSize ? [`👥 Team Size: ${project.teamSize}`] : []),
           '',
           '🛠️  Technology Stack:',

@@ -244,8 +244,7 @@ export default function OpenStackDetailPage({ project }: OpenStackDetailPageProp
           <div className="max-w-7xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               className="text-center mb-12"
             >
@@ -265,8 +264,7 @@ export default function OpenStackDetailPage({ project }: OpenStackDetailPageProp
                   <motion.div
                     key={gi}
                     initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: gi * 0.1 }}
                   >
                     <Card className={`${group.bgColor} border ${group.borderColor} h-full`}>
@@ -313,8 +311,7 @@ export default function OpenStackDetailPage({ project }: OpenStackDetailPageProp
           <div className="max-w-7xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               className="flex items-center gap-6 mb-16"
             >
@@ -330,8 +327,7 @@ export default function OpenStackDetailPage({ project }: OpenStackDetailPageProp
 
             <motion.div
               initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               className="text-center mb-14"
             >
@@ -355,8 +351,7 @@ export default function OpenStackDetailPage({ project }: OpenStackDetailPageProp
                 <motion.div
                   key={i}
                   initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
+                  animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: i * 0.1 }}
                 >
                   <Card className={`${f.bg} border ${f.border} h-full group hover:scale-[1.02] transition-transform duration-300`}>
@@ -381,8 +376,7 @@ export default function OpenStackDetailPage({ project }: OpenStackDetailPageProp
             <motion.div
               variants={containerVariants}
               initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
+              animate="visible"
               className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16"
             >
               {/* Challenges */}
@@ -433,8 +427,7 @@ export default function OpenStackDetailPage({ project }: OpenStackDetailPageProp
             {/* Impact */}
             <motion.div
               initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
               <h2 className="text-3xl font-bold text-[var(--color-text-primary)] mb-8 text-center">
@@ -445,8 +438,7 @@ export default function OpenStackDetailPage({ project }: OpenStackDetailPageProp
                   <motion.div
                     key={i}
                     initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: i * 0.08 }}
                   >
                     <Card className="bg-[var(--color-secondary-background)] border-[var(--color-border)] p-5 text-center hover:border-green-500/30 transition-colors duration-300">
@@ -465,8 +457,7 @@ export default function OpenStackDetailPage({ project }: OpenStackDetailPageProp
           <div className="max-w-4xl mx-auto text-center">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
               <h2 className="text-3xl font-bold text-[var(--color-text-primary)] mb-4">

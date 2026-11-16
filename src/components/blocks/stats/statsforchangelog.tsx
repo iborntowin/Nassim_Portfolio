@@ -4,11 +4,13 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { AnimatePresence, motion, useMotionValue } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { isProjectPublic } from "@/lib/visibility";
 
 export function StatsForChangelog() {
   const stats = [
     {
       title: "2026 · Huawei",
+      projectId: '9',
       content: (
         <div className="flex flex-col">
           <h2 className="mt-6 text-xl font-bold text-[var(--color-text-primary)] md:text-3xl">
@@ -23,9 +25,10 @@ export function StatsForChangelog() {
           </p>
           <Image
             src="/images/projects/huaweihelper/dashboard-missing-cells-panel.png"
-            height="1200"
-            width="2000"
-            className="w-full rounded-xl border border-[var(--color-secondary-background)] object-cover object-left-top md:rounded-2xl"
+            height={903}
+            width={1919}
+            sizes="(max-width: 1024px) 100vw, 1100px"
+            className="h-auto w-full rounded-xl border border-[var(--color-secondary-background)] md:rounded-2xl"
             alt="HuaweiHelper dashboard showing missing cells"
             fetchPriority="high"
           />
@@ -34,6 +37,7 @@ export function StatsForChangelog() {
     },
     {
       title: "2026 · Hackership",
+      projectId: '10',
       content: (
         <div className="flex flex-col">
           <h2 className="mt-6 text-xl font-bold text-[var(--color-text-primary)] md:text-3xl">
@@ -48,9 +52,10 @@ export function StatsForChangelog() {
           </p>
           <Image
             src="/images/projects/hackership/cover.png"
-            height="630"
-            width="1200"
-            className="w-full rounded-xl border border-[var(--color-secondary-background)] object-cover md:rounded-2xl"
+            height={630}
+            width={1200}
+            sizes="(max-width: 1024px) 100vw, 1100px"
+            className="h-auto w-full rounded-xl border border-[var(--color-secondary-background)] md:rounded-2xl"
             alt="Hackership internship platform"
           />
         </div>
@@ -58,6 +63,7 @@ export function StatsForChangelog() {
     },
     {
       title: "2025 · OpenStack",
+      projectId: '8',
       content: (
         <div className="flex flex-col">
           <h2 className="mt-6 text-xl font-bold text-[var(--color-text-primary)] md:text-3xl">
@@ -72,9 +78,10 @@ export function StatsForChangelog() {
           </p>
           <Image
             src="/images/projects/openstack/1770235637771.jpeg"
-            height="1200"
-            width="2000"
-            className="w-full rounded-xl border border-[var(--color-secondary-background)] object-cover object-left-top md:rounded-2xl"
+            height={620}
+            width={1197}
+            sizes="(max-width: 1024px) 100vw, 1100px"
+            className="h-auto w-full rounded-xl border border-[var(--color-secondary-background)] md:rounded-2xl"
             alt="OpenStack Horizon dashboard"
             fetchPriority="high"
           />
@@ -83,6 +90,7 @@ export function StatsForChangelog() {
     },
     {
       title: "2025 · Ansible Studio",
+      projectId: '11',
       content: (
         <div className="flex flex-col">
           <h2 className="mt-6 text-xl font-bold text-[var(--color-text-primary)] md:text-3xl">
@@ -96,15 +104,18 @@ export function StatsForChangelog() {
           </p>
           <Image
             src="/images/projects/ansible-studio/cover.png"
-            height="630"
-            width="1200"
-            className="w-full rounded-xl border border-[var(--color-secondary-background)] object-cover md:rounded-2xl"
+            height={630}
+            width={1200}
+            sizes="(max-width: 1024px) 100vw, 1100px"
+            className="h-auto w-full rounded-xl border border-[var(--color-secondary-background)] md:rounded-2xl"
             alt="Ansible Studio"
           />
         </div>
       ),
     },
   ];
+
+  const visibleStats = stats.filter((stat) => !stat.projectId || isProjectPublic(stat.projectId))
 
   return (
     <section className="bg-[var(--color-primary-background)] py-20 px-4 sm:px-6 lg:px-8">
@@ -120,14 +131,14 @@ export function StatsForChangelog() {
             A short history of the work that mattered most — each entry links to a full write-up.
           </p>
         </div>
-        <StatsForChangelogDesktop stats={stats} />
-        <StatsForChangelogMobile stats={stats} />
+        <StatsForChangelogDesktop stats={visibleStats} />
+        <StatsForChangelogMobile stats={visibleStats} />
       </div>
     </section>
   );
 }
 
-type Stats = { title: string; content: React.ReactNode };
+type Stats = { title: string; content: React.ReactNode; projectId?: string };
 
 export const StatsForChangelogMobile = ({ stats }: { stats: Stats[] }) => {
   return (

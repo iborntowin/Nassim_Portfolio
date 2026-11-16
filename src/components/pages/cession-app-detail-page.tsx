@@ -185,8 +185,7 @@ export default function CessionAppDetailPage({ project }: CessionAppDetailPagePr
           <div className="max-w-7xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               className="text-center mb-12"
             >
@@ -203,8 +202,7 @@ export default function CessionAppDetailPage({ project }: CessionAppDetailPagePr
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
+                  animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                 >
                   <Card className="bg-[var(--color-primary-background)] border-[var(--color-border)] h-full hover:border-[var(--color-primary-accent)]/30 transition-all duration-300 group">
@@ -239,8 +237,7 @@ export default function CessionAppDetailPage({ project }: CessionAppDetailPagePr
             <motion.div
               variants={containerVariants}
               initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
+              animate="visible"
               className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16"
             >
               {/* Project Info */}
@@ -331,8 +328,7 @@ export default function CessionAppDetailPage({ project }: CessionAppDetailPagePr
             {/* Challenges & Solutions */}
             <motion.div
               initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16"
             >
@@ -378,8 +374,7 @@ export default function CessionAppDetailPage({ project }: CessionAppDetailPagePr
             {/* Impact & Results */}
             <motion.div
               initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               className="text-center"
             >
@@ -391,8 +386,7 @@ export default function CessionAppDetailPage({ project }: CessionAppDetailPagePr
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: index * 0.1 }}
                   >
                     <Card className="bg-[var(--color-secondary-background)] border-[var(--color-border)] p-6 text-center">
@@ -411,8 +405,7 @@ export default function CessionAppDetailPage({ project }: CessionAppDetailPagePr
           <div className="max-w-4xl mx-auto text-center">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
               <h2 className="text-3xl font-bold text-[var(--color-text-primary)] mb-6">

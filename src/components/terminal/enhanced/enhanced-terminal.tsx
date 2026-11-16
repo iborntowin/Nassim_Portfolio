@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Terminal, Maximize2, Minimize2, X, Zap, Crown } from 'lucide-react'
 import { MatrixRain } from './matrix-rain'
 import { LegendModeOverlay } from '../effects/legend-mode-overlay'
+import { getAllProjects } from '@/lib/projects-data'
 
 interface TerminalLine {
   id: string
@@ -93,49 +94,47 @@ const ENHANCED_COMMANDS = {
     handler: () => [
       'nassim@cloud-console',
       '',
-      '👨‍💻 Nassim Maaoui - Cloud Engineer & DevOps Architect',
-      '🌍 Location: Tunisia',
-      '🚀 Specialization: Cloud-Native Systems, AI/ML, Automation',
-      '⚡ Current Status: Building the future, one deployment at a time',
+      '👨‍💻 Nassim Maaoui - Cloud & Infrastructure Engineer',
+      '🌍 Location: Tunis, Tunisia (open to EU/EEA)',
+      '🚀 Specialization: OpenStack, Kubernetes, Ansible, observability',
+      '🎓 ESPRIT — Computer Engineering, graduating June 2027',
+      '📅 Available for a 6-month internship from Dec 2026',
       '',
-      '📊 Quick Stats:',
-      '  • 25+ Projects Deployed',
-      '  • 99.9% Uptime Achieved',
-      '  • 2.1k+ GitHub Stars',
-      '  • 5+ Years Experience',
+      '📊 Snapshot:',
+      '  • 3 internships (Huawei Technologies, Tech4IoT, Eleonetech)',
+      '  • Internal RAN monitoring platform in daily use across 23 radio sites',
+      '  • Private OpenStack cloud + Kubespray Kubernetes from bare metal',
       ''
     ]
   },
 
   projects: {
     description: 'List all projects',
-    handler: () => [
-      '',
-      '📁 ACTIVE PROJECTS REPOSITORY',
-      '═══════════════════════════════════════════════════════════════',
-      '',
-      '📦 Cession App                    DEPLOYED    ⭐ 194',
-      '   Session & Contract Management Platform',
-      '   Tech: Spring Boot, Svelte, PostgreSQL, JWT',
-      '',
-      '📦 Board-AI                       DEPLOYED    ⭐ 271',
-      '   CNN-based Electronic Component Detection',
-      '   Tech: Python, TensorFlow, OpenCV, TensorRT',
-      '   Performance: 92% accuracy, 120ms inference',
-      '',
-      '📦 NanoSat Comm                   DEPLOYED    ⭐ 305',
-      '   Optimized LoRaWAN Communication Module',
-      '   Tech: C++, STM32, LoRaWAN, Embedded',
-      '   Performance: 1.2 Mbps, 5 platforms',
-      '',
-      '📦 GoldenTouch                    DEPLOYED    ⭐ 221',
-      '   AI-Powered Event Management Platform',
-      '   Tech: Symfony, JavaFX, Hugging Face, AI',
-      '',
-      '💡 Use "view <project-name>" for detailed information',
-      '💡 Use "deploy <project-name>" to simulate deployment',
-      ''
-    ]
+    handler: () => {
+      const output = [
+        '',
+        '📁 PROJECTS',
+        '═══════════════════════════════════════════════════════════════',
+        ''
+      ]
+
+      getAllProjects().forEach((project) => {
+        const repo = project.githubUrl ? 'PUBLIC' : 'PRIVATE'
+        output.push(`📦 ${project.name}`)
+        output.push(`   ${project.description}`)
+        output.push(
+          `   ${project.category} · ${project.timeline} · ${repo}`
+        )
+        output.push(`   Tech: ${project.techStack.map((t) => t.name).join(', ')}`)
+        if (project.githubUrl) output.push(`   Code: ${project.githubUrl}`)
+        if (project.liveUrl) output.push(`   Live: ${project.liveUrl}`)
+        output.push('')
+      })
+
+      output.push('💡 Type "view <project-id>" for details, or open /projects/<id>')
+      output.push('')
+      return output
+    }
   },
 
   'kubectl get pods': {

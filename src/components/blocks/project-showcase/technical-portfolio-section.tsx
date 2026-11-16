@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from 'react'
-import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowUpRight, Github, Globe, Server, Brain, Cpu, Wrench, Cloud, Calendar, ExternalLink } from 'lucide-react'
 import { getAllProjects } from '@/lib/projects-data'
@@ -40,7 +39,7 @@ export default function TechnicalPortfolioSection() {
         </div>
 
         {/* Filters */}
-        <div className="flex flex-wrap gap-2 mb-10">
+        <div className="mb-10 flex gap-2 overflow-x-auto pb-2 sm:flex-wrap sm:overflow-visible sm:pb-0">
           {filters.map((f) => {
             const Icon = f.icon
             const isActive = activeFilter === f.label
@@ -48,7 +47,7 @@ export default function TechnicalPortfolioSection() {
               <button
                 key={f.label}
                 onClick={() => setActiveFilter(f.label)}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-full text-sm border transition-colors ${
+                className={`flex shrink-0 items-center gap-2 whitespace-nowrap px-3.5 py-2 rounded-full text-sm border transition-colors ${
                   isActive
                     ? 'bg-[var(--color-text-primary)] text-[var(--color-primary-background)] border-transparent font-medium'
                     : 'bg-transparent border-[var(--color-secondary-background)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:border-[var(--color-text-secondary)]/40'
@@ -62,15 +61,10 @@ export default function TechnicalPortfolioSection() {
         </div>
 
         {/* Grid */}
-        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {filteredProjects.map((project) => (
-            <motion.article
-              layout
+            <article
               key={project.id}
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.4 }}
               className="group relative flex flex-col rounded-2xl border border-[var(--color-secondary-background)] bg-[var(--color-secondary-background)]/40 p-6 hover:border-[var(--color-secondary-accent)]/50 transition-colors"
             >
               <div className="flex items-start justify-between gap-4 mb-3">
@@ -145,9 +139,9 @@ export default function TechnicalPortfolioSection() {
                   )}
                 </div>
               </div>
-            </motion.article>
+            </article>
           ))}
-        </motion.div>
+        </div>
 
         {filteredProjects.length === 0 && (
           <p className="text-sm text-[var(--color-text-secondary)] py-12 text-center">

@@ -45,13 +45,15 @@ export const TerminalInput = forwardRef<HTMLInputElement, TerminalInputProps>(
           transition={{ duration: 0.3, ease: "easeOut" }}
         >
           {/* Prompt */}
-          <motion.span 
-            className={`font-mono text-sm ${promptColor} flex-shrink-0`}
+          <motion.span
+            className={`font-mono text-sm ${promptColor} shrink-0`}
             animate={legendMode ? {
               textShadow: '0 0 10px #fbbf24'
             } : {}}
           >
-            {user}@{host}:{path}$
+            {user}@{host}
+            <span className="hidden sm:inline">:{path}</span>
+            $
           </motion.span>
           
           {/* Input */}

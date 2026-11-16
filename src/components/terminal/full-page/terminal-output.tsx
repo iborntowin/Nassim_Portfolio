@@ -126,11 +126,11 @@ export function TerminalOutput({ line, legendMode }: TerminalOutputProps) {
       initial={animationVariants.initial}
       animate={animationVariants.animate}
       transition={animationVariants.transition}
-      className={`font-mono text-sm leading-relaxed ${getLineColor()}`}
+      className={`font-mono text-sm leading-relaxed min-w-0 max-w-full ${getLineColor()}`}
     >
-      {/* Special handling for ASCII art and system messages */}
-      {line.type === 'system' || line.content.includes('╔') || line.content.includes('┌') ? (
-        <pre className="whitespace-pre font-mono text-xs leading-tight">
+      {/* ASCII art scrolls instead of being clipped on narrow screens */}
+      {line.content.includes('╔') || line.content.includes('┌') || line.content.includes('║') ? (
+        <pre className="max-w-full overflow-x-auto whitespace-pre font-mono text-[10px] leading-tight sm:text-xs">
           {displayedText}
         </pre>
       ) : (

@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 
 interface SkillGroup {
   title: string
@@ -72,12 +71,8 @@ export default function AdvancedTechShowcase() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {skillGroups.map((group, index) => (
-            <motion.div
+            <div
               key={group.title}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.4, delay: index * 0.04 }}
               className="rounded-2xl border border-[var(--color-secondary-background)] bg-[var(--color-secondary-background)]/40 p-6"
             >
               <h3 className="text-base font-semibold text-[var(--color-text-primary)] mb-1">
@@ -96,7 +91,7 @@ export default function AdvancedTechShowcase() {
                   </li>
                 ))}
               </ul>
-            </motion.div>
+            </div>
           ))}
         </div>
 

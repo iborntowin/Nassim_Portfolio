@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import { Briefcase, GraduationCap, Users } from 'lucide-react'
 
 interface ExperienceItem {
@@ -134,12 +133,8 @@ export default function ExperienceTimeline() {
               const meta = kindMeta[item.kind]
               const Icon = meta.icon
               return (
-                <motion.div
+                <div
                   key={item.id}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-60px' }}
-                  transition={{ duration: 0.45, delay: index * 0.04 }}
                   className="relative sm:pl-10"
                 >
                   <span className="hidden sm:flex absolute left-0 top-6 w-4 h-4 items-center justify-center rounded-full bg-[var(--color-primary-background)] border border-[var(--color-secondary-accent)]/60" />
@@ -192,7 +187,7 @@ export default function ExperienceTimeline() {
                       </div>
                     )}
                   </div>
-                </motion.div>
+                </div>
               )
             })}
           </div>

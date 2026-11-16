@@ -109,6 +109,18 @@ npm run build
 - `npm run seo-check`: build and export check.
 - `npm run generate-images`: run placeholder image generation script.
 
+## Hiding a project
+
+Project visibility is controlled by one file: `src/lib/visibility.ts`.
+
+```ts
+export const HIDDEN_PROJECT_IDS: readonly string[] = ['9'] // HuaweiHelper
+```
+
+A hidden project keeps all of its content in `src/lib/projects-data.ts` but disappears
+from the homepage grid, the timeline, the terminal, the sitemap, and its `/projects/{id}`
+page returns 404. Remove the id from the list to publish it again.
+
 ## Notes for Automation
 
 - Do not infer project count from old docs. Always read `src/lib/projects-data.ts`.
@@ -118,6 +130,6 @@ npm run build
 
 ## Contact
 
-- Portfolio: https://nassimmaaoui.dev
+- Portfolio: https://nassimmaaoui.vercel.app
 - GitHub: https://github.com/iborntowin
 - Email: nassimmaaoui@outlook.com

@@ -343,38 +343,39 @@ export default function DevOpsHero() {
           {/* Left side - Content */}
           <div>
             <div>
-              {/* Availability / Hire Me indicator */}
-              <div className="flex flex-wrap items-center gap-3 mb-8">
+              {/* Availability indicator */}
+              <div className="mb-6 flex flex-col items-start gap-2 sm:mb-8">
                 <a
                   href="mailto:nassimmaaoui@outlook.com"
-                  className="group inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-green-500/10 border border-green-500/40 hover:bg-green-500/20 hover:border-green-400 transition-all duration-200"
+                  className="group inline-flex w-fit items-center gap-2 rounded-full border border-green-500/40 bg-green-500/10 px-3.5 py-1.5 transition-all duration-200 hover:border-green-400 hover:bg-green-500/20"
                 >
-                  <span className="relative flex h-2.5 w-2.5 shrink-0">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+                  <span className="relative flex h-2 w-2 shrink-0">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500"></span>
                   </span>
-                  <span className="text-green-400 font-semibold text-sm">Open to a 6-month internship</span>
-                  <span className="text-green-600 text-xs">·</span>
-                  <span className="text-green-500/80 text-xs font-medium group-hover:text-green-400 transition-colors">Dec 2026 – May 2027</span>
+                  <span className="whitespace-nowrap text-xs font-semibold text-green-400 sm:text-sm">
+                    Open to a 6-month internship
+                  </span>
                 </a>
-                <div className="h-4 w-px bg-slate-600 hidden sm:block"></div>
-                <span className="text-slate-400 text-sm hidden sm:block">Tunis, Tunisia · open to EU/EEA</span>
+                <span className="text-xs text-slate-400 sm:text-sm">
+                  Dec 2026 – May 2027 · Tunis · open to EU/EEA
+                </span>
               </div>
 
               {/* Name and title */}
               <div className="mb-6">
-                <h1 className="text-6xl lg:text-7xl font-bold text-white mb-4">
+                <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-3 sm:mb-4 max-w-full break-words">
                   Nassim
                   <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600">
                     Maaoui
                   </span>
                 </h1>
 
-                <div className="text-2xl lg:text-3xl font-semibold text-slate-400 h-12 flex items-center">
-                  <span className="mr-2">I&apos;m a</span>
-                  <span className="text-blue-500 min-w-[300px]">
+                <div className="flex min-h-[2.5rem] flex-wrap items-baseline gap-x-2 text-xl font-semibold text-slate-400 sm:text-2xl lg:text-3xl">
+                  <span>I&apos;m a</span>
+                  <span className="text-blue-500 break-words">
                     {displayText}
-                    <span className="ml-1 animate-pulse">|</span>
+                    <span className="ml-0.5 animate-pulse">|</span>
                   </span>
                 </div>
               </div>
@@ -434,11 +435,11 @@ export default function DevOpsHero() {
                 <a href="mailto:nassimmaaoui@outlook.com" className="hover:text-cyan-300 transition-colors">
                   nassimmaaoui@outlook.com
                 </a>
-                <span className="text-slate-700">|</span>
+                <span className="hidden text-slate-700 sm:inline">|</span>
                 <a href="https://github.com/iborntowin" target="_blank" rel="noopener noreferrer" className="hover:text-cyan-300 transition-colors">
                   GitHub
                 </a>
-                <span className="text-slate-700">|</span>
+                <span className="hidden text-slate-700 sm:inline">|</span>
                 <a href="https://www.linkedin.com/in/maaoui-nassim" target="_blank" rel="noopener noreferrer" className="hover:text-cyan-300 transition-colors">
                   LinkedIn
                 </a>
@@ -483,8 +484,8 @@ export default function DevOpsHero() {
                 </div>
               </div>
 
-              {/* Tech badges - Now clickable */}
-              <div className="absolute -top-4 -right-4 space-y-2">
+              {/* Tech badges — column beside the editor on desktop, row below on mobile */}
+              <div className="mt-4 flex flex-wrap gap-2 sm:absolute sm:-top-4 sm:-right-4 sm:mt-0 sm:flex-col sm:flex-nowrap sm:space-y-2">
                 {techBadges.map((tech, index) => (
                   <button
                     key={tech.name}
@@ -503,7 +504,7 @@ export default function DevOpsHero() {
               </div>
 
               {/* Click hint */}
-              <div className="absolute -bottom-8 right-0 text-xs text-slate-500 flex items-center gap-1">
+              <div className="absolute -bottom-8 right-0 hidden items-center gap-1 text-xs text-slate-500 sm:flex">
                 <span>👆 Click badges to navigate</span>
               </div>
             </div>
