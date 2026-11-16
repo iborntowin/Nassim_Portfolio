@@ -1,38 +1,50 @@
 import { Metadata } from 'next'
 
+const SITE_URL = 'https://nassimmaaoui.vercel.app'
+
 export const metadata: Metadata = {
-  title: 'Terminal Interface - Nassim Maaoui | Cloud Engineer Console',
-  description: 'Interactive terminal interface showcasing cloud-native engineering, DevOps automation, and AI-powered systems. Experience the portfolio through a living command-line interface.',
+  title: 'Interactive Terminal — Cloud Engineer Console',
+  description:
+    'Nassim Maaoui’s portfolio as a command-line interface: browse real infrastructure projects, stack and experience with terminal commands like ls, projects and view 8.',
   keywords: [
-    'terminal interface',
-    'cloud engineer',
-    'devops console',
-    'interactive cli',
+    'Nassim Maaoui terminal',
+    'cloud engineer console',
+    'devops terminal portfolio',
+    'interactive cli portfolio',
     'command line portfolio',
-    'cloud native',
     'kubernetes',
-    'terraform',
+    'openstack',
     'ansible',
-    'nassim maaoui'
-  ].join(', '),
+    'nassim maaoui',
+  ],
+  alternates: {
+    canonical: '/terminal',
+  },
   openGraph: {
-    title: 'Terminal Interface - Nassim Maaoui',
-    description: 'Interactive terminal interface for cloud-native engineering portfolio',
     type: 'website',
-    url: 'https://nassimmaaoui.dev/terminal',
+    url: `${SITE_URL}/terminal`,
+    siteName: 'Nassim Maaoui',
+    title: 'Interactive Terminal — Nassim Maaoui',
+    description:
+      'Browse the portfolio as a cloud engineer console: projects, stack and experience from the command line.',
     images: [
       {
-        url: '/images/terminal-og.jpg',
+        url: '/images/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Interactive Terminal Interface - Cloud Engineer Console',
+        alt: 'Nassim Maaoui — terminal portfolio',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Terminal Interface - Nassim Maaoui',
-    description: 'Interactive terminal interface for cloud-native engineering portfolio',
-    images: ['/images/terminal-og.jpg'],
+    title: 'Interactive Terminal — Nassim Maaoui',
+    description:
+      'Browse the portfolio as a cloud engineer console: projects, stack and experience from the command line.',
+    images: ['/images/og-image.jpg'],
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 }

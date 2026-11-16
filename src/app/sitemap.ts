@@ -2,13 +2,15 @@ import { MetadataRoute } from 'next'
 import { getAllProjects } from '@/lib/projects-data'
 
 const baseUrl = 'https://nassimmaaoui.vercel.app'
+// Bumped when the site content actually changes, so crawlers see a real signal.
+const LAST_UPDATED = new Date('2026-11-16')
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const projects = getAllProjects()
 
   const projectUrls = projects.map((project) => ({
     url: `${baseUrl}/projects/${project.id}`,
-    lastModified: new Date(),
+    lastModified: LAST_UPDATED,
     changeFrequency: 'monthly' as const,
     priority: 0.8,
   }))
@@ -16,43 +18,25 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
       url: baseUrl,
-      lastModified: new Date(),
+      lastModified: LAST_UPDATED,
       changeFrequency: 'monthly',
       priority: 1,
     },
     {
-      url: `${baseUrl}/#technical-portfolio`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/#experience`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/#contact`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
       url: `${baseUrl}/terminal`,
-      lastModified: new Date(),
+      lastModified: LAST_UPDATED,
       changeFrequency: 'monthly',
-      priority: 0.5,
+      priority: 0.6,
     },
     {
       url: `${baseUrl}/privacy`,
-      lastModified: new Date(),
+      lastModified: LAST_UPDATED,
       changeFrequency: 'yearly',
       priority: 0.2,
     },
     {
       url: `${baseUrl}/terms`,
-      lastModified: new Date(),
+      lastModified: LAST_UPDATED,
       changeFrequency: 'yearly',
       priority: 0.2,
     },

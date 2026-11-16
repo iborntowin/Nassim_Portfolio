@@ -45,6 +45,11 @@ export const metadata: Metadata = {
   authors: [{ name: "Nassim Maaoui", url: SITE_URL }],
   creator: "Nassim Maaoui",
   publisher: "Nassim Maaoui",
+  applicationName: "Nassim Maaoui — Portfolio",
+  category: "technology",
+  ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    ? { verification: { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION } }
+    : {}),
   formatDetection: {
     email: false,
     address: false,

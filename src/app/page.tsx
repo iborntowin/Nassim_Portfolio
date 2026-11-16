@@ -4,7 +4,12 @@ import { Download, Mail, Github, Linkedin } from 'lucide-react'
 import { StatsForChangelog } from '@/components/blocks/stats/statsforchangelog'
 import { FooterWithGrid } from '@/components/blocks/footers/footer-with-grid'
 import { SimpleCenteredContactForm } from '@/components/blocks/contact-forms/simple-centered-contact-form'
-import { PersonStructuredData, WebsiteStructuredData } from '@/components/seo/structured-data'
+import {
+  ItemListStructuredData,
+  PersonStructuredData,
+  WebsiteStructuredData,
+} from '@/components/seo/structured-data'
+import { getAllProjects } from '@/lib/projects-data'
 import AdvancedTechShowcase from '@/components/blocks/technologies/advanced-tech-showcase'
 import ExperienceTimeline from '@/components/blocks/experience/experience-timeline'
 
@@ -16,13 +21,64 @@ const TechnicalPortfolioSection = dynamic(
 
 const OpenSourcePanel = dynamic(() => import('@/components/blocks/open-source/open-source-panel'))
 
+const AT_A_GLANCE = [
+  {
+    label: 'Focus',
+    value: 'Cloud · Infrastructure · Platform',
+    note: 'OpenStack, Kubernetes, Ansible, Terraform, Prometheus, Linux',
+  },
+  {
+    label: 'Available',
+    value: 'Six-month internship',
+    note: 'December 2026 – May 2027 · end-of-studies',
+  },
+  {
+    label: 'Based in',
+    value: 'Tunis, Tunisia',
+    note: 'Remote, or EU/EEA with work-permit sponsorship',
+  },
+  {
+    label: 'Most recent work',
+    value: 'Internal platform at Huawei',
+    note: '23 radio sites · 30–60 minute manual check becomes 4 seconds',
+  },
+]
+
 export default function HomePage() {
+  const projects = getAllProjects()
+
   return (
     <>
       <PersonStructuredData />
       <WebsiteStructuredData />
+      <ItemListStructuredData projects={projects} />
       <main className="min-h-screen bg-[var(--color-primary-background)]">
         <DevOpsHero />
+
+        {/* Recruiter quick scan */}
+        <section
+          aria-label="Profile at a glance"
+          className="border-y border-[var(--color-secondary-background)]"
+        >
+          <dl className="mx-auto grid max-w-6xl divide-y divide-[var(--color-secondary-background)] sm:grid-cols-2 sm:divide-y-0 lg:grid-cols-4">
+            {AT_A_GLANCE.map((fact) => (
+              <div
+                key={fact.label}
+                className="px-5 py-5 sm:px-6 sm:py-6"
+              >
+                <dt className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--color-secondary-accent)]">
+                  {fact.label}
+                </dt>
+                <dd className="mt-2 text-sm font-semibold text-[var(--color-text-primary)]">
+                  {fact.value}
+                </dd>
+                <dd className="mt-1 text-xs leading-relaxed text-[var(--color-text-secondary)]">
+                  {fact.note}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </section>
 
         {/* Projects */}
         <div id="projects">

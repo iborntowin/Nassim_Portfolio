@@ -62,6 +62,14 @@ export function PersonStructuredData({ className }: PersonStructuredDataProps) {
         'Linux administration',
       ],
     },
+    seeks: {
+      '@type': 'Demand',
+      name: 'Six-month end-of-studies internship in cloud, infrastructure, platform or SRE engineering',
+      availabilityStarts: '2026-12-01',
+      availabilityEnds: '2027-05-31',
+      areaServed: ['TN', 'EU', 'EEA', 'Remote'],
+    },
+    mainEntityOfPage: { '@type': 'ProfilePage', '@id': `${SITE_URL}/` },
   }
 
   return (
@@ -111,11 +119,63 @@ export function ProjectStructuredData({ project, className }: ProjectStructuredD
     ].join(', '),
   }
 
+  const breadcrumbs = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Projects',
+        item: `${SITE_URL}/#technical-portfolio`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: project.name,
+        item: `${SITE_URL}/projects/${project.id}`,
+      },
+    ],
+  }
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        className={className}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }}
+      />
+    </>
+  )
+}
+
+interface ItemListStructuredDataProps {
+  projects: Pick<DetailedProject, 'id' | 'name' | 'description'>[]
+}
+
+export function ItemListStructuredData({ projects }: ItemListStructuredDataProps) {
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Engineering projects by Nassim Maaoui',
+    itemListElement: projects.map((project, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: project.name,
+      description: project.description,
+      url: `${SITE_URL}/projects/${project.id}`,
+    })),
+  }
+
   return (
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      className={className}
     />
   )
 }
@@ -128,9 +188,11 @@ export function WebsiteStructuredData({ className }: { className?: string }) {
     description:
       'Portfolio of Nassim Maaoui, cloud and infrastructure engineering student at ESPRIT.',
     url: SITE_URL,
+    inLanguage: 'en',
     author: {
       '@type': 'Person',
       name: 'Nassim Maaoui',
+      url: SITE_URL,
     },
   }
 

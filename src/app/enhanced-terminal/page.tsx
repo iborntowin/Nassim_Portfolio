@@ -5,6 +5,9 @@ import { PersonStructuredData } from '@/components/seo/structured-data'
 export const metadata: Metadata = {
   title: 'Enhanced Terminal - Nassim Maaoui | Advanced Cloud Engineer Console',
   description: 'Experience the ultimate interactive terminal interface showcasing advanced cloud-native engineering, DevOps automation, and AI-powered systems. The most immersive command-line portfolio experience.',
+  alternates: {
+    canonical: '/terminal',
+  },
   keywords: [
     'enhanced terminal interface',
     'advanced cloud engineer console',
@@ -14,17 +17,17 @@ export const metadata: Metadata = {
     'terraform console',
     'ansible terminal',
     'ai powered terminal',
-    'nassim maaoui enhanced',
+    'nassim maaoui terminal',
     'cloud engineer portfolio'
   ].join(', '),
   openGraph: {
     title: 'Enhanced Terminal Interface - Nassim Maaoui',
     description: 'The ultimate interactive terminal interface for cloud-native engineering portfolio',
     type: 'website',
-    url: 'https://nassimmaaoui.dev/enhanced-terminal',
+    url: 'https://nassimmaaoui.vercel.app/terminal',
     images: [
       {
-        url: '/images/enhanced-terminal-og.jpg',
+        url: '/images/og-image.jpg',
         width: 1200,
         height: 630,
         alt: 'Enhanced Terminal Interface - Advanced Cloud Engineer Console',
@@ -35,7 +38,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Enhanced Terminal Interface - Nassim Maaoui',
     description: 'The ultimate interactive terminal interface for cloud-native engineering portfolio',
-    images: ['/images/enhanced-terminal-og.jpg'],
+    images: ['/images/og-image.jpg'],
   },
 }
 
