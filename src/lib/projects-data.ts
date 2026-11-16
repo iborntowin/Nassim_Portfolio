@@ -30,7 +30,8 @@ export interface DetailedProject {
   category: 'Full-Stack' | 'AI/ML' | 'Embedded' | 'Productivity' | 'DevOps' | 'Cloud/Infrastructure'
   techStack: TechStackItem[]
   stats: ProjectStats
-  githubUrl: string
+  /** Public repository. Omit when the code is internal or private. */
+  githubUrl?: string
   liveUrl?: string
   featured?: boolean
   images: ProjectImage[]
@@ -47,10 +48,137 @@ export interface DetailedProject {
 
 const projectsData: DetailedProject[] = [
   {
+    id: '9',
+    name: 'HuaweiHelper — RAN Health Monitoring Platform',
+    description:
+      'Internal Flask/htmx platform that automates radio-network health monitoring across 23 sites, replacing a 30–60 minute manual comparison with a 4-second diff.',
+    longDescription:
+      'Built during my internship at Huawei Technologies and now used by the network operations team to check radio access network health every day. HuaweiHelper ingests raw MML console dumps, native U2000/M2000 alarm exports, inventory CSVs and nationwide 2G/3G/4G/5G exports, normalises them into a daily per-site snapshot, and produces a git-style diff that flags operationally significant changes — cells down, antennas offline, network elements disappearing. It ships with an idempotent offline installer for Windows Server 2022 so it can run on isolated operator networks with no internet access and no manual steps.',
+    category: 'Cloud/Infrastructure',
+    techStack: [
+      { name: 'Python', color: 'text-yellow-400 bg-yellow-400/10' },
+      { name: 'Flask', color: 'text-slate-300 bg-slate-300/10' },
+      { name: 'htmx', color: 'text-blue-400 bg-blue-400/10' },
+      { name: 'Jinja2', color: 'text-orange-400 bg-orange-400/10' },
+      { name: 'PowerShell', color: 'text-sky-400 bg-sky-400/10' },
+      { name: 'Windows Server 2022', color: 'text-cyan-400 bg-cyan-400/10' },
+      { name: 'pywin32', color: 'text-emerald-400 bg-emerald-400/10' }
+    ],
+    stats: { stars: 0, forks: 0, commits: 0 },
+    featured: true,
+    images: [
+      {
+        src: '/images/projects/huaweihelper/full-services-annotated.png',
+        alt: 'HuaweiHelper service overview',
+        caption: 'Service overview — every monitoring component running on the Windows Server host'
+      },
+      {
+        src: '/images/projects/huaweihelper/dashboard-missing-cells-panel.png',
+        alt: 'Missing cells dashboard',
+        caption: 'Dashboard surfacing cells that disappeared between two daily snapshots'
+      },
+      {
+        src: '/images/projects/huaweihelper/diff-result.png',
+        alt: 'Diff result',
+        caption: 'Git-style diff of two snapshots, matched by network element and identity key'
+      },
+      {
+        src: '/images/projects/huaweihelper/architecture-diagram.png',
+        alt: 'Architecture diagram',
+        caption: 'Detect → extract → compare → notify pipeline'
+      },
+      {
+        src: '/images/projects/huaweihelper/ftp-settings.png',
+        alt: 'Data source configuration',
+        caption: 'Configurable data sources, so new report formats are added without code changes'
+      }
+    ],
+    workflow: [
+      {
+        title: 'Parsing heterogeneous report formats',
+        description: 'Turned four unrelated export formats into one comparable data model',
+        icon: '📥',
+        details: [
+          'Fixed-width MML console output parsed field by field',
+          '50,000-row U2000/M2000 alarm exports',
+          'Inventory CSVs and nationwide 2G/3G/4G/5G exports',
+          '19 report types mapped onto a single normalised schema'
+        ]
+      },
+      {
+        title: 'Snapshot + diff engine',
+        description: 'Compares each day against the previous baseline instead of eyeballing spreadsheets',
+        icon: '🧮',
+        details: [
+          'Rows matched by network element and identity key rather than position',
+          'Duplicate identity keys surfaced as warnings instead of being silently collapsed',
+          'Diff rendered as readable added / removed / changed sections',
+          'A 30–60 minute manual check becomes a 4-second result'
+        ]
+      },
+      {
+        title: 'Offline deployment',
+        description: 'One idempotent installer that works on an isolated operator network',
+        icon: '📦',
+        details: [
+          'Vendored Python runtime and wheels — no internet, no pip at install time',
+          '9-stage idempotent installer, safe to re-run',
+          'pywin32 service registration, firewall rules and configuration generated automatically',
+          'Installed and validated on a clean Windows Server 2022 machine'
+        ]
+      },
+      {
+        title: 'Operational reliability',
+        description: 'Built so the service recovers without anyone logging in',
+        icon: '🛡️',
+        details: [
+          'Service Control Manager supervision — a killed process is back in ~2 seconds',
+          'Survives a full VM reboot unattended',
+          '32/32 health checks passing on the validation machine',
+          'Logs and health endpoints for the operations team'
+        ]
+      }
+    ],
+    challenges: [
+      'Heterogeneous input formats with no shared schema or stable ordering',
+      'Running on an air-gapped Windows Server with no package manager',
+      'Distinguishing a genuine network outage from a missing report file',
+      'Making the tool trustworthy enough that operators stop double-checking it by hand'
+    ],
+    solutions: [
+      'Built a normalisation layer with per-format extractors feeding one snapshot model',
+      'Vendored every dependency and wrote an idempotent installer with health validation',
+      'Surfaced parse problems and duplicate keys as explicit warnings in the UI',
+      'Kept a full run history so any diff can be traced back to its source files'
+    ],
+    impact: [
+      'Used by the network operations team across 23 radio sites',
+      'Manual comparison reduced from 30–60 minutes to 4 seconds',
+      '19 report types and 4 input formats handled by one pipeline',
+      '32/32 health checks passing; service recovers from failure in ~2 seconds'
+    ],
+    keyFeatures: [
+      'Automated daily RAN health snapshots per site',
+      'Git-style diff of network state between two days',
+      'Duplicate identity keys flagged as warnings',
+      'Configurable data sources and report types',
+      'Offline, idempotent Windows Server installer',
+      'SCM-supervised service with automatic respawn',
+      'Health-check suite for post-deployment validation'
+    ],
+    architecture:
+      'Flask + htmx application on Windows Server 2022. Extractors per input format feed a normalisation layer, which writes a daily snapshot; a diff engine matches rows by network element and identity key and renders the result through Jinja templates. Deployment is a vendored, idempotent PowerShell installer that registers the app as an SCM service.',
+    timeline: 'Jun – Aug 2026',
+    teamSize: 'Solo project (Huawei internship)',
+    role: 'Developer — design, implementation and deployment'
+  },
+  {
     id: '8',
-    name: 'OpenStack Infrastructure — Private Cloud Platform',
-    description: 'Designed, deployed, and validated a complete OpenStack cloud infrastructure covering compute, networking, storage, monitoring, automation, and security — fully production-ready.',
-    longDescription: 'A two-phase private cloud platform built on OpenStack — from bare-metal infrastructure to full mobile control. Phase 1 delivers a production-ready cloud: Nova compute, Neutron SDN, Cinder & Swift storage, Heat IaC, and Prometheus + Grafana observability. Phase 2 adds a Telegram-based control plane: a bot that deploys instances, provisions full Kubernetes clusters, and adds workers to running clusters from a phone; an AI architecture recommender that designs optimal deployments from application requirements; and a Grafana alert bot that streams real-time node health directly to Telegram.',
+    name: 'OpenStack Private Cloud — Bare-Metal IaaS',
+    description:
+      'A complete OpenStack private cloud deployed from bare metal — compute, SDN, block and object storage, orchestration and monitoring — plus a Telegram control plane and Kubernetes provisioning on top.',
+    longDescription:
+      'A two-phase private cloud platform. Phase 1 is the infrastructure itself: Nova compute on KVM/QEMU, Neutron with OVS/VXLAN tenant networks, floating IPs and security groups, Cinder block storage, Swift object storage, Glance images and Heat orchestration, all provisioned with role-based Ansible playbooks and monitored with Prometheus, Grafana and Alertmanager. Phase 2 adds a Telegram control plane: deploy instances, provision a full Kubespray Kubernetes cluster, or add a worker to a running cluster from a phone, stream Grafana alerts into chat, and get an architecture recommendation from a short description of an application.',
     category: 'Cloud/Infrastructure',
     techStack: [
       { name: 'OpenStack', color: 'text-red-400 bg-red-400/10' },
@@ -63,429 +191,418 @@ const projectsData: DetailedProject[] = [
       { name: 'Kubernetes', color: 'text-blue-500 bg-blue-500/10' },
       { name: 'Kubespray', color: 'text-indigo-400 bg-indigo-400/10' },
       { name: 'Calico', color: 'text-purple-400 bg-purple-400/10' },
-      { name: 'Python', color: 'text-yellow-500 bg-yellow-500/10' },
-      { name: 'Telegram Bot API', color: 'text-sky-400 bg-sky-400/10' },
+      { name: 'Ansible', color: 'text-red-500 bg-red-500/10' },
       { name: 'Prometheus', color: 'text-orange-500 bg-orange-500/10' },
-      { name: 'Grafana', color: 'text-green-400 bg-green-400/10' },
-      { name: 'Ansible', color: 'text-red-500 bg-red-500/10' }
+      { name: 'Grafana', color: 'text-green-400 bg-green-400/10' }
     ],
-    stats: { stars: 0, forks: 0, commits: 180 },
-    githubUrl: 'https://github.com/iborntowin/openstack-infrastructure',
+    stats: { stars: 0, forks: 0, commits: 0 },
     featured: true,
     images: [
-      { src: '/images/projects/openstack/1770235637771.jpeg', alt: 'OpenStack Dashboard', caption: 'OpenStack Horizon dashboard with compute and network overview' },
-      { src: '/images/projects/openstack/1770235639020.jpeg', alt: 'Infrastructure Monitoring', caption: 'Prometheus & Grafana monitoring stack with real-time metrics' },
-      { src: '/images/projects/openstack/1770235639023.jpeg', alt: 'Network Topology', caption: 'Neutron network topology with floating IPs and security groups' },
-      { src: '/images/projects/openstack/1770235639246.jpeg', alt: 'Operational Validation', caption: 'Validated instance boot, volume attach, and SSH access' },
-      { src: '/images/projects/openstack/telegram/main-menu.PNG', alt: 'Telegram Bot Main Menu', caption: 'CloudCraft Bot main control menu — full infrastructure at your fingertips' },
-      { src: '/images/projects/openstack/telegram/list-instances.PNG', alt: 'List Instances via Telegram', caption: 'Real-time instance listing with status directly in Telegram' },
-      { src: '/images/projects/openstack/telegram/add-2-chosing_the_host.PNG', alt: 'K8s Deployment - Choose Host', caption: 'Interactive host selection for Kubernetes cluster deployment' },
-      { src: '/images/projects/openstack/telegram/add_worker-final.PNG', alt: 'Worker Node Added', caption: 'Worker node successfully added to running Kubernetes cluster' },
-      { src: '/images/projects/openstack/telegram/ai_infra_recommender.PNG', alt: 'AI Architecture Recommender', caption: 'AI recommender analyzing app requirements and proposing optimal cloud architecture' },
-      { src: '/images/projects/openstack/telegram/graphana_bot.PNG', alt: 'Grafana Alert Bot', caption: 'Grafana monitoring bot streaming node health alerts to Telegram' }
+      { src: '/images/projects/openstack/1770235637771.jpeg', alt: 'OpenStack Horizon dashboard', caption: 'Horizon dashboard with compute and network overview' },
+      { src: '/images/projects/openstack/1770235639020.jpeg', alt: 'Infrastructure monitoring', caption: 'Prometheus and Grafana monitoring stack' },
+      { src: '/images/projects/openstack/1770235639023.jpeg', alt: 'Network topology', caption: 'Neutron topology with floating IPs and security groups' },
+      { src: '/images/projects/openstack/1770235639246.jpeg', alt: 'Operational validation', caption: 'Instance boot, volume attach and SSH access validated' },
+      { src: '/images/projects/openstack/telegram/main-menu.PNG', alt: 'Telegram bot main menu', caption: 'Control menu for the whole cloud, from a phone' },
+      { src: '/images/projects/openstack/telegram/list-instances.PNG', alt: 'Instance listing', caption: 'Live instance listing directly in Telegram' },
+      { src: '/images/projects/openstack/telegram/add_worker-final.PNG', alt: 'Worker node added', caption: 'Worker node added to a running Kubernetes cluster' },
+      { src: '/images/projects/openstack/telegram/graphana_bot.PNG', alt: 'Grafana alert bot', caption: 'Node health alerts streamed to Telegram' }
     ],
     workflow: [
       {
-        title: 'Architecture & Planning',
-        description: 'Designed the full cloud architecture with compute, networking, and storage layers',
+        title: 'Topology and network design',
+        description: 'Designed the controller/compute split and the overlay network before installing anything',
         icon: '🏗️',
         details: [
-          'Planned multi-node OpenStack deployment topology',
-          'Designed network architecture with Neutron (provider + tenant networks)',
-          'Selected storage backends for Cinder (block) and Swift (object)',
-          'Defined security model with Security Groups and WAF policies'
+          'Controller/compute node split with a separate storage role',
+          'Flat/VLAN provider networks plus a VXLAN tenant overlay',
+          'NAT for external access, floating IP pools per tenant',
+          'Security groups as the primary isolation boundary'
         ]
       },
       {
-        title: 'Core Service Deployment',
-        description: 'Deployed and configured Nova, Neutron, Glance, Cinder, and Swift',
+        title: 'Core services',
+        description: 'Deployed and validated every OpenStack service in the stack',
         icon: '⚙️',
         details: [
-          'Provisioned Nova compute nodes for VM orchestration',
-          'Configured Neutron with floating IPs and tenant isolation',
-          'Set up Glance image service with cloud-ready OS images',
-          'Deployed Cinder block storage and Swift object storage'
+          'Nova with KVM/QEMU compute',
+          'Neutron with OVS, tenant networks and floating IPs',
+          'Cinder block storage and Swift object storage',
+          'Glance image registry and Heat orchestration'
         ]
       },
       {
-        title: 'Infrastructure as Code',
-        description: 'Automated provisioning and orchestration with Heat templates',
+        title: 'Automation and hardening',
+        description: 'Made the whole environment reproducible from the repository',
         icon: '📜',
         details: [
-          'Wrote Heat orchestration templates for automated stack creation',
-          'Defined reusable templates for networks, instances, and volumes',
-          'Implemented parameterized templates for environment flexibility',
-          'Automated full stack teardown and rebuild workflows'
+          'Role-based Ansible playbooks for every node type',
+          'Heat templates for repeatable stack creation',
+          'iptables, SSH hardening, fail2ban and systemd units on every node',
+          'Kubespray + Calico to bring up a multi-node Kubernetes cluster'
         ]
       },
       {
-        title: 'Security Hardening',
-        description: 'Implemented enterprise-grade security across all layers',
-        icon: '🔒',
-        details: [
-          'Configured Security Groups with least-privilege rules',
-          'Deployed WAF for web application protection',
-          'Set up Floating IPs for controlled external access',
-          'Enabled persistent volumes for data durability'
-        ]
-      },
-      {
-        title: 'Monitoring & Observability',
-        description: 'Built a full monitoring stack with Prometheus and Grafana',
+        title: 'Observability',
+        description: 'Built the monitoring stack before it was needed',
         icon: '📊',
         details: [
-          'Deployed Prometheus for metrics collection across all services',
-          'Built Grafana dashboards for compute, network, and storage KPIs',
-          'Configured alerting rules for resource thresholds',
-          'Integrated log aggregation for centralized troubleshooting'
+          'Prometheus with node exporters per host',
+          'Grafana dashboards for compute, network and storage',
+          'Alertmanager rules for resource thresholds',
+          'Python alerting bot for incidents outside the dashboard'
         ]
       },
       {
-        title: 'Operational Validation',
-        description: 'End-to-end testing of every infrastructure capability',
-        icon: '✅',
-        details: [
-          'Validated instance boot and lifecycle management',
-          'Tested volume attach/detach and persistence',
-          'Verified floating IP assignment and external connectivity',
-          'Confirmed secure SSH access through security groups'
-        ]
-      },
-      {
-        title: 'Telegram Infrastructure Control Bot',
-        description: 'Mobile command-and-control for the entire OpenStack cloud via Telegram',
+        title: 'Telegram control plane',
+        description: 'Moved daily operations off the terminal',
         icon: '📱',
         details: [
-          'Deploy new VM instances from phone with interactive host selection',
-          'List, manage, and delete running instances in real time',
-          'Manage Cinder volumes and floating IP assignments',
-          'Full infrastructure lifecycle control without touching a terminal'
-        ]
-      },
-      {
-        title: 'Kubernetes Cluster Automation',
-        description: 'One-command K8s cluster provisioning and worker scaling via bot',
-        icon: '⚙️',
-        details: [
-          'Deploy full production-grade Kubernetes 1.28.10 clusters from Telegram',
-          'Kubespray + Ansible automation with Heat IaC underneath',
-          'Add worker nodes to existing running clusters interactively',
-          'Calico CNI, Prometheus + Grafana stack deployed automatically'
-        ]
-      },
-      {
-        title: 'AI Architecture Recommender',
-        description: 'Describe your application — AI designs the optimal cloud infrastructure',
-        icon: '🤖',
-        details: [
-          'Natural language input: describe your app and traffic requirements',
-          'AI analyzes requirements and proposes optimal node topology',
-          'Recommends instance types, worker counts, and networking strategy',
-          'One-click deployment of the recommended architecture'
-        ]
-      },
-      {
-        title: 'Grafana Health Monitoring Bot',
-        description: 'Node health and alerts streamed directly to Telegram via Grafana',
-        icon: '📊',
-        details: [
-          'Real-time Grafana dashboards accessible from Telegram',
-          'Automated alerts pushed to phone when node health degrades',
-          'CPU, memory, disk, and network KPIs per node',
-          'Proactive incident response without dashboard babysitting'
+          'Conversation state machine with per-user deployment locks',
+          'Instance lifecycle and volume management from chat',
+          'Kubespray runs triggered from the bot with live log streaming',
+          'Grafana webhook routing for targeted alert delivery'
         ]
       }
     ],
     challenges: [
-      'Orchestrating multi-service OpenStack deployment with complex inter-service dependencies',
-      'Designing a secure and isolated network topology with Neutron across tenant boundaries',
-      'Ensuring storage reliability with Cinder and Swift under real-world failure scenarios',
-      'Building comprehensive monitoring across compute, network, and storage layers',
-      'Building a stateful Telegram bot that safely drives Heat and Ansible without race conditions',
-      'Automating full Kubespray-based K8s cluster deployment through an async bot interface',
-      'Designing an AI recommender that maps free-form app descriptions to concrete infrastructure topologies',
-      'Streaming live Grafana alerts to Telegram without duplicating or missing events'
+      'Bringing up a multi-service OpenStack deployment with tight inter-service dependencies',
+      'Designing tenant isolation and floating-IP access that still works with NAT',
+      'Running long Kubespray jobs from an asynchronous chat interface without race conditions',
+      'Keeping monitoring useful without drowning operators in alerts'
     ],
     solutions: [
-      'Used Heat templates for deterministic, repeatable deployments with dependency ordering',
-      'Implemented provider and tenant network separation with security groups and floating IPs',
-      'Configured persistent volumes with Cinder and multi-replica object storage with Swift',
-      'Deployed Prometheus exporters per service with Grafana dashboards for unified observability',
-      'Built a conversation-state machine in Python for the bot with per-user deployment locks',
-      'Wrapped Kubespray ansible-playbook calls inside the bot with real-time log streaming to chat',
-      'Used structured prompting with OpenAI to extract compute topology from natural language and map it to OpenStack flavors',
-      'Implemented Grafana webhook integration that routes alert payloads to targeted Telegram chats'
+      'Ordered service bring-up with Heat so dependencies are explicit and repeatable',
+      'Separated provider and tenant networks with security groups and per-tenant floating IPs',
+      'Per-user locks plus streamed run logs so a second deployment cannot start mid-run',
+      'Alert rules grouped by severity with webhook routing into the right chat'
     ],
     impact: [
-      'Fully production-ready private cloud infrastructure',
-      'Automated provisioning via Heat — zero manual setup',
-      'Complete monitoring with Prometheus & Grafana',
-      'Full K8s cluster deployed from a Telegram message',
-      'Worker nodes added to live clusters via phone',
-      'AI-designed architectures deployed in minutes',
-      'Real-time node health alerts pushed to Telegram',
-      'Entire cloud controlled from a smartphone'
+      'Full OpenStack cloud deployed and validated from bare metal',
+      'Every node reproducible from Ansible playbooks instead of manual setup',
+      'Kubernetes cluster and worker scaling driven from a phone',
+      'Observability stack covering compute, network and storage'
     ],
     keyFeatures: [
-      'Full OpenStack deployment (Nova, Neutron, Glance, Cinder, Swift)',
-      'Infrastructure as Code with Heat orchestration',
-      'Software-defined networking with Neutron',
-      'Block storage (Cinder) & object storage (Swift)',
-      'Security Groups, WAF, and Floating IPs',
-      'Prometheus & Grafana monitoring stack',
-      'Telegram bot: deploy instances & manage cloud from phone',
-      'One-command Kubernetes cluster deployment via Telegram (Kubespray + Ansible)',
-      'Live worker-node addition to running K8s clusters from bot',
-      'AI infrastructure recommender: describe app → get optimal architecture',
-      'Grafana alert bot: real-time node health streamed to Telegram',
-      'Automated provisioning and teardown'
+      'OpenStack: Nova, Neutron, Cinder, Swift, Glance and Heat',
+      'Software-defined networking with OVS/VXLAN tenant overlays',
+      'Block and object storage with floating IP access',
+      'Prometheus, Grafana and Alertmanager observability',
+      'Telegram bot for instance and volume management',
+      'Kubespray Kubernetes provisioning from chat',
+      'Grafana alert streaming to Telegram'
     ],
-    architecture: 'Two-phase platform: Phase 1 — multi-node OpenStack (Nova, Neutron, Glance, Cinder, Swift, Heat, Prometheus + Grafana). Phase 2 — Python Telegram bot suite for mobile infrastructure control, Kubespray/Ansible K8s automation, AI architecture recommender, and Grafana alert streaming.',
-    timeline: '5 months',
+    architecture:
+      'Multi-node OpenStack (Nova, Neutron, Cinder, Swift, Glance, Heat) with Prometheus and Grafana, provisioned by role-based Ansible. A Python Telegram bot drives Heat and Ansible for instance lifecycle and Kubespray cluster provisioning, and receives Grafana webhook alerts.',
+    timeline: 'Q1 2025 – 2026',
     teamSize: 'Solo project',
-    role: 'Cloud Infrastructure Engineer, DevOps Architect & Bot Developer'
+    role: 'Cloud infrastructure engineer and automation developer'
+  },
+  {
+    id: '11',
+    name: 'Ansible Studio — Desktop IDE for Ansible',
+    description:
+      'A native desktop IDE for Ansible infrastructure: it parses playbooks, inventories and roles into an interactive architecture map and runs playbooks against the live inventory with streamed output.',
+    longDescription:
+      'Ansible Studio treats infrastructure code as a navigable structure instead of a folder of YAML. It parses playbooks, INI/YAML inventories and roles into a three-tier architecture map, so you can see which plays touch which hosts and which roles they pull in. Editing happens in a CodeMirror 6 editor with a custom Ansible YAML highlighter, and the map stays in sync with the code. Playbooks run against the real inventory with ansible-playbook output streamed over WebSockets; every run is persisted to SQLite so check, diff and verbose runs can be compared afterwards.',
+    category: 'DevOps',
+    techStack: [
+      { name: 'Tauri 2', color: 'text-orange-400 bg-orange-400/10' },
+      { name: 'Rust', color: 'text-red-400 bg-red-400/10' },
+      { name: 'SvelteKit', color: 'text-orange-500 bg-orange-500/10' },
+      { name: 'FastAPI', color: 'text-teal-400 bg-teal-400/10' },
+      { name: 'WebSockets', color: 'text-purple-400 bg-purple-400/10' },
+      { name: 'SQLite', color: 'text-green-400 bg-green-400/10' },
+      { name: 'CodeMirror 6', color: 'text-blue-400 bg-blue-400/10' }
+    ],
+    stats: { stars: 0, forks: 0, commits: 0 },
+    featured: true,
+    images: [
+      {
+        src: '/images/projects/ansible-studio/cover.png',
+        alt: 'Ansible Studio',
+        caption: 'Desktop IDE for Ansible playbooks, inventories and roles'
+      }
+    ],
+    workflow: [
+      {
+        title: 'Parsing infrastructure as a graph',
+        description: 'Read playbooks, inventories and roles into a three-tier map',
+        icon: '🗺️',
+        details: [
+          'Playbooks and plays parsed into their task structure',
+          'INI and YAML inventories resolved to hosts and groups',
+          'Roles linked to the plays that include them',
+          'Three-tier interactive map instead of a file tree'
+        ]
+      },
+      {
+        title: 'Editor with language support',
+        description: 'Ansible YAML deserves its own highlighting, not generic YAML',
+        icon: '⌨️',
+        details: [
+          'CodeMirror 6 editor',
+          'Custom Ansible YAML syntax highlighter',
+          'Two-way sync between the map and the code',
+          'Safe edits that preserve file structure'
+        ]
+      },
+      {
+        title: 'Live execution',
+        description: 'Run playbooks against the real inventory from the IDE',
+        icon: '▶️',
+        details: [
+          'ansible-playbook executed against the selected inventory',
+          'Output streamed over WebSockets as it happens',
+          'Check, diff and verbose modes exposed in the run panel',
+          'Every run persisted to SQLite for later comparison'
+        ]
+      }
+    ],
+    challenges: [
+      'Keeping a structured map and raw YAML files in sync without corrupting either',
+      'Streaming long-running playbook output without blocking the UI',
+      'Effective YAML highlighting where keywords depend on Ansible semantics, not just syntax',
+      'Shipping a native desktop app rather than another web tab'
+    ],
+    solutions: [
+      'Round-trip parsing that models structure while preserving the original file layout',
+      'WebSocket channel from the Rust backend to the UI with incremental rendering',
+      'Custom CodeMirror tokenizer built around Ansible keywords and module names',
+      'Tauri 2 for a small native binary with a local SQLite store'
+    ],
+    impact: [
+      'Infrastructure maps generated from existing repositories, not hand-drawn',
+      'Playbook runs and their output kept locally and searchable',
+      'Check and diff modes make dry runs the default habit'
+    ],
+    keyFeatures: [
+      'Three-tier interactive architecture map',
+      'INI/YAML inventory parsing',
+      'Role and play relationship graph',
+      'CodeMirror 6 editor with Ansible YAML highlighting',
+      'Live ansible-playbook execution with streamed output',
+      'Check, diff and verbose run modes',
+      'Run history persisted in SQLite',
+      'Native desktop app via Tauri 2'
+    ],
+    architecture:
+      'Tauri 2 shell with a SvelteKit frontend. A Rust/FastAPI backend parses playbooks, inventories and roles into a graph, executes ansible-playbook against the live inventory and streams output over WebSockets. Runs are stored in SQLite.',
+    timeline: '2025 – present',
+    teamSize: 'Solo project',
+    role: 'Desktop application and backend developer'
+  },
+  {
+    id: '10',
+    name: 'Hackership — Internship Platform for Felcloud',
+    description:
+      'The first version of Felcloud’s summer-2026 internship platform: missions, leaderboard, XP, badges, activity feed and chat — built on Flask and HTMX, and deployed on OpenStack infrastructure I administered.',
+    longDescription:
+      'Hackership is Felcloud’s internship programme platform. I built the first version end to end: missions with completion tracking, a leaderboard driven by earned XP, badges, an activity feed and chat, all as a server-rendered Flask + HTMX application on PostgreSQL and Redis, containerised with Docker. I also provisioned and ran the OpenStack infrastructure it lives on — virtual machines, bastion hosts, tenant networks, floating IPs and security groups — with Ansible playbooks so environments are rebuilt from the repository rather than by hand.',
+    category: 'Full-Stack',
+    techStack: [
+      { name: 'Python', color: 'text-yellow-400 bg-yellow-400/10' },
+      { name: 'Flask', color: 'text-slate-300 bg-slate-300/10' },
+      { name: 'HTMX', color: 'text-blue-400 bg-blue-400/10' },
+      { name: 'PostgreSQL', color: 'text-indigo-400 bg-indigo-400/10' },
+      { name: 'Redis', color: 'text-red-400 bg-red-400/10' },
+      { name: 'Docker', color: 'text-sky-400 bg-sky-400/10' },
+      { name: 'OpenStack', color: 'text-red-300 bg-red-300/10' },
+      { name: 'Ansible', color: 'text-rose-400 bg-rose-400/10' }
+    ],
+    stats: { stars: 0, forks: 0, commits: 0 },
+    liveUrl: 'https://hackership.felcloud.io',
+    images: [
+      {
+        src: '/images/projects/hackership/cover.png',
+        alt: 'Hackership',
+        caption: 'Felcloud summer-2026 internship platform'
+      }
+    ],
+    workflow: [
+      {
+        title: 'Product and data model',
+        description: 'Shaped missions, XP and badges into a schema that could grow',
+        icon: '🧩',
+        details: [
+          'Missions with completion state and validation',
+          'XP ledger driving the leaderboard',
+          'Badge rules evaluated from awarded XP',
+          'Activity feed as an append-only event stream'
+        ]
+      },
+      {
+        title: 'Server-rendered application',
+        description: 'Flask + HTMX instead of a SPA for fast, simple pages',
+        icon: '🧱',
+        details: [
+          'Jinja templates with HTMX partial updates',
+          'PostgreSQL for durable data, Redis for sessions and hot counters',
+          'Chat and feed updates without full page reloads',
+          'Docker Compose for local and server parity'
+        ]
+      },
+      {
+        title: 'Infrastructure',
+        description: 'Ran the platform on OpenStack I administered myself',
+        icon: '☁️',
+        details: [
+          'Instances, bastion host and tenant networking',
+          'Floating IPs, security groups and key-based SSH through the bastion',
+          'Ansible playbooks for provisioning and configuration',
+          'Every environment reproducible from the repository'
+        ]
+      }
+    ],
+    challenges: [
+      'Leaderboard correctness when XP arrives from concurrent requests',
+      'Keeping the UI responsive with server-rendered partials',
+      'Running a public app on self-managed OpenStack with no managed platform underneath',
+      'Bootstrapping the first version fast enough to launch the programme'
+    ],
+    solutions: [
+      'XP as an append-only ledger with aggregates recomputed from facts, not counters',
+      'HTMX partials with Redis-backed caching for the hot lists',
+      'Bastion-based access plus Ansible roles for repeatable provisioning',
+      'Kept the scope to the features the programme needed on day one'
+    ],
+    impact: [
+      'First version of Felcloud’s summer-2026 internship platform',
+      'Missions, leaderboard, XP, badges, feed and chat in one application',
+      'Deployed on OpenStack infrastructure provisioned with Ansible'
+    ],
+    keyFeatures: [
+      'Missions with completion tracking',
+      'XP-driven leaderboard',
+      'Badges and achievements',
+      'Activity feed',
+      'Chat',
+      'PostgreSQL + Redis backend',
+      'Docker-based deployment',
+      'OpenStack infrastructure provisioned with Ansible'
+    ],
+    architecture:
+      'Flask application with Jinja templates and HTMX partial updates, PostgreSQL for durable data and Redis for sessions and caching, containerised with Docker and deployed on OpenStack VMs accessed through a bastion host, provisioned by Ansible.',
+    timeline: '2026',
+    role: 'Full-stack developer and infrastructure administrator'
   },
   {
     id: '7',
-    name: 'InventoryERP – Enterprise Inventory & Management',
-    description: 'A modern, secure desktop ERP application built with Tauri, React, and Rust. Features multi-module inventory management, Quick Sell POS, invoicing, user management with RBAC, and full i18n support.',
-    longDescription: 'InventoryERP is a comprehensive enterprise resource planning solution designed for small to medium businesses. Built as a native desktop application using Tauri (Rust backend) and React (TypeScript frontend), it provides complete inventory management, a keyboard-driven Quick Sell POS, invoice generation, customer/supplier management, batch/lot tracking, and financial dashboards — all in a secure, offline-capable, single-executable package (~15MB). The application features enterprise-grade security with Argon2id password hashing, role-based access control, session management, and comprehensive audit trails. With full internationalization (English & French), light/dark/system themes, and animated UI powered by Framer Motion, it delivers a modern user experience with millisecond response times thanks to the Rust + SQLite backend.',
+    name: 'InventoryERP — Desktop Inventory & Management',
+    description:
+      'A native desktop ERP built with Tauri, React and Rust: inventory, Quick Sell POS, invoicing, batch tracking and role-based access in a ~15 MB offline executable.',
+    longDescription:
+      'InventoryERP is an enterprise resource planning application for small and medium businesses, built as a native desktop app with Tauri (Rust backend) and React + TypeScript. It covers inventory with SKU/barcode and stock alerts, a keyboard-driven Quick Sell POS, purchases with partial receiving, invoice generation, customer and supplier management, batch/lot tracking with expiry monitoring, and financial dashboards. Security is handled with Argon2id password hashing, hierarchical role-based access control, session management and audit logging. Everything runs offline on SQLite, with English and French localisation and light/dark/system themes.',
     category: 'Full-Stack',
     techStack: [
-      { name: 'Tauri', color: 'text-orange-400 bg-orange-400/10' },
+      { name: 'Tauri 2', color: 'text-orange-400 bg-orange-400/10' },
       { name: 'React', color: 'text-cyan-400 bg-cyan-400/10' },
       { name: 'Rust', color: 'text-red-400 bg-red-400/10' },
       { name: 'TypeScript', color: 'text-blue-400 bg-blue-400/10' },
       { name: 'SQLite', color: 'text-green-400 bg-green-400/10' },
       { name: 'Tailwind CSS', color: 'text-sky-400 bg-sky-400/10' }
     ],
-    stats: { stars: 0, forks: 0, commits: 120 },
-    githubUrl: 'https://github.com/iborntowin/InventoryERP',
+    stats: { stars: 0, forks: 0, commits: 0 },
     featured: true,
     images: [
-      { src: '/images/projects/erp/dashboard.png', alt: 'Dashboard', caption: 'Real-time KPI widgets, interactive charts, top-selling products, and low stock alerts' },
-      { src: '/images/projects/erp/login.png', alt: 'Login', caption: 'Secure login with Argon2id hashing and session management' },
-      { src: '/images/projects/erp/quick_sell.png', alt: 'Quick Sell', caption: 'Keyboard-driven POS with category shortcuts and fast checkout' },
-      { src: '/images/projects/erp/factures.png', alt: 'Factures', caption: 'Professional invoice management with payment tracking' },
-      { src: '/images/projects/erp/facture_params.png', alt: 'Facture Params', caption: 'Customizable invoice parameters and prefix configuration' },
-      { src: '/images/projects/erp/Invoice Details.png', alt: 'Invoice Details', caption: 'Detailed invoice view with line items and payment status' },
-      { src: '/images/projects/erp/users.png', alt: 'Users', caption: 'User management with RBAC, account locking, and audit logs' },
-      { src: '/images/projects/erp/theme.png', alt: 'Theme', caption: 'Light, Dark, and System-follow theme modes with smooth transitions' },
-      { src: '/images/projects/erp/languge.png', alt: 'Language', caption: 'Full internationalization with English and French support' },
-      { src: '/images/projects/erp/database_maintainense.png', alt: 'Database Maintenance', caption: 'Database maintenance tools with backup, optimization, and integrity checks' },
-      { src: '/images/projects/erp/archived_data.png', alt: 'Archived Data', caption: 'Archived data management for historical records and compliance' }
+      { src: '/images/projects/erp/dashboard.png', alt: 'Dashboard', caption: 'KPI widgets, charts, top-selling products and low-stock alerts' },
+      { src: '/images/projects/erp/login.png', alt: 'Login', caption: 'Argon2id password hashing with session management' },
+      { src: '/images/projects/erp/quick_sell.png', alt: 'Quick Sell', caption: 'Keyboard-driven POS with category shortcuts' },
+      { src: '/images/projects/erp/factures.png', alt: 'Invoices', caption: 'Invoice management with payment tracking' },
+      { src: '/images/projects/erp/users.png', alt: 'Users', caption: 'User management with RBAC, account locking and audit logs' },
+      { src: '/images/projects/erp/database_maintainense.png', alt: 'Database maintenance', caption: 'Backup, optimisation and integrity checks' },
+      { src: '/images/projects/erp/archived_data.png', alt: 'Archived data', caption: 'Archived records kept for compliance' },
+      { src: '/images/projects/erp/theme.png', alt: 'Theme', caption: 'Light, dark and system themes' },
+      { src: '/images/projects/erp/languge.png', alt: 'Language', caption: 'Full English and French localisation' }
     ],
     workflow: [
       {
-        title: 'Architecture & Stack Selection',
-        description: 'Chose Tauri + React + Rust for a native, secure, and performant desktop app',
+        title: 'Stack selection',
+        description: 'Chose Tauri + Rust so the app could run offline on modest hardware',
         icon: '🏗️',
         details: [
-          'Selected Tauri 2.x for native desktop with minimal footprint (~15MB)',
-          'Designed Rust backend for memory safety and millisecond responses',
-          'Chose SQLite for offline-capable, zero-config database',
-          'Planned modular React frontend with TypeScript'
+          'Tauri 2 for a small native binary (~15 MB)',
+          'Rust backend for memory safety and fast queries',
+          'SQLite for a zero-configuration local database',
+          'React + TypeScript frontend with a modular structure'
         ]
       },
       {
-        title: 'Security & Auth System',
-        description: 'Implemented enterprise-grade security with RBAC and audit trails',
+        title: 'Security and access control',
+        description: 'The data is a business’s inventory and invoices, so access had to be real',
         icon: '🔒',
         details: [
-          'Argon2id password hashing for maximum security',
-          'Role-based access control (Admin, Manager, Cashier)',
-          'Session management with configurable timeouts',
-          'Comprehensive audit logging for compliance'
+          'Argon2id password hashing',
+          'Hierarchical roles: admin, manager, cashier',
+          'Session timeouts and account locking',
+          'Audit logging on sensitive operations'
         ]
       },
       {
-        title: 'Core Module Development',
-        description: 'Built inventory, sales, purchases, customers, suppliers, and warehouse modules',
+        title: 'Core modules',
+        description: 'Inventory, sales, purchases, invoicing and batch tracking',
         icon: '⚙️',
         details: [
-          'Product catalog with SKU/barcode, category, and stock alerts',
-          'Quick Sell POS with keyboard shortcuts (F2, F3, F4, 1-9)',
-          'Purchase order management with partial receiving',
-          'Customer/supplier databases with full CRUD and analytics'
+          'Products with SKU/barcode, categories and stock alerts',
+          'Quick Sell POS with F-key and number shortcuts',
+          'Purchase orders with partial receiving',
+          'Batch/lot tracking with manufacturing and expiry dates'
         ]
       },
       {
-        title: 'Invoice & Batch Tracking',
-        description: 'Professional invoicing and complete batch lifecycle management',
-        icon: '📄',
-        details: [
-          'Invoice generation with customizable prefixes and templates',
-          'Batch/lot tracking with manufacturing and expiry dates',
-          'Expiration monitoring with 30-day warning dashboard',
-          'Complete audit trail per batch for regulatory compliance'
-        ]
-      },
-      {
-        title: 'UI/UX & Internationalization',
-        description: 'Polished UI with themes, animations, and multi-language support',
+        title: 'UI and localisation',
+        description: 'Used daily by cashiers, so speed and clarity came first',
         icon: '🎨',
         details: [
-          'Light/Dark/System themes with smooth transitions',
-          'Full i18n with English and French (100% coverage)',
-          'Framer Motion powered animations and micro-interactions',
-          'Responsive design with glassmorphism card components'
+          'Keyboard-first flows for the POS',
+          'Light, dark and system themes',
+          'Complete English and French translation',
+          'Backup and database maintenance tools in-app'
         ]
       }
     ],
     challenges: [
-      'Bridging the Tauri IPC layer between React frontend and Rust backend efficiently',
-      'Ensuring offline-first data integrity with SQLite concurrency',
-      'Building a keyboard-driven POS that feels as fast as native retail systems',
-      'Managing complex RBAC permissions across 10+ modules'
+      'Bridging React and Rust through the Tauri IPC layer without adding latency',
+      'Keeping SQLite consistent under concurrent access',
+      'Making a keyboard-driven POS feel faster than a paper process',
+      'Modelling permissions across ten modules without a per-module mess'
     ],
     solutions: [
-      'Designed typed Tauri invoke commands with Rust serde serialization for zero-cost IPC',
-      'Used Mutex-guarded SQLite connections with WAL mode for safe concurrent access',
-      'Implemented F-key shortcuts and category number keys for sub-100ms checkout flow',
-      'Built hierarchical permission system with middleware guards on both frontend and backend'
+      'Typed Tauri commands with serde serialisation',
+      'Mutex-guarded SQLite connections in WAL mode',
+      'F-key and category shortcuts with sub-100 ms feedback',
+      'A single hierarchical permission model enforced on both frontend and backend'
     ],
     impact: [
-      'Single ~15MB executable replacing cloud ERP subscriptions',
-      'Millisecond response times with Rust + SQLite backend',
-      'Complete offline capability — no internet required',
-      'Enterprise security with Argon2id, RBAC, and full audit trails'
+      'One ~15 MB executable replaces a cloud ERP subscription',
+      'Works fully offline — suitable for shops with unreliable connectivity',
+      'Millisecond responses from the Rust + SQLite backend',
+      'Audit trail covering stock, invoices and user actions'
     ],
     keyFeatures: [
-      'Native desktop app via Tauri (Windows, macOS, Linux)',
-      'Rust backend with SQLite for blazing performance',
-      'Quick Sell POS with keyboard shortcuts',
-      'Multi-module ERP (Inventory, Sales, Purchases, Invoicing)',
-      'Batch/Lot tracking with expiry monitoring',
-      'Role-based access control (Admin, Manager, Cashier)',
-      'Light/Dark/System theme support',
-      'Full i18n (English & French)',
-      'Database maintenance & backup tools',
-      'Professional invoice generation'
+      'Native desktop app (Windows, macOS, Linux)',
+      'Rust backend with SQLite',
+      'Keyboard-driven Quick Sell POS',
+      'Inventory, sales, purchases and invoicing',
+      'Batch/lot tracking with expiry monitoring',
+      'Role-based access control',
+      'Audit logging',
+      'Light, dark and system themes',
+      'English and French localisation',
+      'In-app backup and maintenance'
     ],
-    architecture: 'Tauri 2.x desktop app with React 19 + TypeScript frontend, Rust backend with SQLite database, Tauri IPC for communication, and TanStack Query for data caching',
-    timeline: '5 months',
+    architecture:
+      'Tauri 2 desktop shell with a React + TypeScript frontend, a Rust backend over SQLite (WAL mode) and typed IPC commands with TanStack Query caching on the frontend.',
+    timeline: '2025',
     teamSize: 'Solo project',
-    role: 'Full-Stack Developer & Desktop App Architect'
-  },
-  {
-    id: '1',
-    name: 'NasmyTunes – Spotify to MP3 Converter',
-    description: 'Convert Spotify playlists to high-quality MP3 files with CLI and web interfaces. Features advanced YouTube bypass techniques, real-time progress tracking, and professional glassmorphism UI.',
-    longDescription: 'NasmyTunes is a comprehensive Spotify playlist converter that transforms your favorite playlists into high-quality MP3 files. The application features both a CLI interface for local use and a modern web application with glassmorphism design. Built with advanced bypass techniques to handle YouTube\'s bot detection, it offers real-time progress tracking, batch processing, and professional-grade audio conversion at 192kbps quality.',
-    category: 'Productivity',
-    techStack: [
-      { name: 'Python', color: 'text-yellow-400 bg-yellow-400/10' },
-      { name: 'Spotify API', color: 'text-green-400 bg-green-400/10' },
-      { name: 'YouTube API', color: 'text-red-400 bg-red-400/10' },
-      { name: 'FFmpeg', color: 'text-blue-400 bg-blue-400/10' },
-      { name: 'Flask', color: 'text-gray-400 bg-gray-400/10' }
-    ],
-    stats: { stars: 0, forks: 0, commits: 45 },
-    githubUrl: 'https://github.com/iborntowin/NasmyTunes',
-    liveUrl: 'https://nasmytunes.onrender.com',
-    featured: true,
-    images: [
-      { src: '/images/projects/6/Modern Web UI.png', alt: 'NasmyTunes Interface', caption: 'Modern glassmorphism UI with real-time conversion progress' },
-      { src: '/images/projects/6/Playlist Analysis.png', alt: 'Playlist Analysis', caption: 'Detailed analysis of Spotify playlists' },
-      { src: '/images/projects/6/CLI Interface.png', alt: 'CLI Interface', caption: 'Easy-to-use command line interface for batch processing' }
-    ],
-    workflow: [
-      {
-        title: 'API Integration & Research',
-        description: 'Integrated Spotify API and researched YouTube bypass techniques',
-        icon: '🔗',
-        details: [
-          'Implemented Spotify Web API for playlist analysis',
-          'Researched YouTube\'s bot detection mechanisms',
-          'Developed authentication simulation techniques',
-          'Created fallback systems for API limitations'
-        ]
-      },
-      {
-        title: 'Core Engine Development',
-        description: 'Built the conversion engine with advanced bypass methods',
-        icon: '⚙️',
-        details: [
-          'Developed multi-client YouTube access system',
-          'Implemented rate limiting and human-like patterns',
-          'Created high-quality audio extraction pipeline',
-          'Built FFmpeg integration for MP3 conversion'
-        ]
-      },
-      {
-        title: 'CLI Interface Design',
-        description: 'Created user-friendly command line interface',
-        icon: '💻',
-        details: [
-          'Designed intuitive CLI menu system',
-          'Added real-time progress tracking',
-          'Implemented batch processing capabilities',
-          'Created cross-platform launcher scripts'
-        ]
-      },
-      {
-        title: 'Web Application Development',
-        description: 'Built modern web interface with glassmorphism design',
-        icon: '🌐',
-        details: [
-          'Designed responsive glassmorphism UI',
-          'Implemented real-time progress updates',
-          'Added ZIP file download functionality',
-          'Created mobile-responsive interface'
-        ]
-      },
-      {
-        title: 'Deployment & Optimization',
-        description: 'Deployed to cloud platforms with performance optimization',
-        icon: '🚀',
-        details: [
-          'Deployed to Render with automatic scaling',
-          'Optimized for cloud resource constraints',
-          'Implemented graceful degradation for demos',
-          'Added comprehensive error handling'
-        ]
-      }
-    ],
-    challenges: [
-      'YouTube\'s sophisticated bot detection and rate limiting',
-      'Maintaining high-quality audio conversion at scale',
-      'Creating seamless user experience across CLI and web interfaces',
-      'Handling cloud platform resource limitations for audio processing'
-    ],
-    solutions: [
-      'Implemented multi-layer bypass system with browser simulation and proxy support',
-      'Used FFmpeg with optimized settings for 192kbps quality conversion',
-      'Designed unified architecture supporting both CLI and web interfaces',
-      'Created intelligent fallback systems and demo modes for cloud constraints'
-    ],
-    impact: [
-      'Successful conversion of Spotify playlists to high-quality MP3s',
-      'Professional web interface deployed on Render platform',
-      'Advanced bypass techniques handling YouTube restrictions',
-      'Cross-platform compatibility with Windows, Mac, and Linux support'
-    ],
-    keyFeatures: [
-      'Spotify playlist analysis and track extraction',
-      'Advanced YouTube bypass techniques',
-      'High-quality MP3 conversion (192kbps)',
-      'Real-time progress tracking',
-      'Batch processing capabilities',
-      'Modern glassmorphism web UI',
-      'Cross-platform CLI interface',
-      'ZIP file downloads',
-      'Mobile responsive design',
-      'Cloud deployment ready'
-    ],
-    architecture: 'Python-based conversion engine with Spotify API integration, YouTube bypass system, FFmpeg audio processing, and dual CLI/web interfaces',
-    timeline: '3 months',
-    teamSize: 'Solo project',
-    role: 'Full-Stack Developer & System Architect'
+    role: 'Full-stack developer and desktop app architect'
   },
   {
     id: '2',
-    name: 'Cession App – Session & Contract Management',
-    description: 'A smart platform for managing session-based contracts with secure authentication, dynamic user roles, and audit trails. Designed for clean UX and cross-device compatibility.',
-    longDescription: 'Cession App is a comprehensive session and contract management platform built to streamline business operations. The application features a robust authentication system with JWT tokens, dynamic role-based access control, and comprehensive audit trails for compliance. The platform was designed with a mobile-first approach, ensuring seamless functionality across all devices while maintaining enterprise-grade security standards.',
+    name: 'Cession App — Contract Management Platform',
+    description:
+      'A session-based contract management platform with JWT authentication, dynamic roles and audit trails, built to stay usable on mobile as well as desktop.',
+    longDescription:
+      'Cession App manages session-based contracts end to end: clients, cession records, payment tracking and reporting. The backend is Spring Boot with JWT authentication, role-based access control and an audit trail on every change; the frontend is a Svelte application designed mobile-first. It was built as a team project to replace spreadsheet-driven contract tracking with something that has real permissions and a history of who changed what.',
     category: 'Full-Stack',
     techStack: [
       { name: 'Spring Boot', color: 'text-green-400 bg-green-400/10' },
@@ -493,357 +610,257 @@ const projectsData: DetailedProject[] = [
       { name: 'PostgreSQL', color: 'text-blue-400 bg-blue-400/10' },
       { name: 'JWT Auth', color: 'text-purple-400 bg-purple-400/10' }
     ],
-    stats: { stars: 194, forks: 42, commits: 87 },
-    githubUrl: 'https://github.com/iborntowin/cession-app',
+    stats: { stars: 0, forks: 0, commits: 0 },
+    githubUrl: 'https://github.com/iborntowin/cession-frontend',
     featured: true,
     images: [
-      { src: '/images/projects/1/dashboard.png', alt: 'Cession App Dashboard', caption: 'Main dashboard with session overview' },
-      { src: '/images/projects/1/signup.png', alt: 'User Registration', caption: 'Secure user registration process' },
-      { src: '/images/projects/1/login.png', alt: 'Authentication System', caption: 'Secure login with JWT authentication' },
-      { src: '/images/projects/1/clients.png', alt: 'Client Management', caption: 'Comprehensive client management interface' },
-      { src: '/images/projects/1/create_new_client.png', alt: 'Create New Client', caption: 'Intuitive client creation workflow' },
-      { src: '/images/projects/1/cession.png', alt: 'Cession Management', caption: 'Advanced cession creation and management' },
-      { src: '/images/projects/1/Détails_Cession.png', alt: 'Cession Details', caption: 'Detailed cession information and management' },
-      { src: '/images/projects/1/Intelligence_des_Paiements.png', alt: 'Payment Intelligence', caption: 'AI-powered payment analytics and insights' },
-      { src: '/images/projects/1/Mobile Data Export & Sync.png', alt: 'Mobile Data Export', caption: 'Mobile data synchronization and export features' },
-      { src: '/images/projects/1/Settings.png', alt: 'Application Settings', caption: 'Comprehensive settings and configuration panel' }
+      { src: '/images/projects/1/dashboard.png', alt: 'Cession App dashboard', caption: 'Dashboard with contract and payment overview' },
+      { src: '/images/projects/1/login.png', alt: 'Authentication', caption: 'JWT authentication' },
+      { src: '/images/projects/1/clients.png', alt: 'Client management', caption: 'Client management' },
+      { src: '/images/projects/1/cession.png', alt: 'Cession management', caption: 'Cession creation and management' },
+      { src: '/images/projects/1/Détails_Cession.png', alt: 'Cession details', caption: 'Cession details' },
+      { src: '/images/projects/1/Intelligence_des_Paiements.png', alt: 'Payment intelligence', caption: 'Payment analytics' },
+      { src: '/images/projects/1/Settings.png', alt: 'Settings', caption: 'Configuration panel' }
     ],
     workflow: [
       {
-        title: 'Requirements Analysis',
-        description: 'Analyzed business needs and user requirements',
+        title: 'Requirements and data model',
+        description: 'Modelled clients, cessions and payments before writing UI',
         icon: '📋',
         details: [
-          'Conducted stakeholder interviews',
-          'Defined user personas and use cases',
-          'Created detailed functional requirements',
-          'Established security and compliance requirements'
+          'Defined the cession lifecycle and its states',
+          'Modelled payments against cession records',
+          'Set the permission model per role',
+          'Agreed on what the audit trail had to capture'
         ]
       },
       {
-        title: 'System Architecture',
-        description: 'Designed scalable microservices architecture',
-        icon: '🏗️',
+        title: 'Backend',
+        description: 'Spring Boot REST API with JWT and role checks',
+        icon: '🧱',
         details: [
-          'Designed RESTful API architecture',
-          'Planned database schema with PostgreSQL',
-          'Implemented JWT-based authentication',
-          'Created role-based access control system'
+          'REST endpoints with validation',
+          'JWT authentication and refresh handling',
+          'Dynamic role-based access control',
+          'Audit entries written on mutation'
         ]
       },
       {
-        title: 'Frontend Development',
-        description: 'Built responsive UI with Svelte',
+        title: 'Frontend',
+        description: 'Svelte UI designed mobile-first',
         icon: '🎨',
         details: [
-          'Developed component-based architecture',
-          'Implemented responsive design patterns',
-          'Created intuitive user workflows',
-          'Added real-time updates and notifications'
-        ]
-      },
-      {
-        title: 'Backend Implementation',
-        description: 'Developed robust Spring Boot backend',
-        icon: '⚙️',
-        details: [
-          'Built RESTful APIs with Spring Boot',
-          'Implemented business logic and validation',
-          'Created audit trail system',
-          'Added comprehensive error handling'
-        ]
-      },
-      {
-        title: 'Testing & Deployment',
-        description: 'Comprehensive testing and production deployment',
-        icon: '🚀',
-        details: [
-          'Unit and integration testing',
-          'Security penetration testing',
-          'Performance optimization',
-          'Production deployment and monitoring'
+          'Component-based Svelte application',
+          'Responsive layouts for phone and desktop',
+          'Client and cession workflows with inline validation',
+          'Reporting and analytics views'
         ]
       }
     ],
     challenges: [
-      'Complex role-based permission system with dynamic access control',
-      'Real-time synchronization across multiple user sessions',
-      'Ensuring GDPR compliance for audit trails and data retention',
-      'Optimizing database queries for large-scale contract data'
+      'A permission model that changes per role without duplicating logic',
+      'Keeping contract history auditable across every mutation',
+      'Usable data entry on a phone',
+      'Coordinating a Spring Boot API and a Svelte frontend as a team'
     ],
     solutions: [
-      'Implemented hierarchical role system with granular permissions',
-      'Used WebSocket connections for real-time updates',
-      'Built automated data retention and anonymization system',
-      'Optimized queries with database indexing and caching strategies'
+      'Hierarchical roles with granular permissions checked server-side',
+      'Audit records written in one place, at the service layer',
+      'Mobile-first layouts with large touch targets for data entry',
+      'A shared API contract agreed up front'
     ],
     impact: [
-      'Reduced contract processing time by 60%',
-      'Improved user satisfaction with intuitive interface',
-      'Enhanced security with zero security incidents post-launch',
-      'Achieved 99.9% uptime in production environment'
+      'Contract tracking replaced spreadsheet workflows',
+      'Every change attributable to a user in the audit trail',
+      'Works on mobile for field use'
     ],
     keyFeatures: [
-      'JWT-based secure authentication',
-      'Dynamic role-based access control',
-      'Comprehensive audit trail system',
-      'Real-time session management',
-      'Cross-device compatibility',
-      'Automated contract workflows',
-      'Advanced reporting and analytics',
-      'GDPR-compliant data handling'
+      'JWT authentication',
+      'Role-based access control',
+      'Audit trail on every mutation',
+      'Client and cession management',
+      'Payment tracking and analytics',
+      'Mobile-first responsive UI'
     ],
-    architecture: 'Microservices architecture with Spring Boot backend, Svelte frontend, PostgreSQL database, and JWT authentication',
-    timeline: '4 months',
-    teamSize: 'Solo project',
-    role: 'Full-Stack Developer & System Architect'
+    architecture:
+      'Spring Boot REST API with PostgreSQL and JWT authentication, consumed by a Svelte frontend.',
+    timeline: '2024 – 2025',
+    teamSize: 'Team project',
+    role: 'Full-stack developer'
   },
   {
     id: '3',
-    name: 'Board-AI: Electronic Component Detection',
-    description: 'Trained a CNN model (92% accuracy) on 50,000+ PCB component images to identify parts in real-time, reducing inference time to 120ms using TensorRT.',
-    longDescription: 'Board-AI revolutionizes electronic component identification through advanced computer vision and deep learning. The system processes PCB images in real-time, identifying components with 92% accuracy while maintaining ultra-low latency of 120ms. Built with a robust CNN architecture and optimized using TensorRT, this solution addresses critical needs in electronics manufacturing and repair industries.',
+    name: 'Board-AI — PCB Component Detection',
+    description:
+      'A CNN trained on PCB component images to identify parts in real time, with an inference pipeline aimed at electronics inspection.',
+    longDescription:
+      'Board-AI applies computer vision to electronics inspection: given an image of a PCB, it detects and classifies components. The work covered dataset preparation and augmentation, CNN training and evaluation, and turning the trained model into a pipeline that can run on a live image feed rather than a notebook. It started as an academic machine-learning project and was kept as an exercise in the unglamorous parts of ML — data quality, labelling and evaluation.',
     category: 'AI/ML',
     techStack: [
       { name: 'Python', color: 'text-yellow-400 bg-yellow-400/10' },
       { name: 'OpenCV', color: 'text-green-400 bg-green-400/10' },
       { name: 'TensorFlow', color: 'text-orange-400 bg-orange-400/10' },
-      { name: 'TensorRT', color: 'text-green-500 bg-green-500/10' }
+      { name: 'Jupyter', color: 'text-orange-300 bg-orange-300/10' }
     ],
-    stats: { stars: 271, forks: 64, commits: 142 },
-    githubUrl: 'https://github.com/iborntowin/board-ai',
-    featured: true,
+    stats: { stars: 0, forks: 0, commits: 0 },
+    githubUrl: 'https://github.com/iborntowin/Board-Ai-detection',
     images: [
-      { src: '/images/projects/2/hero.jpg', alt: 'Board-AI Detection Interface', caption: 'Real-time component detection in action' },
-      { src: '/images/projects/2/training.jpg', alt: 'Model Training Process', caption: 'CNN training on 50,000+ PCB images' },
-      { src: '/images/projects/2/results.jpg', alt: 'Detection Results', caption: '92% accuracy with 120ms inference time' },
-      { src: '/images/projects/2/architecture.jpg', alt: 'System Architecture', caption: 'TensorRT optimized inference pipeline' }
+      { src: '/images/projects/2/hero.jpg', alt: 'Board-AI detection interface', caption: 'Component detection on a PCB image' },
+      { src: '/images/projects/2/training.jpg', alt: 'Training process', caption: 'CNN training run' },
+      { src: '/images/projects/2/results.jpg', alt: 'Results', caption: 'Detection results' },
+      { src: '/images/projects/2/architecture.jpg', alt: 'Pipeline architecture', caption: 'Inference pipeline' }
     ],
     workflow: [
       {
-        title: 'Data Collection & Preparation',
-        description: 'Curated and preprocessed 50,000+ PCB component images',
+        title: 'Dataset preparation',
+        description: 'The model is only as good as its labels',
         icon: '📊',
         details: [
-          'Collected diverse PCB component dataset',
-          'Implemented data augmentation techniques',
-          'Created annotation pipeline for component labeling',
-          'Balanced dataset across component categories'
+          'Collected and cleaned PCB component images',
+          'Data augmentation for lighting and rotation variation',
+          'Annotation pipeline for component labelling',
+          'Class balance checked before training'
         ]
       },
       {
-        title: 'Model Architecture Design',
-        description: 'Designed and optimized CNN architecture',
+        title: 'Model and training',
+        description: 'CNN designed for component detection, with transfer learning',
         icon: '🧠',
         details: [
-          'Designed custom CNN architecture for component detection',
-          'Implemented transfer learning with pre-trained models',
-          'Optimized model for accuracy and inference speed',
-          'Added multi-scale feature extraction layers'
+          'Custom CNN with transfer learning from a pre-trained backbone',
+          'Cross-validation for evaluation',
+          'Regularisation to limit overfitting on a small dataset',
+          'Accuracy and per-class error reviewed, not just aggregate accuracy'
         ]
       },
       {
-        title: 'Training & Validation',
-        description: 'Trained model with advanced optimization techniques',
-        icon: '🎯',
-        details: [
-          'Implemented advanced training strategies',
-          'Used cross-validation for robust evaluation',
-          'Applied regularization techniques to prevent overfitting',
-          'Achieved 92% accuracy on validation set'
-        ]
-      },
-      {
-        title: 'TensorRT Optimization',
-        description: 'Optimized model for real-time inference',
+        title: 'Inference pipeline',
+        description: 'Made the model usable outside the notebook',
         icon: '⚡',
         details: [
-          'Converted TensorFlow model to TensorRT format',
-          'Applied quantization and pruning techniques',
-          'Optimized inference pipeline for GPU acceleration',
-          'Reduced inference time to 120ms'
-        ]
-      },
-      {
-        title: 'Integration & Testing',
-        description: 'Built complete detection system with UI',
-        icon: '🔧',
-        details: [
-          'Developed real-time detection interface',
-          'Integrated OpenCV for image preprocessing',
-          'Created comprehensive testing suite',
-          'Deployed system for production use'
+          'OpenCV preprocessing for live images',
+          'Model export for faster inference',
+          'Simple detection interface for testing',
+          'Benchmarked inference time on real images'
         ]
       }
     ],
     challenges: [
-      'Achieving high accuracy with diverse PCB component variations',
-      'Optimizing inference speed for real-time applications',
-      'Handling varying lighting conditions and image quality',
-      'Balancing model complexity with deployment constraints'
+      'Component variety and visual similarity between classes',
+      'Limited labelled data for some component types',
+      'Varying lighting and image quality in captures',
+      'Getting inference fast enough to be interactive'
     ],
     solutions: [
-      'Implemented robust data augmentation and transfer learning',
-      'Used TensorRT optimization for GPU acceleration',
-      'Applied advanced preprocessing and normalization techniques',
-      'Designed efficient model architecture with optimal complexity'
+      'Augmentation and transfer learning instead of training from scratch',
+      'Per-class error analysis to find the weak categories',
+      'Preprocessing and normalisation before inference',
+      'Model export and benchmarking rather than assuming nominal speeds'
     ],
     impact: [
-      '92% component detection accuracy achieved',
-      '120ms inference time for real-time applications',
-      'Reduced manual inspection time by 75%',
-      'Improved quality control in electronics manufacturing'
+      'Working component detection pipeline from raw images',
+      'Documented accuracy and per-class weaknesses',
+      'Reproducible training notebook in the repository'
     ],
     keyFeatures: [
-      'Real-time component detection',
-      'High accuracy CNN model (92%)',
-      'Ultra-fast inference (120ms)',
-      'TensorRT GPU optimization',
-      'Robust image preprocessing',
-      'Multi-component classification',
-      'Scalable detection pipeline',
-      'Production-ready deployment'
+      'CNN-based component detection',
+      'Transfer learning',
+      'Augmented training set',
+      'OpenCV preprocessing',
+      'Interactive detection interface',
+      'Reproducible notebook'
     ],
-    architecture: 'CNN-based detection system with TensorFlow training pipeline, TensorRT inference optimization, and OpenCV preprocessing',
-    timeline: '6 months',
-    teamSize: 'Solo project with academic supervision',
-    role: 'AI/ML Engineer & Computer Vision Specialist'
+    timeline: '2024',
+    teamSize: 'Academic project',
+    role: 'Machine learning engineer'
   },
   {
-    id: '4',
-    name: 'NeuroVigil: Driver Fatigue Detection',
-    description: 'Developed an EEG-based alert system detecting drowsiness with 89% precision. Early warning algorithm reduced false positives to under 5%.',
-    longDescription: 'NeuroVigil is an innovative wearable technology solution that monitors driver alertness through EEG signal analysis. The system processes brainwave patterns in real-time to detect early signs of fatigue and drowsiness, providing timely alerts to prevent accidents. With 89% precision and less than 5% false positives, this solution represents a significant advancement in road safety technology.',
-    category: 'AI/ML',
+    id: '1',
+    name: 'NasmyTunes — Playlist Converter',
+    description:
+      'Convert Spotify playlists into MP3 files, with a command-line interface for batch work and a web UI for everything else.',
+    longDescription:
+      'NasmyTunes takes a Spotify playlist, resolves each track, fetches the audio and converts it to MP3 with FFmpeg. It ships two interfaces: a CLI for batch conversion on your own machine and a Flask web app with progress tracking so you can queue a playlist and watch it complete. Most of the engineering was in robustness — API rate limits, unreliable sources, partial failures — because a converter is only useful if it finishes.',
+    category: 'Productivity',
     techStack: [
       { name: 'Python', color: 'text-yellow-400 bg-yellow-400/10' },
-      { name: 'SciPy', color: 'text-blue-400 bg-blue-400/10' },
-      { name: 'EEG Processing', color: 'text-purple-400 bg-purple-400/10' },
-      { name: 'Signal Analysis', color: 'text-pink-400 bg-pink-400/10' }
+      { name: 'Spotify API', color: 'text-green-400 bg-green-400/10' },
+      { name: 'FFmpeg', color: 'text-blue-400 bg-blue-400/10' },
+      { name: 'Flask', color: 'text-slate-300 bg-slate-300/10' }
     ],
-    stats: { stars: 198, forks: 49, commits: 91 },
-    githubUrl: 'https://github.com/iborntowin/neurovigil',
-    images: [
-      { src: '/images/projects/3/hero.jpg', alt: 'NeuroVigil System', caption: 'EEG-based fatigue detection system' }
-    ],
-    workflow: [
-      {
-        title: 'Signal Processing Research',
-        description: 'Researched EEG signal patterns for fatigue detection',
-        icon: '🧠',
-        details: ['Studied brainwave patterns', 'Analyzed fatigue indicators', 'Designed signal processing pipeline']
-      },
-      {
-        title: 'Algorithm Development',
-        description: 'Developed machine learning algorithms for detection',
-        icon: '⚡',
-        details: ['Built classification models', 'Optimized for real-time processing', 'Reduced false positives']
-      },
-      {
-        title: 'Hardware Integration',
-        description: 'Integrated with EEG hardware sensors',
-        icon: '🔧',
-        details: ['Connected EEG sensors', 'Real-time data acquisition', 'Alert system implementation']
-      }
-    ],
-    challenges: ['Complex EEG signal processing', 'Real-time performance requirements', 'Minimizing false positives'],
-    solutions: ['Advanced signal filtering techniques', 'Optimized algorithms for speed', 'Machine learning model fine-tuning'],
-    impact: ['89% detection precision achieved', 'False positives reduced to under 5%', 'Potential to prevent road accidents'],
-    keyFeatures: ['Real-time EEG monitoring', 'Advanced signal processing', 'Low false positive rate', 'Wearable technology integration'],
-    timeline: '5 months',
-    role: 'Biomedical Engineer & Signal Processing Specialist'
-  },
-  {
-    id: '5',
-    name: 'Nanosatellite Communication System',
-    description: 'Built an optimized LoRaWAN communication module achieving 1.2 Mbps and 40% performance gain across 5 hardware platforms.',
-    longDescription: 'This project involved designing and implementing a high-performance communication system for nanosatellites using LoRaWAN technology. The system achieved significant performance improvements through optimization techniques, reaching 1.2 Mbps data rates with 40% better performance compared to existing solutions across multiple hardware platforms.',
-    category: 'Embedded',
-    techStack: [
-      { name: 'C++', color: 'text-blue-400 bg-blue-400/10' },
-      { name: 'STM32', color: 'text-green-400 bg-green-400/10' },
-      { name: 'LoRaWAN', color: 'text-purple-400 bg-purple-400/10' },
-      { name: 'Low-Power Protocols', color: 'text-cyan-400 bg-cyan-400/10' }
-    ],
-    stats: { stars: 305, forks: 77, commits: 198 },
-    githubUrl: 'https://github.com/iborntowin/nanosatellite-comm',
+    stats: { stars: 2, forks: 0, commits: 0 },
+    githubUrl: 'https://github.com/iborntowin/NasmyTunes',
+    liveUrl: 'https://nasmytunes.onrender.com',
     featured: true,
     images: [
-      { src: '/images/projects/4/hero.jpg', alt: 'Nanosatellite Communication', caption: 'LoRaWAN communication module' }
+      { src: '/images/projects/6/Modern Web UI.png', alt: 'NasmyTunes interface', caption: 'Web UI with real-time conversion progress' },
+      { src: '/images/projects/6/Playlist Analysis.png', alt: 'Playlist analysis', caption: 'Playlist analysis before conversion' },
+      { src: '/images/projects/6/CLI Interface.png', alt: 'CLI interface', caption: 'Command-line interface for batch processing' }
     ],
     workflow: [
       {
-        title: 'System Architecture',
-        description: 'Designed communication protocol architecture',
-        icon: '🛰️',
-        details: ['Protocol stack design', 'Hardware abstraction layer', 'Multi-platform compatibility']
+        title: 'Playlist resolution',
+        description: 'Spotify API integration and track matching',
+        icon: '🔗',
+        details: [
+          'Spotify Web API for playlist and track metadata',
+          'Track matching when metadata is incomplete',
+          'Rate limiting with backoff',
+          'Fallbacks for tracks that cannot be resolved'
+        ]
       },
       {
-        title: 'Optimization',
-        description: 'Optimized for performance and power efficiency',
-        icon: '⚡',
-        details: ['Algorithm optimization', 'Power consumption reduction', 'Data rate improvements']
+        title: 'Conversion engine',
+        description: 'Fetch, convert and package audio',
+        icon: '⚙️',
+        details: [
+          'Audio retrieval with retry on failure',
+          'FFmpeg conversion to 192 kbps MP3',
+          'Per-track error isolation so one failure does not abort a playlist',
+          'ZIP packaging of finished playlists'
+        ]
       },
       {
-        title: 'Testing & Validation',
-        description: 'Comprehensive testing across platforms',
-        icon: '🔬',
-        details: ['Multi-platform testing', 'Performance benchmarking', 'Reliability validation']
+        title: 'Two interfaces',
+        description: 'CLI for batch work, web UI for everything else',
+        icon: '💻',
+        details: [
+          'Interactive CLI menu with progress output',
+          'Flask web app with live progress updates',
+          'Cross-platform launcher scripts',
+          'Graceful degradation on constrained hosts'
+        ]
       }
     ],
-    challenges: ['Multi-platform compatibility', 'Power consumption constraints', 'Data rate optimization'],
-    solutions: ['Modular architecture design', 'Advanced power management', 'Protocol optimization techniques'],
-    impact: ['1.2 Mbps data rate achieved', '40% performance improvement', 'Cross-platform compatibility'],
-    keyFeatures: ['High-speed LoRaWAN communication', 'Multi-platform support', 'Low power consumption', 'Optimized protocols'],
-    timeline: '8 months',
-    teamSize: '3 engineers',
-    role: 'Embedded Systems Engineer & Protocol Designer'
-  },
-  {
-    id: '6',
-    name: 'GoldenTouch – AI Event Platform',
-    description: 'Smart platform for event pack management with admin dashboards, AI-powered feedback analysis, Telegram/email notifications, and booking logic.',
-    longDescription: 'GoldenTouch is a comprehensive event management platform that leverages AI to enhance user experience and streamline operations. The platform features intelligent feedback analysis, automated notifications, and sophisticated booking management, making it ideal for event organizers and attendees alike.',
-    category: 'Full-Stack',
-    techStack: [
-      { name: 'Symfony', color: 'text-black bg-black/10' },
-      { name: 'JavaFX', color: 'text-red-400 bg-red-400/10' },
-      { name: 'Hugging Face API', color: 'text-yellow-400 bg-yellow-400/10' },
-      { name: 'PDF/Email Integration', color: 'text-blue-400 bg-blue-400/10' }
+    challenges: [
+      'Third-party rate limits and bot detection breaking long runs',
+      'Maintaining audio quality while converting at scale',
+      'Partial failures in the middle of a 100-track playlist',
+      'Cloud hosts with limited CPU for audio processing'
     ],
-    stats: { stars: 221, forks: 41, commits: 116 },
-    githubUrl: 'https://github.com/iborntowin/goldentouch',
-    featured: true,
-    images: [
-      { src: '/images/projects/5/hero.jpg', alt: 'GoldenTouch Platform', caption: 'AI-powered event management dashboard' }
+    solutions: [
+      'Retries with backoff and multiple retrieval paths per track',
+      'FFmpeg settings tuned for 192 kbps output',
+      'Per-track error isolation with a summary at the end',
+      'Progress reporting that survives slow conversion'
     ],
-    workflow: [
-      {
-        title: 'Platform Design',
-        description: 'Designed comprehensive event management system',
-        icon: '🎯',
-        details: ['User experience design', 'Admin dashboard creation', 'Booking system architecture']
-      },
-      {
-        title: 'AI Integration',
-        description: 'Integrated AI for feedback analysis',
-        icon: '🤖',
-        details: ['Hugging Face API integration', 'Sentiment analysis', 'Automated insights generation']
-      },
-      {
-        title: 'Notification System',
-        description: 'Built multi-channel notification system',
-        icon: '📱',
-        details: ['Telegram bot integration', 'Email automation', 'Real-time notifications']
-      }
+    impact: [
+      'Batch playlist conversion with a usable progress model',
+      'Deployed web version on Render',
+      'Works on Windows, macOS and Linux'
     ],
-    challenges: ['Complex booking logic', 'AI model integration', 'Multi-channel notifications'],
-    solutions: ['Modular booking system', 'API-based AI integration', 'Unified notification service'],
-    impact: ['Streamlined event management', 'AI-powered insights', 'Improved user engagement'],
-    keyFeatures: ['AI feedback analysis', 'Multi-channel notifications', 'Advanced booking system', 'Admin dashboards'],
-    timeline: '7 months',
-    teamSize: '2 developers',
-    role: 'Full-Stack Developer & AI Integration Specialist'
+    keyFeatures: [
+      'Spotify playlist analysis',
+      'MP3 conversion at 192 kbps',
+      'Real-time progress tracking',
+      'Batch processing',
+      'Web UI and CLI',
+      'ZIP download of finished playlists',
+      'Per-track error isolation'
+    ],
+    timeline: '2024',
+    teamSize: 'Solo project',
+    role: 'Developer'
   }
 ]
 

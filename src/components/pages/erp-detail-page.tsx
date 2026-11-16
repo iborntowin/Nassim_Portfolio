@@ -111,25 +111,28 @@ export default function ErpDetailPage({ project }: ErpDetailPageProps) {
                   {project.longDescription}
                 </p>
 
-                {/* Project Stats */}
-                <div className="flex items-center gap-6 mb-8 text-sm text-[var(--color-text-secondary)]">
+                {/* Project facts */}
+                <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mb-8 text-sm text-[var(--color-text-secondary)]">
                   <div className="flex items-center gap-2">
-                    <Star className="w-4 h-4 text-[var(--color-warning-energy)]" />
-                    <span className="text-[var(--color-warning-energy)] font-medium">{project.stats.stars}</span>
+                    <Calendar className="w-4 h-4" />
+                    <span>{project.timeline}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <GitFork className="w-4 h-4" />
-                    <span>{project.stats.forks}</span>
+                    <User className="w-4 h-4" />
+                    <span>{project.role}</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <GitCommit className="w-4 h-4" />
-                    <span>{project.stats.commits}</span>
-                  </div>
+                  {project.teamSize && (
+                    <div className="flex items-center gap-2">
+                      <Users className="w-4 h-4" />
+                      <span>{project.teamSize}</span>
+                    </div>
+                  )}
                 </div>
 
                 {/* Action Buttons */}
                 <div className="flex gap-4">
-                  <Button
+                  {project.githubUrl && (
+<Button
                     className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-400 hover:to-red-400 text-white px-6 py-3 shadow-lg"
                     asChild
                   >
@@ -138,6 +141,7 @@ export default function ErpDetailPage({ project }: ErpDetailPageProps) {
                       View Code
                     </a>
                   </Button>
+)}
                 </div>
               </motion.div>
 
@@ -403,7 +407,8 @@ export default function ErpDetailPage({ project }: ErpDetailPageProps) {
                 Explore the code, learn about the architecture, or get in touch to discuss similar projects.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button
+                {project.githubUrl && (
+<Button
                   className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-400 hover:to-red-400 text-white px-8 py-3 shadow-lg"
                   asChild
                 >
@@ -412,6 +417,7 @@ export default function ErpDetailPage({ project }: ErpDetailPageProps) {
                     View Source Code
                   </a>
                 </Button>
+)}
                 <Button
                   className="bg-transparent hover:bg-[var(--color-border)] border border-[var(--color-border)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] px-8 py-3"
                   asChild

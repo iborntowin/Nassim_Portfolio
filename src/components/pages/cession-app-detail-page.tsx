@@ -113,25 +113,28 @@ export default function CessionAppDetailPage({ project }: CessionAppDetailPagePr
                   {project.longDescription}
                 </p>
 
-                {/* Project Stats */}
-                <div className="flex items-center gap-6 mb-8 text-sm text-[var(--color-text-secondary)]">
+                {/* Project facts */}
+                <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mb-8 text-sm text-[var(--color-text-secondary)]">
                   <div className="flex items-center gap-2">
-                    <Star className="w-4 h-4 text-[var(--color-warning-energy)]" />
-                    <span className="text-[var(--color-warning-energy)] font-medium">{project.stats.stars}</span>
+                    <Calendar className="w-4 h-4" />
+                    <span>{project.timeline}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <GitFork className="w-4 h-4" />
-                    <span>{project.stats.forks}</span>
+                    <User className="w-4 h-4" />
+                    <span>{project.role}</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <GitCommit className="w-4 h-4" />
-                    <span>{project.stats.commits}</span>
-                  </div>
+                  {project.teamSize && (
+                    <div className="flex items-center gap-2">
+                      <Users className="w-4 h-4" />
+                      <span>{project.teamSize}</span>
+                    </div>
+                  )}
                 </div>
 
                 {/* Action Buttons */}
                 <div className="flex gap-4">
-                  <Button
+                  {project.githubUrl && (
+<Button
                     className="bg-[var(--color-primary-accent)] hover:bg-[var(--color-primary-accent)]/80 text-[var(--color-text-primary)] px-6 py-3"
                     asChild
                   >
@@ -140,6 +143,7 @@ export default function CessionAppDetailPage({ project }: CessionAppDetailPagePr
                       View Code
                     </a>
                   </Button>
+)}
                   {project.liveUrl && (
                     <Button
                       className="bg-[var(--color-secondary-accent)] hover:bg-[var(--color-secondary-accent)]/80 text-[var(--color-text-primary)] px-6 py-3"
@@ -418,7 +422,8 @@ export default function CessionAppDetailPage({ project }: CessionAppDetailPagePr
                 Explore the code, see it in action, or get in touch to discuss similar projects.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button
+                {project.githubUrl && (
+<Button
                   className="bg-[var(--color-primary-accent)] hover:bg-[var(--color-primary-accent)]/80 text-[var(--color-text-primary)] px-8 py-3"
                   asChild
                 >
@@ -427,6 +432,7 @@ export default function CessionAppDetailPage({ project }: CessionAppDetailPagePr
                     View Source Code
                   </a>
                 </Button>
+)}
                 <Button
                   className="bg-transparent hover:bg-[var(--color-border)] border border-[var(--color-border)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] px-8 py-3"
                   asChild

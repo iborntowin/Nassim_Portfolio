@@ -5,8 +5,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/api/', '/admin/'],
+      disallow: ['/api/'],
     },
-    sitemap: 'https://nassimmaaoui.dev/sitemap.xml',
+    sitemap: 'https://nassimmaaoui.vercel.app/sitemap.xml',
   }
 }

@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation'
 import OptimizedProjectDetailWrapper from '@/components/pages/optimized-project-detail-wrapper'
 import { getProjectById, getAllProjects } from '@/lib/projects-data'
 
+const SITE_URL = 'https://nassimmaaoui.vercel.app'
+
 interface ProjectPageProps {
   params: Promise<{
     id: string
@@ -19,54 +21,45 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
   const { id } = await params
   const project = getProjectById(id)
-  
+
   if (!project) {
     return {
-      title: 'Project Not Found - Nassim Maaoui',
+      title: 'Project not found',
     }
   }
 
-  const keywords = [
-    project.name,
-    ...project.techStack.map(tech => tech.name),
-    project.category,
-    'Nassim Maaoui',
-    'Software Engineer',
-    'Portfolio',
-    'Project',
-    ...project.techStack.map(tech => `${tech.name} developer`),
-    ...project.techStack.map(tech => `${tech.name} project`),
-  ]
+  const image = project.images[0]?.src ?? '/images/og-image.jpg'
 
   return {
-    title: `${project.name} - Nassim Maaoui | ${project.category} Project`,
+    title: project.name,
     description: project.description,
-    keywords: keywords.join(', '),
+    keywords: [
+      project.name,
+      ...project.techStack.map((tech) => tech.name),
+      project.category,
+      'Nassim Maaoui',
+    ],
     authors: [{ name: 'Nassim Maaoui' }],
     creator: 'Nassim Maaoui',
-    publisher: 'Nassim Maaoui',
     openGraph: {
-      title: `${project.name} - Nassim Maaoui`,
+      title: `${project.name} — Nassim Maaoui`,
       description: project.description,
-      type: 'website',
+      type: 'article',
       locale: 'en_US',
-      url: `https://nassimmaaoui.dev/projects/${project.id}`,
-      siteName: 'Nassim Maaoui Portfolio',
+      url: `${SITE_URL}/projects/${project.id}`,
+      siteName: 'Nassim Maaoui',
       images: [
         {
-          url: `/images/projects/${project.id}/hero.jpg`,
-          width: 1200,
-          height: 630,
-          alt: `${project.name} - ${project.category} Project by Nassim Maaoui`,
+          url: image,
+          alt: `${project.name} by Nassim Maaoui`,
         },
       ],
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${project.name} - Nassim Maaoui`,
+      title: `${project.name} — Nassim Maaoui`,
       description: project.description,
-      creator: '@nassimmaaoui',
-      images: [`/images/projects/${project.id}/hero.jpg`],
+      images: [image],
     },
     robots: {
       index: true,
@@ -80,7 +73,7 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
       },
     },
     alternates: {
-      canonical: `https://nassimmaaoui.dev/projects/${project.id}`,
+      canonical: `${SITE_URL}/projects/${project.id}`,
     },
   }
 }

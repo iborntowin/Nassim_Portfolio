@@ -1,60 +1,67 @@
 import { DetailedProject } from '@/lib/projects-data'
 
+const SITE_URL = 'https://nassimmaaoui.vercel.app'
+
+const PERSON_LINKS = [
+  'https://github.com/iborntowin',
+  'https://www.linkedin.com/in/maaoui-nassim',
+]
+
 interface PersonStructuredDataProps {
   className?: string
 }
 
 export function PersonStructuredData({ className }: PersonStructuredDataProps) {
   const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Nassim Maaoui",
-    "jobTitle": "Cloud Engineer & DevOps Architect",
-    "description": "Cloud Engineer & DevOps Architect specializing in AWS, OpenStack, Kubernetes, Terraform, and CI/CD automation. Building production-grade infrastructure at scale.",
-    "url": "https://nassimmaaoui.dev",
-    "sameAs": [
-      "https://github.com/iborntowin",
-      "https://www.linkedin.com/in/maaoui-nassim-1a5636279/",
-      "https://twitter.com/nassimmaaoui"
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: 'Nassim Maaoui',
+    jobTitle: 'Cloud & Infrastructure Engineer',
+    description:
+      'Final-year computer engineering student at ESPRIT specialising in cloud and network architecture. Built a private OpenStack cloud and an internal monitoring platform used at Huawei Technologies.',
+    url: SITE_URL,
+    email: 'mailto:nassimmaaoui@outlook.com',
+    image: `${SITE_URL}/images/og-image.jpg`,
+    sameAs: PERSON_LINKS,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Tunis',
+      addressCountry: 'TN',
+    },
+    alumniOf: [
+      { '@type': 'CollegeOrUniversity', name: 'ESPRIT' },
+      { '@type': 'CollegeOrUniversity', name: 'Faculté des Sciences de Bizerte' },
     ],
-    "knowsAbout": [
-      "Cloud Engineering",
-      "DevOps Architecture",
-      "AWS",
-      "OpenStack",
-      "Kubernetes",
-      "Terraform",
-      "Docker",
-      "CI/CD Automation",
-      "Infrastructure as Code",
-      "Prometheus & Grafana",
-      "Ansible",
-      "Linux Administration",
-      "Site Reliability Engineering",
-      "Full-Stack Development",
-      "Python",
-      "TypeScript",
-      "React",
-      "Next.js",
-      "Machine Learning",
-      "PostgreSQL"
+    knowsAbout: [
+      'OpenStack',
+      'Kubernetes',
+      'Ansible',
+      'Terraform',
+      'Prometheus',
+      'Grafana',
+      'Linux',
+      'Infrastructure as Code',
+      'Networking',
+      'Python',
+      'CI/CD',
     ],
-    "hasOccupation": {
-      "@type": "Occupation",
-      "name": "Software Engineer",
-      "occupationLocation": {
-        "@type": "Country",
-        "name": "Tunisia"
+    hasOccupation: {
+      '@type': 'Occupation',
+      name: 'Cloud Infrastructure Engineer',
+      occupationLocation: {
+        '@type': 'Country',
+        name: 'Tunisia',
       },
-      "skills": [
-        "Cloud Engineering",
-        "DevOps Architecture",
-        "Infrastructure as Code",
-        "Container Orchestration",
-        "Site Reliability Engineering",
-        "Full-Stack Development"
-      ]
-    }
+      skills: [
+        'OpenStack',
+        'Kubernetes',
+        'Ansible',
+        'Terraform',
+        'Infrastructure as Code',
+        'Observability',
+        'Linux administration',
+      ],
+    },
   }
 
   return (
@@ -73,42 +80,35 @@ interface ProjectStructuredDataProps {
 
 export function ProjectStructuredData({ project, className }: ProjectStructuredDataProps) {
   const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": project.name,
-    "description": project.description,
-    "url": `https://nassimmaaoui.dev/projects/${project.id}`,
-    "author": {
-      "@type": "Person",
-      "name": "Nassim Maaoui",
-      "url": "https://nassimmaaoui.dev"
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: project.name,
+    description: project.description,
+    url: `${SITE_URL}/projects/${project.id}`,
+    author: {
+      '@type': 'Person',
+      name: 'Nassim Maaoui',
+      url: SITE_URL,
     },
-    "programmingLanguage": project.techStack.map(tech => tech.name),
-    "applicationCategory": project.category,
-    "operatingSystem": "Cross-platform",
-    "codeRepository": project.githubUrl,
-    "screenshot": project.images.map(img => ({
-      "@type": "ImageObject",
-      "url": `https://nassimmaaoui.dev${img.src}`,
-      "caption": img.caption || img.alt
+    programmingLanguage: project.techStack.map((tech) => tech.name),
+    applicationCategory: project.category,
+    operatingSystem: 'Cross-platform',
+    ...(project.githubUrl ? { codeRepository: project.githubUrl } : {}),
+    screenshot: project.images.map((img) => ({
+      '@type': 'ImageObject',
+      url: `${SITE_URL}${img.src}`,
+      caption: img.caption || img.alt,
     })),
-    "dateCreated": "2024",
-    "creator": {
-      "@type": "Person",
-      "name": "Nassim Maaoui"
+    creator: {
+      '@type': 'Person',
+      name: 'Nassim Maaoui',
     },
-    "keywords": [
+    keywords: [
       project.name,
-      ...project.techStack.map(tech => tech.name),
+      ...project.techStack.map((tech) => tech.name),
       project.category,
-      "Software Development",
-      "Programming",
-      "Nassim Maaoui"
-    ].join(", ")
-  }
-
-  if (project.liveUrl) {
-    structuredData["url"] = project.liveUrl
+      'Nassim Maaoui',
+    ].join(', '),
   }
 
   return (
@@ -122,23 +122,16 @@ export function ProjectStructuredData({ project, className }: ProjectStructuredD
 
 export function WebsiteStructuredData({ className }: { className?: string }) {
   const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Nassim Maaoui Portfolio",
-    "description": "Portfolio website of Nassim Maaoui, Full-Stack Developer and AI Engineer",
-    "url": "https://nassimmaaoui.dev",
-    "author": {
-      "@type": "Person",
-      "name": "Nassim Maaoui"
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Nassim Maaoui',
+    description:
+      'Portfolio of Nassim Maaoui, cloud and infrastructure engineering student at ESPRIT.',
+    url: SITE_URL,
+    author: {
+      '@type': 'Person',
+      name: 'Nassim Maaoui',
     },
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": {
-        "@type": "EntryPoint",
-        "urlTemplate": "https://nassimmaaoui.dev/projects?search={search_term_string}"
-      },
-      "query-input": "required name=search_term_string"
-    }
   }
 
   return (

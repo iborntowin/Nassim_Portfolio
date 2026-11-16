@@ -182,13 +182,8 @@ export default function OpenStackDetailPage({ project }: OpenStackDetailPageProp
                   ))}
                 </div>
 
-                {/* Commit count */}
-                <div className="flex items-center gap-3 mb-7 text-sm text-[var(--color-text-secondary)]">
-                  <div className="flex items-center gap-2">
-                    <GitCommit className="w-4 h-4" />
-                    <span>{project.stats.commits} commits</span>
-                  </div>
-                  <span>·</span>
+                {/* Project facts */}
+                <div className="flex flex-wrap items-center gap-3 mb-7 text-sm text-[var(--color-text-secondary)]">
                   <div className="flex items-center gap-2">
                     <Calendar className="w-4 h-4" />
                     <span>{project.timeline}</span>
@@ -196,13 +191,14 @@ export default function OpenStackDetailPage({ project }: OpenStackDetailPageProp
                   <span>·</span>
                   <div className="flex items-center gap-2">
                     <User className="w-4 h-4" />
-                    <span>Solo</span>
+                    <span>{project.role}</span>
                   </div>
                 </div>
 
                 {/* CTA */}
                 <div className="flex gap-3">
-                  <Button
+                  {project.githubUrl && (
+<Button
                     className="bg-gradient-to-r from-red-500 to-sky-500 hover:from-red-400 hover:to-sky-400 text-white px-6 py-3 shadow-lg"
                     asChild
                   >
@@ -211,6 +207,7 @@ export default function OpenStackDetailPage({ project }: OpenStackDetailPageProp
                       View Code
                     </a>
                   </Button>
+)}
                 </div>
               </motion.div>
 
@@ -479,7 +476,8 @@ export default function OpenStackDetailPage({ project }: OpenStackDetailPageProp
                 Explore the infrastructure code, the Telegram bot automation, or the K8s deployment pipeline — or get in touch to discuss cloud and DevOps projects.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button
+                {project.githubUrl && (
+<Button
                   className="bg-gradient-to-r from-red-500 to-sky-500 hover:from-red-400 hover:to-sky-400 text-white px-8 py-3 shadow-lg"
                   asChild
                 >
@@ -488,6 +486,7 @@ export default function OpenStackDetailPage({ project }: OpenStackDetailPageProp
                     View Source Code
                   </a>
                 </Button>
+)}
                 <Button
                   className="bg-transparent hover:bg-[var(--color-border)] border border-[var(--color-border)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] px-8 py-3"
                   asChild

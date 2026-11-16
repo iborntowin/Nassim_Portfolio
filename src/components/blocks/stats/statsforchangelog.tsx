@@ -1,28 +1,80 @@
 "use client";
-import { cn } from "@/lib/utils";
+
 import Image from "next/image";
 import React, { useState } from "react";
 import { AnimatePresence, motion, useMotionValue } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 export function StatsForChangelog() {
   const stats = [
     {
-      title: "Q1 2025",
+      title: "2026 · Huawei",
       content: (
         <div className="flex flex-col">
-          <h2 className="mt-8 text-xl font-bold text-neutral-600 md:text-3xl dark:text-neutral-300">
-            OpenStack Private Cloud — Production Ready
+          <h2 className="mt-6 text-xl font-bold text-[var(--color-text-primary)] md:text-3xl">
+            HuaweiHelper — radio network monitoring across 23 sites
           </h2>
-          <p className="mb-8 mt-4 text-neutral-600 dark:text-neutral-300">
-            Deployed and validated a complete OpenStack private cloud: Nova compute,
-            Neutron SDN, Cinder/Swift storage, Heat IaC, and Prometheus + Grafana
-            observability stack. Full operational validation across all layers.
+          <p className="mb-6 mt-4 text-[var(--color-text-secondary)] leading-relaxed">
+            Built and deployed an internal Flask/htmx platform during my internship at Huawei
+            Technologies. It normalises 19 report types across four input formats, snapshots RAN
+            state daily and produces a diff that flags cells down, antennas offline and network
+            elements that disappeared — turning a 30–60 minute manual comparison into 4 seconds.
+            Installed on an air-gapped Windows Server 2022 host with an idempotent offline installer.
+          </p>
+          <Image
+            src="/images/projects/huaweihelper/dashboard-missing-cells-panel.png"
+            height="1200"
+            width="2000"
+            className="w-full rounded-xl border border-[var(--color-secondary-background)] object-cover object-left-top md:rounded-2xl"
+            alt="HuaweiHelper dashboard showing missing cells"
+            fetchPriority="high"
+          />
+        </div>
+      ),
+    },
+    {
+      title: "2026 · Hackership",
+      content: (
+        <div className="flex flex-col">
+          <h2 className="mt-6 text-xl font-bold text-[var(--color-text-primary)] md:text-3xl">
+            Hackership — Felcloud’s internship platform
+          </h2>
+          <p className="mb-6 mt-4 text-[var(--color-text-secondary)] leading-relaxed">
+            Built the first version of Felcloud’s summer-2026 internship platform: missions,
+            leaderboard, XP, badges, activity feed and chat, as a server-rendered Flask + HTMX
+            application on PostgreSQL and Redis. Provisioned and administered the OpenStack
+            infrastructure it runs on, with Ansible playbooks so environments are reproducible
+            from the repository.
+          </p>
+          <Image
+            src="/images/projects/hackership/cover.png"
+            height="630"
+            width="1200"
+            className="w-full rounded-xl border border-[var(--color-secondary-background)] object-cover md:rounded-2xl"
+            alt="Hackership internship platform"
+          />
+        </div>
+      ),
+    },
+    {
+      title: "2025 · OpenStack",
+      content: (
+        <div className="flex flex-col">
+          <h2 className="mt-6 text-xl font-bold text-[var(--color-text-primary)] md:text-3xl">
+            An OpenStack cloud, from bare metal
+          </h2>
+          <p className="mb-6 mt-4 text-[var(--color-text-secondary)] leading-relaxed">
+            Deployed and validated a complete OpenStack private cloud: Nova compute on KVM/QEMU,
+            Neutron with OVS/VXLAN tenant networks, Cinder and Swift storage, Glance and Heat,
+            provisioned with role-based Ansible playbooks and monitored with Prometheus, Grafana
+            and Alertmanager. A Kubespray Kubernetes cluster runs on top, with a Telegram control
+            plane for instance and cluster management.
           </p>
           <Image
             src="/images/projects/openstack/1770235637771.jpeg"
-            height="2000"
+            height="1200"
             width="2000"
-            className="w-full rounded-xl object-cover object-left-top md:rounded-3xl"
+            className="w-full rounded-xl border border-[var(--color-secondary-background)] object-cover object-left-top md:rounded-2xl"
             alt="OpenStack Horizon dashboard"
             fetchPriority="high"
           />
@@ -30,70 +82,24 @@ export function StatsForChangelog() {
       ),
     },
     {
-      title: "Q4 2024",
+      title: "2025 · Ansible Studio",
       content: (
         <div className="flex flex-col">
-          <h2 className="mt-8 text-xl font-bold text-neutral-600 md:text-3xl dark:text-neutral-300">
-            InventoryERP — Tauri + Rust Desktop App
+          <h2 className="mt-6 text-xl font-bold text-[var(--color-text-primary)] md:text-3xl">
+            Ansible Studio — a desktop IDE for infrastructure
           </h2>
-          <p className="mb-8 mt-4 text-neutral-600 dark:text-neutral-300">
-            Shipped a 15MB native ERP desktop application built with Tauri 2.x and Rust.
-            Features Quick Sell POS, RBAC with Argon2id, batch tracking, and
-            full i18n — delivering millisecond response times offline.
+          <p className="mb-6 mt-4 text-[var(--color-text-secondary)] leading-relaxed">
+            A native desktop IDE for Ansible infrastructure. It parses playbooks, INI/YAML
+            inventories and roles into a three-tier architecture map behind a CodeMirror 6 editor,
+            then executes playbooks against the live inventory and streams ansible-playbook output
+            over WebSockets, persisting every run to SQLite with check, diff and verbose modes.
           </p>
           <Image
-            src="/images/projects/erp/dashboard.png"
-            height="2000"
-            width="2000"
-            className="w-full rounded-xl object-cover object-left-top md:rounded-3xl"
-            alt="InventoryERP Dashboard"
-            fetchPriority="high"
-          />
-        </div>
-      ),
-    },
-    {
-      title: "Q3 2024",
-      content: (
-        <div className="flex flex-col">
-          <h2 className="mt-8 text-xl font-bold text-neutral-600 md:text-3xl dark:text-neutral-300">
-            Cession App — Session & Contract Platform
-          </h2>
-          <p className="mb-8 mt-4 text-neutral-600 dark:text-neutral-300">
-            Launched a full-stack contract management platform with Spring Boot + Svelte.
-            JWT authentication, role-based access, real-time WebSocket updates,
-            and GDPR-compliant audit trails. Reduced contract processing time by 60%.
-          </p>
-          <Image
-            src="/images/projects/1/dashboard.png"
-            height="2000"
-            width="2000"
-            className="w-full rounded-xl object-cover object-left-top md:rounded-3xl"
-            alt="Cession App Dashboard"
-            fetchPriority="high"
-          />
-        </div>
-      ),
-    },
-    {
-      title: "Q2 2024",
-      content: (
-        <div className="flex flex-col">
-          <h2 className="mt-8 text-xl font-bold text-neutral-600 md:text-3xl dark:text-neutral-300">
-            Board-AI — 92% Accuracy PCB Detection
-          </h2>
-          <p className="mb-8 mt-4 text-neutral-600 dark:text-neutral-300">
-            Trained a CNN on 50,000+ PCB images achieving 92% component detection accuracy
-            with 120ms inference via TensorRT optimization. Reduced manual inspection time by 75%
-            in electronics manufacturing QC pipelines.
-          </p>
-          <Image
-            src="/images/projects/1/cession.png"
-            height="2000"
-            width="2000"
-            className="w-full rounded-xl object-cover object-left-top md:rounded-3xl"
-            alt="Board-AI detection system"
-            fetchPriority="high"
+            src="/images/projects/ansible-studio/cover.png"
+            height="630"
+            width="1200"
+            className="w-full rounded-xl border border-[var(--color-secondary-background)] object-cover md:rounded-2xl"
+            alt="Ansible Studio"
           />
         </div>
       ),
@@ -101,10 +107,23 @@ export function StatsForChangelog() {
   ];
 
   return (
-    <div className="w-full">
-      <StatsForChangelogDesktop stats={stats} />
-      <StatsForChangelogMobile stats={stats} />
-    </div>
+    <section className="bg-[var(--color-primary-background)] py-20 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto">
+        <div className="mb-10 max-w-3xl">
+          <p className="text-xs font-mono uppercase tracking-[0.2em] text-[var(--color-secondary-accent)] mb-3">
+            Timeline
+          </p>
+          <h2 className="text-3xl sm:text-4xl font-bold text-[var(--color-text-primary)] mb-4">
+            What I have shipped, year by year
+          </h2>
+          <p className="text-base leading-relaxed text-[var(--color-text-secondary)]">
+            A short history of the work that mattered most — each entry links to a full write-up.
+          </p>
+        </div>
+        <StatsForChangelogDesktop stats={stats} />
+        <StatsForChangelogMobile stats={stats} />
+      </div>
+    </section>
   );
 }
 
@@ -112,24 +131,17 @@ type Stats = { title: string; content: React.ReactNode };
 
 export const StatsForChangelogMobile = ({ stats }: { stats: Stats[] }) => {
   return (
-    <div className="mx-auto block w-full max-w-7xl px-4 md:px-8 lg:hidden">
+    <div className="mx-auto block w-full max-w-6xl lg:hidden">
       {stats.map((stat, index) => (
-        <div
-          className="mb-10 flex flex-col gap-4"
-          key={`stat-tab-mobile-${index}`}
-        >
-          <div
-            className={cn(
-              "flex items-center rounded-2xl hover:bg-neutral-100 dark:hover:bg-neutral-800"
-            )}
-          >
-            <span className="mr-4 flex-shrink-0 font-medium text-neutral-700 dark:text-neutral-100">
+        <div className="mb-12 flex flex-col gap-4" key={`stat-tab-mobile-${index}`}>
+          <div className="flex items-center">
+            <span className="mr-4 flex-shrink-0 font-mono text-sm text-[var(--color-text-primary)]">
               {stat.title}
             </span>
             <div className="flex w-full items-center gap-2">
-              <div className="h-1 w-1 flex-shrink-0 rounded-full bg-neutral-300 dark:bg-neutral-700"></div>
-              <div className="h-px w-full bg-neutral-300 dark:bg-neutral-700"></div>
-              <div className="h-1 w-1 flex-shrink-0 rounded-full bg-neutral-300 dark:bg-neutral-700"></div>
+              <div className="h-1 w-1 flex-shrink-0 rounded-full bg-[var(--color-text-secondary)]/40" />
+              <div className="h-px w-full bg-[var(--color-text-secondary)]/20" />
+              <div className="h-1 w-1 flex-shrink-0 rounded-full bg-[var(--color-text-secondary)]/40" />
             </div>
           </div>
           {stat.content}
@@ -143,8 +155,7 @@ export const StatsForChangelogDesktop = ({ stats }: { stats: Stats[] }) => {
   const [active, setActive] = useState(stats[0]);
   const direction = useMotionValue(0);
 
-  const isActive = (stat: (typeof stats)[number]) =>
-    stat.title === active.title;
+  const isActive = (stat: (typeof stats)[number]) => stat.title === active.title;
 
   const handleSetActive = (stat: (typeof stats)[number]) => {
     const currentIndex = stats.findIndex((s) => s.title === active.title);
@@ -154,37 +165,38 @@ export const StatsForChangelogDesktop = ({ stats }: { stats: Stats[] }) => {
   };
 
   return (
-    <div className="mx-auto hidden w-full max-w-7xl px-4 md:px-8 lg:block">
-      <div className="grid w-full grid-cols-4 gap-10">
+    <div className="mx-auto hidden w-full max-w-6xl lg:block">
+      <div className="grid w-full grid-cols-4 gap-4">
         {stats.map((stat, index) => (
           <button
             key={`stat-tab-${index}`}
             onClick={() => handleSetActive(stat)}
             className={cn(
-              "flex items-center rounded-2xl p-4 hover:bg-neutral-100 dark:hover:bg-neutral-800",
-
-              isActive(stat) ? "bg-neutral-100 dark:bg-neutral-800" : ""
+              "flex items-center rounded-xl border p-4 text-left transition-colors",
+              isActive(stat)
+                ? "border-[var(--color-secondary-accent)]/50 bg-[var(--color-secondary-background)]/60"
+                : "border-transparent hover:bg-[var(--color-secondary-background)]/30"
             )}
           >
-            <span className="mr-4 flex-shrink-0 font-medium text-neutral-700 dark:text-neutral-100">
+            <span className="mr-3 flex-shrink-0 font-mono text-sm text-[var(--color-text-primary)]">
               {stat.title}
             </span>
             <div className="flex w-full items-center gap-2">
-              <div className="h-1 w-1 flex-shrink-0 rounded-full bg-neutral-300 dark:bg-neutral-700"></div>
-              <div className="h-px w-full bg-neutral-300 dark:bg-neutral-700"></div>
-              <div className="h-1 w-1 flex-shrink-0 rounded-full bg-neutral-300 dark:bg-neutral-700"></div>
+              <div className="h-1 w-1 flex-shrink-0 rounded-full bg-[var(--color-text-secondary)]/40" />
+              <div className="h-px w-full bg-[var(--color-text-secondary)]/20" />
+              <div className="h-1 w-1 flex-shrink-0 rounded-full bg-[var(--color-text-secondary)]/40" />
             </div>
           </button>
         ))}
       </div>
-      <div className="relative mt-4 w-full overflow-hidden px-10 [mask-image:linear-gradient(to_right,transparent,white_2%,white_98%,transparent)]">
+      <div className="relative mt-8 w-full overflow-hidden">
         <AnimatePresence mode="popLayout" initial={false}>
           <motion.div
             key={String(active.title)}
-            initial={{ x: 1000, opacity: 0 }}
-            exit={{ x: -1000, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ ease: "easeOut" }}
+            initial={{ opacity: 0, x: 40 }}
+            exit={{ opacity: 0, x: -40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ ease: "easeOut", duration: 0.35 }}
             className="w-full"
           >
             {active.content}

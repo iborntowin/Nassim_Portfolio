@@ -13,6 +13,15 @@
   --secondary: #232136; /* slightly lighter than background */
   --secondary-foreground: #e0e0ff;
   
+  /* Semantic tokens used across the site's components */
+  --color-primary-background: #09090f;
+  --color-secondary-background: #14141f;
+  --color-text-primary: #f5f5fa;
+  --color-text-secondary: #9ca3b8;
+  --color-primary-accent: #7c3aed;
+  --color-secondary-accent: #38bdf8;
+  --color-warning-energy: #f59e0b;
+
   /* Terminal-specific colors */
   --terminal-green: #22c55e; /* terminal green */
   --terminal-cyan: #06b6d4; /* terminal cyan */
@@ -33,6 +42,13 @@
   --color-card-foreground: var(--card-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
+  --color-primary-background: #09090f;
+  --color-secondary-background: #14141f;
+  --color-text-primary: #f5f5fa;
+  --color-text-secondary: #9ca3b8;
+  --color-primary-accent: #7c3aed;
+  --color-secondary-accent: #38bdf8;
+  --color-warning-energy: #f59e0b;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   
@@ -63,7 +79,9 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 /* Ensure smooth scrolling */

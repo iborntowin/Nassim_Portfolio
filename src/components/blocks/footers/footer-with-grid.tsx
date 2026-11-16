@@ -1,277 +1,103 @@
 "use client"
-import React, { useState } from "react";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { ExternalLink } from "lucide-react";
-import { Send } from "lucide-react";
+
+import Link from "next/link"
+import { Github, Linkedin, Mail, Download } from "lucide-react"
+
+const NAV_LINKS = [
+  { title: "Projects", href: "/#technical-portfolio" },
+  { title: "Experience", href: "/#experience" },
+  { title: "Skills", href: "/#skills" },
+  { title: "Contact", href: "/#contact" },
+  { title: "Terminal mode", href: "/terminal" },
+]
+
+const ELSEWHERE_LINKS = [
+  { title: "GitHub", href: "https://github.com/iborntowin", icon: Github },
+  { title: "LinkedIn", href: "https://www.linkedin.com/in/maaoui-nassim", icon: Linkedin },
+  { title: "Email", href: "mailto:nassimmaaoui@outlook.com", icon: Mail },
+  { title: "Download CV", href: "/cv/Nassim-Maaoui-CV.pdf", icon: Download },
+]
+
+const LEGAL_LINKS = [
+  { title: "Privacy Policy", href: "/privacy" },
+  { title: "Terms of Service", href: "/terms" },
+]
 
 export function FooterWithGrid() {
-  const [email, setEmail] = useState("");
-  const [subscribed, setSubscribed] = useState(false);
-
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubscribed(true);
-    setTimeout(() => setSubscribed(false), 2500);
-    setEmail("");
-  };
-
   return (
-    <div className="relative bg-[var(--color-primary-background)] border-t border-[var(--color-secondary-background)] overflow-hidden">
-      {/* Animated Gradient Background */}
-      <div className="absolute inset-0 z-0 animate-gradient-x bg-gradient-to-br from-[var(--primary)] via-[var(--background)] to-[var(--accent)] opacity-60 blur-2xl" />
-      {/* Creative SVG Accent */}
-      <svg className="absolute left-0 bottom-0 w-64 h-64 opacity-20 z-0" viewBox="0 0 200 200" fill="none">
-        <circle cx="100" cy="100" r="100" fill="url(#footer_radial)" />
-        <defs>
-          <radialGradient id="footer_radial" cx="0" cy="0" r="1" gradientTransform="translate(100 100) scale(100)" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#a78bfa" />
-            <stop offset="1" stopColor="#7c3aed" />
-          </radialGradient>
-        </defs>
-      </svg>
-      <div className="mx-auto max-w-7xl px-4 py-10 md:px-8 relative z-10">
-        <div className="border-b border-[var(--color-secondary-background)] pb-8">
-          <div className="mb-10 max-w-xl">
-            <p className="mb-4 text-[var(--color-text-secondary)] text-sm">
-              Cloud engineer & DevOps architect building production-grade infrastructure. 
-              Specialized in AWS, OpenStack, Kubernetes, and infrastructure automation.
+    <footer className="border-t border-[var(--color-secondary-background)] bg-[var(--color-primary-background)]">
+      <div className="mx-auto max-w-6xl px-4 py-12 md:px-8">
+        <div className="grid grid-cols-1 gap-10 pb-10 md:grid-cols-3">
+          <div className="md:col-span-1">
+            <p className="text-lg font-semibold text-[var(--color-text-primary)]">Nassim Maaoui</p>
+            <p className="mt-3 max-w-sm text-sm leading-relaxed text-[var(--color-text-secondary)]">
+              Cloud &amp; infrastructure engineering student at ESPRIT. I build and operate private
+              clouds, automation and the tooling that keeps them observable.
             </p>
-            <div className="text-sm">
-              <span className="text-[var(--color-text-secondary)]">Building the future of web development at </span>
-              <Link
-                href="mailto:nassimmaaoui@outlook.com"
-                className="font-medium text-[var(--color-primary-accent)] hover:text-[var(--color-secondary-accent)] transition-colors"
-              >
-                nassimmaaoui@outlook.com
-              </Link>
-            </div>
-            <div className="mt-2 text-sm">
-              <span className="text-[var(--color-text-secondary)]">Available for consulting at </span>
-              <Link
-                href="#"
-                className="font-medium text-[var(--color-warning-energy)] hover:text-orange-400 transition-colors inline-flex items-center gap-1"
-              >
-                Book a Call <ExternalLink className="h-3 w-3" />
-              </Link>
-            </div>
+            <p className="mt-4 text-sm text-[var(--color-text-secondary)]">
+              Available for a 6-month internship from December 2026.
+            </p>
           </div>
+
+          <nav aria-label="Sections">
+            <h2 className="mb-4 text-sm font-semibold text-[var(--color-text-primary)]">Sections</h2>
+            <ul className="space-y-3">
+              {NAV_LINKS.map((item) => (
+                <li key={item.title}>
+                  <Link
+                    href={item.href}
+                    className="text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-secondary-accent)] transition-colors"
+                  >
+                    {item.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <nav aria-label="Profiles">
+            <h2 className="mb-4 text-sm font-semibold text-[var(--color-text-primary)]">Elsewhere</h2>
+            <ul className="space-y-3">
+              {ELSEWHERE_LINKS.map((item) => (
+                <li key={item.title}>
+                  <a
+                    href={item.href}
+                    target={item.href.startsWith("http") ? "_blank" : undefined}
+                    rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                    className="group flex items-center gap-2 text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-secondary-accent)] transition-colors"
+                  >
+                    <item.icon className="h-4 w-4" />
+                    {item.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            <h2 className="mb-3 mt-8 text-sm font-semibold text-[var(--color-text-primary)]">Legal</h2>
+            <ul className="space-y-2">
+              {LEGAL_LINKS.map((item) => (
+                <li key={item.title}>
+                  <Link
+                    href={item.href}
+                    className="text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-secondary-accent)] transition-colors"
+                  >
+                    {item.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
 
-        <div className="grid grid-cols-1 gap-10 border-b border-[var(--color-secondary-background)] pb-10 pt-10 md:grid-cols-4">
-          {/* Technical Section */}
-          <ul className="text-base font-medium">
-            <li className="mb-4 text-sm font-bold text-[var(--color-secondary-accent)]">
-              Technical
-            </li>
-            {TECHNICAL_LINKS.map((item, idx) => (
-              <li key={"technical" + idx} className="mb-3 text-sm font-normal">
-                <Link
-                  href={item.href}
-                  className="text-[var(--color-text-secondary)] hover:text-[var(--color-primary-accent)] transition-colors flex items-center gap-2 group"
-                  target={item.external ? "_blank" : undefined}
-                >
-                  {item.icon && <item.icon className="h-4 w-4 group-hover:scale-125 group-hover:text-[var(--color-primary)] transition-transform duration-200" />}
-                  {item.title}
-                </Link>
-              </li>
-            ))}
-          </ul>
-
-          {/* Business Section */}
-          <ul className="text-base font-medium">
-            <li className="mb-4 text-sm font-bold text-[var(--color-secondary-accent)]">
-              Business
-            </li>
-            {BUSINESS_LINKS.map((item, idx) => (
-              <li key={"business" + idx} className="mb-3 text-sm font-normal">
-                <Link
-                  href={item.href}
-                  className={cn(
-                    "transition-colors flex items-center gap-2 group",
-                    item.highlight 
-                      ? "text-[var(--color-warning-energy)] hover:text-orange-400 font-medium"
-                      : "text-[var(--color-text-secondary)] hover:text-[var(--color-primary-accent)]"
-                  )}
-                  target={item.external ? "_blank" : undefined}
-                >
-                  {item.icon && <item.icon className="h-4 w-4 group-hover:scale-125 group-hover:text-[var(--color-primary)] transition-transform duration-200" />}
-                  {item.title}
-                </Link>
-              </li>
-            ))}
-          </ul>
-
-          {/* Resources Section */}
-          <ul className="text-base font-medium">
-            <li className="mb-4 text-sm font-bold text-[var(--color-secondary-accent)]">
-              Resources
-            </li>
-            {RESOURCES_LINKS.map((item, idx) => (
-              <li key={"resources" + idx} className="mb-3 text-sm font-normal">
-                <Link
-                  href={item.href}
-                  className="text-[var(--color-text-secondary)] hover:text-[var(--color-primary-accent)] transition-colors flex items-center gap-2 group"
-                  target={item.external ? "_blank" : undefined}
-                >
-                  {item.icon && <item.icon className="h-4 w-4 group-hover:scale-125 group-hover:text-[var(--color-primary)] transition-transform duration-200" />}
-                  {item.title}
-                </Link>
-              </li>
-            ))}
-          </ul>
-
-          {/* Newsletter & Legal Section */}
-          <div className="space-y-6">
-            <div>
-              <h4 className="mb-4 text-sm font-bold text-[var(--color-secondary-accent)]">
-                Stay Updated
-              </h4>
-              <form onSubmit={handleNewsletterSubmit} className="space-y-2">
-                <div className="relative">
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="your@email.com"
-                    className="w-full px-3 py-2 bg-[var(--color-secondary-background)] border border-[var(--color-secondary-background)] rounded text-sm text-[var(--color-text-primary)] placeholder-[var(--color-text-secondary)] focus:outline-none focus:ring-1 focus:ring-[var(--color-primary-accent)] focus:border-[var(--color-primary-accent)] font-mono"
-                    required
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="w-full px-3 py-2 bg-gradient-to-r from-[var(--primary)] to-[var(--accent)] text-white rounded text-sm font-medium hover:scale-105 hover:shadow-xl transition-transform flex items-center justify-center gap-2 animate-gradient-x"
-                >
-                  <Send className="h-3 w-3" />
-                  {subscribed ? 'Subscribed!' : 'Subscribe'}
-                </button>
-                {subscribed && <p className="text-green-500 text-xs mt-1 text-center">Thank you for subscribing!</p>}
-              </form>
-            </div>
-
-            <div>
-              <h4 className="mb-4 text-sm font-bold text-[var(--color-secondary-accent)]">
-                Legal
-              </h4>
-              <ul className="space-y-2">
-                {LEGAL_LINKS.map((item, idx) => (
-                  <li key={"legal" + idx}>
-                    <Link
-                      href={item.href}
-                      className="text-[var(--color-text-secondary)] hover:text-[var(--color-primary-accent)] transition-colors flex items-center gap-2 text-sm group"
-                    >
-                      {item.icon && <item.icon className="h-3 w-3 group-hover:scale-125 group-hover:text-[var(--color-primary)] transition-transform duration-200" />}
-                      {item.title}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div className="pt-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-          <p className="text-sm text-[var(--color-text-secondary)]">
-            &copy; {new Date().getFullYear()} Nassim Portfolio. All Rights Reserved.
+        <div className="flex flex-col items-start justify-between gap-3 border-t border-[var(--color-secondary-background)] pt-6 md:flex-row md:items-center">
+          <p className="text-xs text-[var(--color-text-secondary)]">
+            © {new Date().getFullYear()} Nassim Maaoui. Built with Next.js, TypeScript and Tailwind CSS.
           </p>
-          <div className="flex items-center gap-4">
-            <span className="text-xs text-[var(--color-text-secondary)]">Built with</span>
-            <div className="flex items-center gap-2 text-xs text-[var(--color-text-secondary)]">
-              <span>Next.js</span>
-              <span>•</span>
-              <span>TypeScript</span>
-              <span>•</span>
-              <span>Tailwind CSS</span>
-            </div>
-          </div>
+          <p className="text-xs font-mono text-[var(--color-text-secondary)]">
+            OpenStack · Kubernetes · Ansible · Terraform
+          </p>
         </div>
       </div>
-      <style jsx>{`
-        .animate-gradient-x {
-          background-size: 200% 200%;
-          animation: gradient-x 6s ease-in-out infinite;
-        }
-        @keyframes gradient-x {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-      `}</style>
-    </div>
-  );
-} 
-
-type FooterLink = {
-  title: string;
-  href: string;
-  icon?: React.ElementType;
-  external?: boolean;
-  highlight?: boolean;
-};
-
-const TECHNICAL_LINKS: FooterLink[] = [
-  {
-    title: "GitHub",
-    href: "https://github.com/nassim",
-    icon: ExternalLink,
-    external: true,
-  },
-  {
-    title: "LinkedIn",
-    href: "https://www.linkedin.com/in/maaoui-nassim-1a5636279/",
-    icon: ExternalLink,
-    external: true,
-  },
-];
-
-const BUSINESS_LINKS: FooterLink[] = [
-  {
-    title: "Contact",
-    href: "mailto:nassimmaaoui@outlook.com",
-    icon: ExternalLink,
-  },
-  {
-    title: "Book a Call",
-    href: "#",
-    icon: ExternalLink,
-    highlight: true,
-  },
-  {
-    title: "Projects",
-    href: "#projects",
-  },
-];
-
-const RESOURCES_LINKS: FooterLink[] = [
-  {
-    title: "GitHub",
-    href: "https://github.com/iborntowin",
-    icon: ExternalLink,
-    external: true,
-  },
-  {
-    title: "LinkedIn",
-    href: "https://www.linkedin.com/in/maaoui-nassim-1a5636279/",
-    icon: ExternalLink,
-    external: true,
-  },
-  {
-    title: "Open Source",
-    href: "https://github.com/iborntowin?tab=repositories",
-    icon: ExternalLink,
-    external: true,
-  },
-];
-
-const LEGAL_LINKS: FooterLink[] = [
-  {
-    title: "Privacy Policy",
-    href: "/privacy",
-    icon: ExternalLink,
-  },
-  {
-    title: "Terms of Service",
-    href: "/terms",
-    icon: ExternalLink,
-  },
-]; 
+    </footer>
+  )
+}

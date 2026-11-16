@@ -2,17 +2,17 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { ChevronRight, Terminal, ArrowDown } from 'lucide-react';
+import { ChevronRight, Terminal, ArrowDown, Download } from 'lucide-react';
 
 const TYPING_SPEED = 100;
 const PAUSE_DURATION = 2000;
 
 const roles = [
   "Cloud Engineer",
-  "DevOps Architect",
-  "Full-Stack Developer",
-  "Infrastructure Builder",
-  "AI/ML Engineer"
+  "Infrastructure Engineer",
+  "DevOps Engineer",
+  "Platform Engineer",
+  "Site Reliability Engineer"
 ];
 
 // Code sections with IDs for scrolling
@@ -248,7 +248,7 @@ const techBadges = [
 
 export default function DevOpsHero() {
   const [currentRole, setCurrentRole] = useState(0);
-  const [displayText, setDisplayText] = useState("Full-Stack Developer");
+  const [displayText, setDisplayText] = useState("Cloud Engineer");
   const [isTyping, setIsTyping] = useState(true);
   const [mounted, setMounted] = useState(false);
   const [activeSection, setActiveSection] = useState<string | null>(null);
@@ -329,7 +329,7 @@ export default function DevOpsHero() {
   }
 
   return (
-    <div className="relative min-h-[120vh] bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 overflow-hidden">
+    <div className="relative min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 overflow-hidden">
       {/* Background particles */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 opacity-20">
@@ -337,8 +337,8 @@ export default function DevOpsHero() {
         </div>
       </div>
 
-      <div className="relative z-20 mx-auto max-w-7xl px-6 lg:px-8 pt-20 pb-24 sm:pt-32 sm:pb-32">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
+      <div className="relative z-20 mx-auto max-w-7xl px-6 lg:px-8 pt-16 pb-24 sm:pt-24 sm:pb-28">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           
           {/* Left side - Content */}
           <div>
@@ -353,12 +353,12 @@ export default function DevOpsHero() {
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
                   </span>
-                  <span className="text-green-400 font-semibold text-sm">Available for Hire</span>
+                  <span className="text-green-400 font-semibold text-sm">Open to a 6-month internship</span>
                   <span className="text-green-600 text-xs">·</span>
-                  <span className="text-green-500/80 text-xs font-medium group-hover:text-green-400 transition-colors">Let&apos;s talk →</span>
+                  <span className="text-green-500/80 text-xs font-medium group-hover:text-green-400 transition-colors">Dec 2026 – May 2027</span>
                 </a>
                 <div className="h-4 w-px bg-slate-600 hidden sm:block"></div>
-                <span className="text-slate-400 text-sm hidden sm:block">Cloud &amp; Infrastructure</span>
+                <span className="text-slate-400 text-sm hidden sm:block">Tunis, Tunisia · open to EU/EEA</span>
               </div>
 
               {/* Name and title */}
@@ -380,19 +380,22 @@ export default function DevOpsHero() {
               </div>
 
               {/* Description */}
-              <p className="text-xl text-slate-400 leading-relaxed mb-6 max-w-2xl">
-                Cloud engineer building production-grade infrastructure at scale. 
-                From OpenStack private clouds to K8s orchestration and CI/CD automation — I architect systems for 99.99% uptime.
+              <p className="text-lg text-slate-300 leading-relaxed mb-6 max-w-2xl">
+                Final-year Computer Engineering student at ESPRIT, specialising in cloud and network
+                architecture. I built a private cloud from bare metal — OpenStack, Kubernetes, Ansible,
+                Prometheus — and shipped an internal automation platform at Huawei Technologies that the
+                network operations team uses across 23 radio sites.
               </p>
               {/* Cloud Provider Badges */}
               <div className="flex flex-wrap gap-2 mb-8">
                 {[
-                  { name: 'AWS', color: 'border-orange-500/30 text-orange-400 bg-orange-500/10' },
                   { name: 'OpenStack', color: 'border-red-500/30 text-red-400 bg-red-500/10' },
                   { name: 'Kubernetes', color: 'border-blue-500/30 text-blue-400 bg-blue-500/10' },
+                  { name: 'Ansible', color: 'border-rose-500/30 text-rose-300 bg-rose-500/10' },
                   { name: 'Terraform', color: 'border-purple-500/30 text-purple-400 bg-purple-500/10' },
-                  { name: 'Docker', color: 'border-cyan-500/30 text-cyan-400 bg-cyan-500/10' },
-                  { name: 'Prometheus', color: 'border-yellow-500/30 text-yellow-400 bg-yellow-500/10' },
+                  { name: 'Python', color: 'border-yellow-500/30 text-yellow-300 bg-yellow-500/10' },
+                  { name: 'Prometheus', color: 'border-orange-500/30 text-orange-300 bg-orange-500/10' },
+                  { name: 'Linux', color: 'border-slate-500/30 text-slate-300 bg-slate-500/10' },
                 ].map((badge) => (
                   <span key={badge.name} className={`px-3 py-1 text-xs font-mono font-medium border rounded-full ${badge.color}`}>
                     {badge.name}
@@ -401,26 +404,44 @@ export default function DevOpsHero() {
               </div>
 
               {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 mb-12">
-                <button 
+              <div className="flex flex-col sm:flex-row flex-wrap gap-3 mb-10">
+                <a
+                  href="/cv/Nassim-Maaoui-CV.pdf"
+                  download
+                  className="group relative px-7 py-3.5 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold rounded-xl hover:brightness-110 transition-all inline-flex items-center justify-center"
+                >
+                  <Download className="w-5 h-5 mr-2" />
+                  Download CV
+                </a>
+                <button
+                  onClick={() => document.getElementById('technical-portfolio')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="group px-7 py-3.5 border border-slate-600 text-slate-200 font-semibold rounded-xl hover:border-cyan-400 hover:text-cyan-300 transition-all inline-flex items-center justify-center"
+                >
+                  View Projects
+                  <ArrowDown className="w-5 h-5 ml-2 group-hover:translate-y-1 transition-transform" />
+                </button>
+                <button
                   onClick={() => router.push('/terminal')}
-                  className="group relative px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-xl overflow-hidden hover:scale-105 transition-transform"
+                  className="group px-7 py-3.5 text-slate-400 font-medium rounded-xl hover:text-cyan-300 transition-colors inline-flex items-center justify-center"
                 >
-                  <span className="relative flex items-center">
-                    <Terminal className="w-5 h-5 mr-2" />
-                    Launch Terminal Mode
-                    <ChevronRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                  </span>
+                  <Terminal className="w-5 h-5 mr-2" />
+                  Terminal mode
                 </button>
-                <button 
-                  onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="group px-8 py-4 border border-slate-600 text-slate-300 font-semibold rounded-xl hover:border-blue-400 hover:text-blue-400 transition-all"
-                >
-                  <span className="flex items-center">
-                    View Projects
-                    <ArrowDown className="w-5 h-5 ml-2 group-hover:translate-y-1 transition-transform" />
-                  </span>
-                </button>
+              </div>
+
+              {/* Quick contact */}
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-slate-400">
+                <a href="mailto:nassimmaaoui@outlook.com" className="hover:text-cyan-300 transition-colors">
+                  nassimmaaoui@outlook.com
+                </a>
+                <span className="text-slate-700">|</span>
+                <a href="https://github.com/iborntowin" target="_blank" rel="noopener noreferrer" className="hover:text-cyan-300 transition-colors">
+                  GitHub
+                </a>
+                <span className="text-slate-700">|</span>
+                <a href="https://www.linkedin.com/in/maaoui-nassim" target="_blank" rel="noopener noreferrer" className="hover:text-cyan-300 transition-colors">
+                  LinkedIn
+                </a>
               </div>
             </div>
           </div>
@@ -489,13 +510,6 @@ export default function DevOpsHero() {
           </div>
         </div>
 
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
-          <div className="flex flex-col items-center text-slate-400 animate-bounce">
-            <span className="text-sm mb-2">Explore My Work</span>
-            <ArrowDown className="w-5 h-5" />
-          </div>
-        </div>
       </div>
     </div>
   );
