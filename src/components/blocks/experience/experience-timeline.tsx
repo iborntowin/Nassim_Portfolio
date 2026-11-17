@@ -33,6 +33,22 @@ const experience: ExperienceItem[] = [
     stack: ['Python', 'Flask', 'htmx', 'PowerShell', 'Windows Server', 'Ansible']
   },
   {
+    id: 7,
+    period: '2024 – 2025',
+    title: 'Cloud Intern',
+    organization: 'Felcloud',
+    location: 'Bizerte, Tunisia',
+    kind: 'work',
+    summary:
+      'Cloud internship at a Tunisian OpenStack provider — infrastructure provisioning, tenant networking and automation for a small platform team.',
+    highlights: [
+      'Administered OpenStack compute, tenant networks, floating IPs and security groups',
+      'Wrote Ansible playbooks so environments are rebuilt from the repository rather than by hand',
+      'Managed bastion access and key-based SSH into the private cloud'
+    ],
+    stack: ['OpenStack', 'Ansible', 'Linux', 'Docker', 'PostgreSQL']
+  },
+  {
     id: 2,
     period: 'Feb 2024 – Jun 2024',
     title: 'Embedded Systems Engineer Intern',
@@ -120,8 +136,8 @@ export default function ExperienceTimeline() {
             Experience &amp; education
           </h2>
           <p className="text-base leading-relaxed text-[var(--color-text-secondary)]">
-            Three internships across telecom infrastructure, embedded systems and internal tooling, plus a
-            five-year engineering track in cloud and network architecture.
+            Four internships across cloud infrastructure, telecom, embedded systems and internal tooling,
+            plus a five-year engineering track in cloud and network architecture.
           </p>
         </div>
 

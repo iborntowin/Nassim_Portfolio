@@ -2,7 +2,7 @@
 
 import { motion, useReducedMotion, useInView } from 'framer-motion'
 import Image from 'next/image'
-import { FileText, Smartphone, Settings, CreditCard, Database, Zap } from 'lucide-react'
+import { FileText, Smartphone, CreditCard, Database, Zap, Package } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { useState, useCallback, useRef, useMemo } from 'react'
 
@@ -19,39 +19,39 @@ interface AdvancedFeature {
 const advancedFeatures: AdvancedFeature[] = [
   {
     id: 'cession-details',
-    title: 'Detailed Cession Management',
-    description: 'Comprehensive cession details with advanced tracking and management capabilities',
-    image: '/images/projects/1/Détails_Cession.png',
+    title: 'Cession Tracking',
+    description: 'Each cession carries its schedule, amount repaid and projected payoff date in one record',
+    image: '/images/projects/1/shots/cession-detail.png',
     icon: FileText,
     color: 'from-indigo-500 to-purple-500',
-    highlights: ['Contract details view', 'Status tracking', 'Document management', 'Audit trail']
+    highlights: ['Repayment progress', 'Months remaining', 'Linked documents', 'Client context']
   },
   {
     id: 'payment-intelligence',
     title: 'Payment Intelligence',
-    description: 'AI-powered payment analytics providing insights and automated processing',
-    image: '/images/projects/1/Intelligence_des_Paiements.png',
+    description: 'Collected versus outstanding amounts, month by month, with a collection rate per period',
+    image: '/images/projects/1/shots/payments-analytics.png',
     icon: CreditCard,
     color: 'from-emerald-500 to-teal-500',
-    highlights: ['Payment analytics', 'AI insights', 'Automated processing', 'Risk assessment']
+    highlights: ['Collection trends', 'Monthly performance', 'Outstanding detection', 'Export to CSV']
   },
   {
     id: 'mobile-sync',
-    title: 'Mobile Data Export & Sync',
-    description: 'Seamless data synchronization and export capabilities for mobile devices',
-    image: '/images/projects/1/Mobile Data Export & Sync.png',
+    title: 'Mobile Sync Vault',
+    description: 'Snapshots the database as JSON and hands it to the phone over local Wi-Fi — no internet needed',
+    image: '/images/projects/1/shots/mobile.png',
     icon: Smartphone,
     color: 'from-blue-500 to-cyan-500',
-    highlights: ['Real-time sync', 'Data export', 'Mobile optimization', 'Offline support']
+    highlights: ['QR handoff', 'Scheduled exports', 'Versioned snapshots', 'Works offline']
   },
   {
-    id: 'settings',
-    title: 'Advanced Settings',
-    description: 'Comprehensive configuration panel for system customization and preferences',
-    image: '/images/projects/1/Settings.png',
-    icon: Settings,
+    id: 'inventory',
+    title: 'Inventory & Selling',
+    description: 'Stock, cost, selling price and margin per product, with a quick-sell surface for day-to-day sales',
+    image: '/images/projects/1/shots/inventory.png',
+    icon: Package,
     color: 'from-orange-500 to-red-500',
-    highlights: ['User preferences', 'System configuration', 'Security settings', 'Integration options']
+    highlights: ['Stock alerts', 'Margin per product', 'Category filters', 'Quick sell']
   }
 ]
 
@@ -98,8 +98,7 @@ export default function CessionAdvancedFeatures() {
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
@@ -107,8 +106,8 @@ export default function CessionAdvancedFeatures() {
             Advanced Features
           </h2>
           <p className="text-xl text-[var(--color-text-secondary)] max-w-3xl mx-auto">
-            Discover the powerful features that make Cession App a comprehensive solution 
-            for session and contract management with AI-powered insights.
+            The parts of the application that carry the daily work: cession tracking, payment
+            analysis, the mobile handoff and inventory.
           </p>
         </motion.div>
 
@@ -116,8 +115,7 @@ export default function CessionAdvancedFeatures() {
         <motion.div
           variants={containerVariants}
           initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
+          animate="visible"
           className="grid grid-cols-1 lg:grid-cols-2 gap-12"
         >
           {advancedFeatures.map((feature, index) => (
@@ -180,8 +178,7 @@ export default function CessionAdvancedFeatures() {
                         <motion.div
                           key={highlightIndex}
                           initial={{ opacity: 0, x: -20 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          viewport={{ once: true }}
+                          animate={{ opacity: 1, x: 0 }}
                           transition={{ duration: 0.5, delay: highlightIndex * 0.1 }}
                           className="flex items-center gap-2 text-sm text-[var(--color-text-secondary)]"
                         >
@@ -200,8 +197,7 @@ export default function CessionAdvancedFeatures() {
         {/* Technology Integration */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
           className="mt-16 text-center"
         >
@@ -221,8 +217,7 @@ export default function CessionAdvancedFeatures() {
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
+                  animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   className="px-4 py-2 bg-[var(--color-primary-accent)]/20 text-[var(--color-primary-accent)] rounded-full text-sm font-medium"
                 >

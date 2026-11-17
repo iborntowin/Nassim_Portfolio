@@ -2,7 +2,7 @@
 
 import { motion, useReducedMotion, useInView } from 'framer-motion'
 import Image from 'next/image'
-import { ArrowRight, UserPlus, LogIn, LayoutDashboard, Users, UserCheck, FileText, CheckCircle } from 'lucide-react'
+import { ArrowRight, LogIn, LayoutDashboard, Users, UserCheck, FileText, CheckCircle } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { AnimatedBackground } from '@/components/ui/animated-background'
 import { useState, useCallback, useRef, useMemo, useEffect } from 'react'
@@ -20,67 +20,58 @@ interface JourneyStep {
 
 const journeySteps: JourneyStep[] = [
   {
-    id: 'signup',
-    title: 'User Registration',
-    description: 'Secure account creation with validation',
-    image: '/images/projects/1/signup.png',
-    icon: UserPlus,
-    color: 'from-blue-500 to-cyan-500',
-    features: ['Email validation', 'Password strength check', 'Terms acceptance', 'Account verification']
-  },
-  {
     id: 'login',
-    title: 'Secure Authentication',
-    description: 'JWT-based login with session management',
-    image: '/images/projects/1/login.png',
+    title: 'Secure Sign-in',
+    description: 'JWT session, and a health check before anyone gets in',
+    image: '/images/projects/1/shots/login.png',
     icon: LogIn,
     color: 'from-green-500 to-emerald-500',
-    features: ['JWT token authentication', 'Remember me option', 'Password recovery', 'Session security']
+    features: ['JWT session tokens', 'API and database checked first', 'Role-based access', 'Inactive accounts refused']
   },
   {
     id: 'dashboard',
-    title: 'Main Dashboard',
-    description: 'Comprehensive overview of all activities',
-    image: '/images/projects/1/dashboard.png',
+    title: 'Dashboard',
+    description: 'Portfolio health, revenue and the exception queue in one screen',
+    image: '/images/projects/1/shots/dashboard.png',
     icon: LayoutDashboard,
     color: 'from-purple-500 to-violet-500',
-    features: ['Activity overview', 'Quick stats', 'Recent actions', 'Navigation hub']
+    features: ['Active cessions and health', 'Cessions vs payments chart', 'Exception queue', 'PDF export']
   },
   {
     id: 'clients',
-    title: 'Client Management',
-    description: 'View and manage all client information',
-    image: '/images/projects/1/clients.png',
+    title: 'Clients',
+    description: 'The directory every cession is filed against',
+    image: '/images/projects/1/shots/clients.png',
     icon: Users,
     color: 'from-orange-500 to-red-500',
-    features: ['Client directory', 'Search & filter', 'Client details', 'Bulk operations']
+    features: ['Cession count per client', 'Search across the directory', 'Workplace and bank recorded', 'Per-client history']
   },
   {
     id: 'create-client',
-    title: 'Add New Client',
-    description: 'Streamlined client creation process',
-    image: '/images/projects/1/create_new_client.png',
+    title: 'New Client',
+    description: 'Validated data entry instead of free-text spreadsheets',
+    image: '/images/projects/1/shots/client-new.png',
     icon: UserCheck,
     color: 'from-teal-500 to-cyan-500',
-    features: ['Form validation', 'Contact information', 'Client categorization', 'Auto-save drafts']
+    features: ['8-digit CIN validation', '10-digit worker number', 'Workplace and job lists', 'Required documents checklist']
   },
   {
     id: 'cession',
-    title: 'Cession Management',
-    description: 'Create and manage session contracts',
-    image: '/images/projects/1/cession.png',
+    title: 'Cession Record',
+    description: 'Every instalment, the remaining balance and the payoff forecast',
+    image: '/images/projects/1/shots/cession-detail.png',
     icon: FileText,
     color: 'from-pink-500 to-rose-500',
-    features: ['Contract creation', 'Terms definition', 'Digital signatures', 'Status tracking']
+    features: ['Amount repaid to date', 'Months remaining', 'Projected payoff date', 'Linked contract documents']
   },
   {
-    id: 'updates',
-    title: 'System Updates',
-    description: 'Automated system updates and maintenance',
-    video: '/videos/update.mp4',
+    id: 'report',
+    title: 'Bank Report',
+    description: 'The nominal monthly list the banks receive, generated from the data',
+    image: '/images/projects/1/shots/reports.png',
     icon: CheckCircle,
     color: 'from-emerald-500 to-green-500',
-    features: ['Automatic updates', 'Version management', 'Data migration', 'System maintenance']
+    features: ['One row per client per month', 'Installments and amounts totalled', 'CSV export', 'Print-ready report']
   }
 ]
 
@@ -139,8 +130,7 @@ export default function CessionAppJourney() {
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
@@ -158,8 +148,7 @@ export default function CessionAppJourney() {
               <motion.div
                 key={index}
                 initial={{ scale: 0 }}
-                whileInView={{ scale: 1 }}
-                viewport={{ once: true }}
+                animate={{ scale: 1 }}
                 transition={{ duration: 0.3, delay: index * 0.1 }}
                 className="flex items-center"
               >
@@ -176,8 +165,7 @@ export default function CessionAppJourney() {
         <motion.div
           variants={containerVariants}
           initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
+          animate="visible"
           className="space-y-24"
         >
           {journeySteps.map((step, index) => (
@@ -227,8 +215,7 @@ export default function CessionAppJourney() {
                           <motion.div
                             key={featureIndex}
                             initial={{ opacity: 0, x: -20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
+                            animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.5, delay: featureIndex * 0.1 }}
                             className="flex items-center gap-2 text-sm text-[var(--color-text-secondary)]"
                           >
@@ -339,8 +326,7 @@ export default function CessionAppJourney() {
               {index < journeySteps.length - 1 && (
                 <motion.div
                   initial={{ opacity: 0, scale: 0 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
+                  animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5, delay: 0.5 }}
                   className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 lg:hidden"
                 >
@@ -356,8 +342,7 @@ export default function CessionAppJourney() {
         {/* Success Indicator */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
           className="text-center mt-16"
         >

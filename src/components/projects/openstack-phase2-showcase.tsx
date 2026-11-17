@@ -97,8 +97,7 @@ export default function OpenStackPhase2Showcase() {
         {/* ── Section header ── */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
           className="text-center"
         >
@@ -120,8 +119,7 @@ export default function OpenStackPhase2Showcase() {
         ══════════════════════════════════════════ */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
         >
           <div className="mb-8">
@@ -193,8 +191,7 @@ export default function OpenStackPhase2Showcase() {
         ══════════════════════════════════════════ */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
         >
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
@@ -246,8 +243,7 @@ export default function OpenStackPhase2Showcase() {
         ══════════════════════════════════════════ */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
         >
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
@@ -296,8 +292,7 @@ export default function OpenStackPhase2Showcase() {
         ══════════════════════════════════════════ */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
         >
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
@@ -344,8 +339,7 @@ export default function OpenStackPhase2Showcase() {
         ══════════════════════════════════════════ */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
         >
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
@@ -393,8 +387,7 @@ export default function OpenStackPhase2Showcase() {
         {/* ── Phase 2 CTA bar ── */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
         >
           <Card className="bg-gradient-to-br from-indigo-500/8 to-sky-500/8 border border-indigo-500/15">

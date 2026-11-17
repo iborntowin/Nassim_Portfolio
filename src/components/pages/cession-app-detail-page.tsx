@@ -13,6 +13,7 @@ import CessionAppJourney from '@/components/projects/cession-app-journey'
 import CessionAdvancedFeatures from '@/components/projects/cession-advanced-features'
 import CessionPremiumShowcase from '@/components/projects/cession-premium-showcase'
 import CessionKeyboardShortcuts from '@/components/projects/cession-keyboard-shortcuts'
+import LazyImageGallery from '@/components/ui/lazy-image-gallery'
 
 interface CessionAppDetailPageProps {
   project: DetailedProject
@@ -166,10 +167,10 @@ export default function CessionAppDetailPage({ project }: CessionAppDetailPagePr
               >
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                   <Image
-                    src="/images/projects/1/dashboard.png"
-                    alt="Cession App Dashboard Overview"
-                    width={600}
-                    height={400}
+                    src={project.images[0]?.src ?? '/images/projects/1/shots/dashboard.png'}
+                    alt={project.images[0]?.alt ?? 'Cession App dashboard overview'}
+                    width={1200}
+                    height={624}
                     className="w-full h-auto object-cover"
                     priority
                   />
@@ -230,6 +231,13 @@ export default function CessionAppDetailPage({ project }: CessionAppDetailPagePr
 
         {/* Advanced Features */}
         <CessionAdvancedFeatures />
+
+        {/* Screenshots */}
+        <section className="py-16 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto">
+            <LazyImageGallery images={project.images} />
+          </div>
+        </section>
 
         {/* Technical Details */}
         <section className="py-16 px-4 sm:px-6 lg:px-8">

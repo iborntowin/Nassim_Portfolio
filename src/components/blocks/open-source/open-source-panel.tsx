@@ -100,10 +100,12 @@ export default function OpenSourcePanel() {
                     <span className="h-2 w-2 rounded-full bg-[var(--color-secondary-accent)]" />
                     {repo.language}
                   </span>
-                  <span className="flex items-center gap-1">
-                    <Star className="w-3.5 h-3.5" />
-                    {repo.stars}
-                  </span>
+                  {repo.stars > 0 && (
+                    <span className="flex items-center gap-1">
+                      <Star className="w-3.5 h-3.5" />
+                      {repo.stars}
+                    </span>
+                  )}
                 </div>
               </a>
             ))}

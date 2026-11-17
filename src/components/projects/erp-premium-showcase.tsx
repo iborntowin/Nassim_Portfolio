@@ -178,8 +178,7 @@ export default function ErpPremiumShowcase() {
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="text-center mb-20"
         >
@@ -198,8 +197,7 @@ export default function ErpPremiumShowcase() {
             <motion.div
               key={module.id}
               initial={{ opacity: 0, y: 60 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
               className="relative"
             >
@@ -260,8 +258,7 @@ export default function ErpPremiumShowcase() {
                         <motion.div
                           key={index}
                           initial={{ opacity: 0, x: -20 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          viewport={{ once: true }}
+                          animate={{ opacity: 1, x: 0 }}
                           transition={{ duration: 0.5, delay: index * 0.1 }}
                           className="flex gap-4"
                         >
@@ -287,8 +284,7 @@ export default function ErpPremiumShowcase() {
                   <motion.div
                     key={imgIndex}
                     initial={{ opacity: 0, scale: 0.95 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
+                    animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.6, delay: imgIndex * 0.1 }}
                     className="relative group col-span-full"
                   >
@@ -350,8 +346,7 @@ export default function ErpPremiumShowcase() {
         {/* Final CTA */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="text-center mt-32"
         >
@@ -368,8 +363,7 @@ export default function ErpPremiumShowcase() {
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
+                  animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   className="px-6 py-3 bg-[var(--color-primary-accent)]/20 text-[var(--color-primary-accent)] rounded-full text-sm font-semibold"
                 >

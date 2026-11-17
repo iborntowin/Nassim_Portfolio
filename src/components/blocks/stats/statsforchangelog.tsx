@@ -1,6 +1,8 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import React, { useState } from "react";
 import { AnimatePresence, motion, useMotionValue } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -27,7 +29,7 @@ export function StatsForChangelog() {
             src="/images/projects/huaweihelper/dashboard-missing-cells-panel.png"
             height={903}
             width={1919}
-            sizes="(max-width: 1024px) 100vw, 1100px"
+            sizes="(max-width: 1024px) 92vw, 1088px"
             className="h-auto w-full rounded-xl border border-[var(--color-secondary-background)] md:rounded-2xl"
             alt="HuaweiHelper dashboard showing missing cells"
             fetchPriority="high"
@@ -54,7 +56,7 @@ export function StatsForChangelog() {
             src="/images/projects/hackership/cover.png"
             height={630}
             width={1200}
-            sizes="(max-width: 1024px) 100vw, 1100px"
+            sizes="(max-width: 1024px) 92vw, 1088px"
             className="h-auto w-full rounded-xl border border-[var(--color-secondary-background)] md:rounded-2xl"
             alt="Hackership internship platform"
           />
@@ -80,7 +82,7 @@ export function StatsForChangelog() {
             src="/images/projects/openstack/1770235637771.jpeg"
             height={620}
             width={1197}
-            sizes="(max-width: 1024px) 100vw, 1100px"
+            sizes="(max-width: 1024px) 92vw, 1088px"
             className="h-auto w-full rounded-xl border border-[var(--color-secondary-background)] md:rounded-2xl"
             alt="OpenStack Horizon dashboard"
             fetchPriority="high"
@@ -103,12 +105,12 @@ export function StatsForChangelog() {
             over WebSockets, persisting every run to SQLite with check, diff and verbose modes.
           </p>
           <Image
-            src="/images/projects/ansible-studio/cover.png"
-            height={630}
-            width={1200}
-            sizes="(max-width: 1024px) 100vw, 1100px"
+            src="/images/projects/ansible-studio/workbench.png"
+            height={1000}
+            width={1600}
+            sizes="(max-width: 1024px) 92vw, 1088px"
             className="h-auto w-full rounded-xl border border-[var(--color-secondary-background)] md:rounded-2xl"
-            alt="Ansible Studio"
+            alt="Ansible Studio editor with playbooks and inventory targets"
           />
         </div>
       ),
@@ -156,6 +158,14 @@ export const StatsForChangelogMobile = ({ stats }: { stats: Stats[] }) => {
             </div>
           </div>
           {stat.content}
+          {stat.projectId && (
+            <Link
+              href={`/projects/${stat.projectId}`}
+              className="inline-flex w-fit items-center gap-1.5 text-sm font-medium text-[var(--color-secondary-accent)] transition-colors hover:text-[var(--color-text-primary)]"
+            >
+              Read the full case study <ArrowUpRight className="h-4 w-4" />
+            </Link>
+          )}
         </div>
       ))}
     </div>
@@ -177,7 +187,10 @@ export const StatsForChangelogDesktop = ({ stats }: { stats: Stats[] }) => {
 
   return (
     <div className="mx-auto hidden w-full max-w-6xl lg:block">
-      <div className="grid w-full grid-cols-4 gap-4">
+      <div
+        className="grid w-full gap-4"
+        style={{ gridTemplateColumns: `repeat(${stats.length}, minmax(0, 1fr))` }}
+      >
         {stats.map((stat, index) => (
           <button
             key={`stat-tab-${index}`}
@@ -211,6 +224,14 @@ export const StatsForChangelogDesktop = ({ stats }: { stats: Stats[] }) => {
             className="w-full"
           >
             {active.content}
+            {active.projectId && (
+              <Link
+                href={`/projects/${active.projectId}`}
+                className="mt-6 inline-flex w-fit items-center gap-1.5 text-sm font-medium text-[var(--color-secondary-accent)] transition-colors hover:text-[var(--color-text-primary)]"
+              >
+                Read the full case study <ArrowUpRight className="h-4 w-4" />
+              </Link>
+            )}
           </motion.div>
         </AnimatePresence>
       </div>

@@ -3,7 +3,7 @@ import { getAllProjects } from '@/lib/projects-data'
 
 const baseUrl = 'https://nassimmaaoui.vercel.app'
 // Bumped when the site content actually changes, so crawlers see a real signal.
-const LAST_UPDATED = new Date('2026-11-16')
+const LAST_UPDATED = new Date('2026-11-17')
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const projects = getAllProjects()
@@ -27,6 +27,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: LAST_UPDATED,
       changeFrequency: 'monthly',
       priority: 0.6,
+    },
+    {
+      url: `${baseUrl}/cv/Nassim-Maaoui-CV.pdf`,
+      lastModified: LAST_UPDATED,
+      changeFrequency: 'yearly',
+      priority: 0.4,
     },
     {
       url: `${baseUrl}/privacy`,

@@ -180,8 +180,7 @@ export default function SkillsSection() {
         <div className="mb-14 text-center">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             className="text-4xl font-bold tracking-tight text-white sm:text-5xl"
           >
@@ -193,8 +192,7 @@ export default function SkillsSection() {
 
           <motion.p
             initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
             className="mt-4 text-base text-neutral-400 sm:text-lg"
           >
@@ -206,8 +204,7 @@ export default function SkillsSection() {
         {/* ── Domain Tabs ───────────────────────────────────────────────── */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.15 }}
           className="mb-10 flex flex-wrap justify-center gap-2"
         >
@@ -250,8 +247,7 @@ export default function SkillsSection() {
         {/* ── Disclaimer note ───────────────────────────────────────────── */}
         <motion.p
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.3 }}
           className="mt-10 text-center text-sm italic text-neutral-500"
         >

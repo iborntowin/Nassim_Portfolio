@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { Download, Mail, Github, Linkedin } from 'lucide-react'
@@ -5,6 +6,7 @@ import { StatsForChangelog } from '@/components/blocks/stats/statsforchangelog'
 import { FooterWithGrid } from '@/components/blocks/footers/footer-with-grid'
 import { SimpleCenteredContactForm } from '@/components/blocks/contact-forms/simple-centered-contact-form'
 import {
+  FaqStructuredData,
   ItemListStructuredData,
   PersonStructuredData,
   WebsiteStructuredData,
@@ -12,6 +14,10 @@ import {
 import { getAllProjects } from '@/lib/projects-data'
 import AdvancedTechShowcase from '@/components/blocks/technologies/advanced-tech-showcase'
 import ExperienceTimeline from '@/components/blocks/experience/experience-timeline'
+import SiteNav from '@/components/blocks/navigation/site-nav'
+import HowIWork from '@/components/blocks/about/how-i-work'
+import RecruiterFaq from '@/components/blocks/recruiter/recruiter-faq'
+import { CopyEmailButton } from '@/components/blocks/contact-forms/copy-email-button'
 
 const DevOpsHero = dynamic(() => import('@/components/blocks/heros/devops-hero'))
 
@@ -20,6 +26,12 @@ const TechnicalPortfolioSection = dynamic(
 )
 
 const OpenSourcePanel = dynamic(() => import('@/components/blocks/open-source/open-source-panel'))
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: '/',
+  },
+}
 
 const AT_A_GLANCE = [
   {
@@ -52,7 +64,9 @@ export default function HomePage() {
       <PersonStructuredData />
       <WebsiteStructuredData />
       <ItemListStructuredData projects={projects} />
-      <main className="min-h-screen bg-[var(--color-primary-background)]">
+      <FaqStructuredData />
+      <div className="min-h-screen bg-[var(--color-primary-background)]">
+        <SiteNav />
         <DevOpsHero />
 
         {/* Recruiter quick scan */}
@@ -97,6 +111,12 @@ export default function HomePage() {
         {/* Skills */}
         <AdvancedTechShowcase />
 
+        {/* Working principles */}
+        <HowIWork />
+
+        {/* Recruiter questions */}
+        <RecruiterFaq />
+
         {/* Contact */}
         <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center mb-10">
@@ -128,6 +148,7 @@ export default function HomePage() {
                 <Mail className="w-4 h-4" />
                 nassimmaaoui@outlook.com
               </a>
+              <CopyEmailButton />
               <Link
                 href="https://github.com/iborntowin"
                 target="_blank"
@@ -151,7 +172,7 @@ export default function HomePage() {
 
         {/* Footer */}
         <FooterWithGrid />
-      </main>
+      </div>
     </>
   )
 }

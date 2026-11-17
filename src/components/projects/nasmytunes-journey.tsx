@@ -103,8 +103,7 @@ export default function NasmyTunesJourney() {
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
@@ -122,8 +121,7 @@ export default function NasmyTunesJourney() {
               <motion.div
                 key={index}
                 initial={{ scale: 0 }}
-                whileInView={{ scale: 1 }}
-                viewport={{ once: true }}
+                animate={{ scale: 1 }}
                 transition={{ duration: 0.3, delay: index * 0.1 }}
                 className="flex items-center"
               >
@@ -140,8 +138,7 @@ export default function NasmyTunesJourney() {
         <motion.div
           variants={containerVariants}
           initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
+          animate="visible"
           className="space-y-24"
         >
           {journeySteps.map((step, index) => (
@@ -191,8 +188,7 @@ export default function NasmyTunesJourney() {
                           <motion.div
                             key={featureIndex}
                             initial={{ opacity: 0, x: -20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
+                            animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.5, delay: featureIndex * 0.1 }}
                             className="flex items-center gap-2 text-sm text-[var(--color-text-secondary)]"
                           >
@@ -260,8 +256,7 @@ export default function NasmyTunesJourney() {
               {index < journeySteps.length - 1 && (
                 <motion.div
                   initial={{ opacity: 0, scale: 0 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
+                  animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5, delay: 0.5 }}
                   className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 lg:hidden"
                 >
@@ -277,8 +272,7 @@ export default function NasmyTunesJourney() {
         {/* Success Indicator */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
           className="text-center mt-16"
         >

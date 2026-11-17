@@ -90,6 +90,12 @@ html {
   overflow-x: hidden;
 }
 
+/* Keep anchored sections clear of the fixed site navigation */
+section[id],
+div[id] {
+  scroll-margin-top: 5rem;
+}
+
 body {
   overflow-x: hidden;
 }

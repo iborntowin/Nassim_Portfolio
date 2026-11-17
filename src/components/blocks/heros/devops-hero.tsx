@@ -313,6 +313,9 @@ export default function DevOpsHero() {
     return () => clearTimeout(timeoutId);
   }, [displayText, isTyping, currentRole, mounted]);
 
+  // Correct indefinite article for the role that is being typed
+  const article = /^[aeiou]/i.test(roles[currentRole]) ? 'an' : 'a';
+
   // Static particles for consistent rendering
   const staticParticles = [];
   for (let i = 0; i < 20; i++) {
@@ -365,14 +368,14 @@ export default function DevOpsHero() {
               {/* Name and title */}
               <div className="mb-6">
                 <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-3 sm:mb-4 max-w-full break-words">
-                  Nassim
+                  Nassim{' '}
                   <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600">
                     Maaoui
                   </span>
                 </h1>
 
                 <div className="flex min-h-[2.5rem] flex-wrap items-baseline gap-x-2 text-xl font-semibold text-slate-400 sm:text-2xl lg:text-3xl">
-                  <span>I&apos;m a</span>
+                  <span>I&apos;m {article}</span>
                   <span className="text-blue-500 break-words">
                     {displayText}
                     <span className="ml-0.5 animate-pulse">|</span>

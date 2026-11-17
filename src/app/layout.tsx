@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -16,6 +16,13 @@ const SITE_URL = "https://nassimmaaoui.vercel.app";
 const TITLE = "Nassim Maaoui — Cloud & Infrastructure Engineer";
 const DESCRIPTION =
   "Cloud and infrastructure engineering student at ESPRIT, graduating June 2027. OpenStack, Kubernetes, Ansible, Terraform, Prometheus and Linux — with an internal monitoring platform shipped at Huawei Technologies and used across 23 radio sites.";
+
+export const viewport: Viewport = {
+  colorScheme: "dark",
+  themeColor: "#09090f",
+  width: "device-width",
+  initialScale: 1,
+};
 
 export const metadata: Metadata = {
   title: {
@@ -47,17 +54,23 @@ export const metadata: Metadata = {
   publisher: "Nassim Maaoui",
   applicationName: "Nassim Maaoui — Portfolio",
   category: "technology",
-  ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
-    ? { verification: { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION } }
-    : {}),
+  verification: {
+    ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+      ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
+      : {}),
+    ...(process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
+      ? { other: { "msvalidate.01": process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION } }
+      : {}),
+  },
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
   metadataBase: new URL(SITE_URL),
-  alternates: {
-    canonical: "/",
+  icons: {
+    icon: [{ url: "/favicon.ico", sizes: "any" }],
+    shortcut: "/favicon.ico",
   },
   openGraph: {
     type: "profile",
@@ -69,6 +82,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: "/images/og-image.jpg",
+        type: "image/jpeg",
         width: 1200,
         height: 630,
         alt: "Nassim Maaoui — Cloud & Infrastructure Engineer",
@@ -106,7 +120,15 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable}`}
     >
       <body className="antialiased min-h-screen bg-background text-foreground" suppressHydrationWarning>
-        <main className="min-h-screen">{children}</main>
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-black"
+        >
+          Skip to content
+        </a>
+        <main id="main" className="min-h-screen">
+          {children}
+        </main>
       </body>
     </html>
   );

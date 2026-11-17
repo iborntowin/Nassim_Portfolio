@@ -320,6 +320,21 @@ const projectsData: DetailedProject[] = [
     featured: true,
     images: [
       {
+        src: '/images/projects/ansible-studio/workbench.png',
+        alt: 'Ansible Studio editor showing the Kubespray playbook, the project tree and the live host inventory',
+        caption: 'The editor with a five-playbook project open — inventory groups and all six target hosts stay pinned in the sidebar'
+      },
+      {
+        src: '/images/projects/ansible-studio/new-project.png',
+        alt: 'New Ansible Project modal listing project templates',
+        caption: 'New project — scaffold a real structure from a template, or start from scratch'
+      },
+      {
+        src: '/images/projects/ansible-studio/docs.png',
+        alt: 'Ansible Studio Docs and Vision page listing core features and roadmap ideas',
+        caption: 'Docs & Vision — the feature map and roadmap that ship inside the app'
+      },
+      {
         src: '/images/projects/ansible-studio/cover.png',
         alt: 'Ansible Studio',
         caption: 'Desktop IDE for Ansible playbooks, inventories and roles'
@@ -600,29 +615,93 @@ const projectsData: DetailedProject[] = [
   },
   {
     id: '2',
-    name: 'Cession App — Contract Management Platform',
+    name: 'Cession App — Wage-Garnishment Management',
     description:
-      'A session-based contract management platform with JWT authentication, dynamic roles and audit trails, built to stay usable on mobile as well as desktop.',
+      'A desktop-first cession (wage garnishment) platform: client files, repayment schedules, payment tracking, inventory, bank reports and a phone handover — Spring Boot behind a SvelteKit interface.',
     longDescription:
-      'Cession App manages session-based contracts end to end: clients, cession records, payment tracking and reporting. The backend is Spring Boot with JWT authentication, role-based access control and an audit trail on every change; the frontend is a Svelte application designed mobile-first. It was built as a team project to replace spreadsheet-driven contract tracking with something that has real permissions and a history of who changed what.',
+      'Cession App runs wage-garnishment (cession sur salaire) files from the first instalment to the last. It covers the client directory, cession records with repayment schedules and projected payoff dates, payment tracking with collection analytics, inventory and selling for the same business, expenses, and the monthly nominal report the banks receive. The backend is Spring Boot with JWT authentication, role-based access and an H2 database that ships as a single file; the frontend is a SvelteKit interface that also builds as a Tauri desktop app. A sync vault exports the database as JSON snapshots and hands them to a phone over local Wi-Fi, so field work does not depend on connectivity.',
     category: 'Full-Stack',
     techStack: [
       { name: 'Spring Boot', color: 'text-green-400 bg-green-400/10' },
-      { name: 'Svelte', color: 'text-orange-400 bg-orange-400/10' },
-      { name: 'PostgreSQL', color: 'text-blue-400 bg-blue-400/10' },
+      { name: 'SvelteKit', color: 'text-orange-400 bg-orange-400/10' },
+      { name: 'Tauri', color: 'text-amber-400 bg-amber-400/10' },
+      { name: 'H2 / SQL', color: 'text-blue-400 bg-blue-400/10' },
       { name: 'JWT Auth', color: 'text-purple-400 bg-purple-400/10' }
     ],
     stats: { stars: 0, forks: 0, commits: 0 },
     githubUrl: 'https://github.com/iborntowin/cession-frontend',
     featured: true,
     images: [
-      { src: '/images/projects/1/dashboard.png', alt: 'Cession App dashboard', caption: 'Dashboard with contract and payment overview' },
-      { src: '/images/projects/1/login.png', alt: 'Authentication', caption: 'JWT authentication' },
-      { src: '/images/projects/1/clients.png', alt: 'Client management', caption: 'Client management' },
-      { src: '/images/projects/1/cession.png', alt: 'Cession management', caption: 'Cession creation and management' },
-      { src: '/images/projects/1/Détails_Cession.png', alt: 'Cession details', caption: 'Cession details' },
-      { src: '/images/projects/1/Intelligence_des_Paiements.png', alt: 'Payment intelligence', caption: 'Payment analytics' },
-      { src: '/images/projects/1/Settings.png', alt: 'Settings', caption: 'Configuration panel' }
+      {
+        src: '/images/projects/1/shots/dashboard.png',
+        alt: 'Cession App dashboard with active cessions, monthly revenue, portfolio health and a six-month cession chart',
+        caption: 'Dashboard — active cessions, portfolio health and cessions versus payments over six months'
+      },
+      {
+        src: '/images/projects/1/shots/dashboard-payments-analysis.png',
+        alt: 'The same dashboard chart switched to payments analysis mode',
+        caption: 'The monthly chart in its payments-analysis mode, isolating what was actually collected'
+      },
+      {
+        src: '/images/projects/1/shots/cessions.png',
+        alt: 'Cession list with status filters, client names, monthly payment and repayment progress',
+        caption: 'Cessions — filtered by status, with monthly payment and progress on every file'
+      },
+      {
+        src: '/images/projects/1/shots/cession-detail.png',
+        alt: 'Cession detail with repayment progress, remaining balance and projected payoff date',
+        caption: 'Cession detail — amount repaid, months remaining and the projected payoff date'
+      },
+      {
+        src: '/images/projects/1/shots/clients.png',
+        alt: 'Client directory with search, cession counts and workplace',
+        caption: 'Clients — every profile with its cession count, workplace and bank agency'
+      },
+      {
+        src: '/images/projects/1/shots/client-new.png',
+        alt: 'New client form with CIN, worker number, workplace and job fields',
+        caption: 'Client creation with 8-digit CIN and 10-digit worker-number validation'
+      },
+      {
+        src: '/images/projects/1/shots/payments.png',
+        alt: 'Payment table with total collected, payment count and row-level filters',
+        caption: 'Payments — the full ledger, 3,761 records and 515 144 TND collected'
+      },
+      {
+        src: '/images/projects/1/shots/payments-analytics.png',
+        alt: 'Payment intelligence analytics with collection trends, monthly performance and business health',
+        caption: 'Payment intelligence — collected versus outstanding, month by month'
+      },
+      {
+        src: '/images/projects/1/shots/inventory.png',
+        alt: 'Inventory grid with stock state, selling price, purchase price and margin per product',
+        caption: 'Inventory — stock state, cost, selling price and margin on every product'
+      },
+      {
+        src: '/images/projects/1/shots/selling.png',
+        alt: 'Selling view listing sellable products with quick-sell and invoice actions',
+        caption: 'Selling — the sellable subset of inventory, with quick-sell and invoicing'
+      },
+      {
+        src: '/images/projects/1/shots/reports.png',
+        alt: 'Monthly nominal list of salary cessions with totals per client and bank agency',
+        caption: 'Nominal report — the monthly salary-cession list sent to the banks, exportable to CSV'
+      },
+      {
+        src: '/images/projects/1/shots/mobile.png',
+        alt: 'Mobile sync vault with export files, scheduled export and QR handoff to a phone',
+        caption: 'Mobile sync vault — JSON snapshots handed to the phone over local Wi-Fi, no internet needed'
+      },
+      {
+        src: '/images/projects/1/shots/settings.png',
+        alt: 'Settings page with language, appearance, mobile sync vault and database backup options',
+        caption: 'Settings — language, appearance, mobile sync and full database backups'
+      },
+      {
+        src: '/images/projects/1/shots/login.png',
+        alt: 'Login screen with an API and database health panel',
+        caption: 'Login — the app checks API and database health before letting anyone in'
+      }
     ],
     workflow: [
       {
@@ -677,16 +756,18 @@ const projectsData: DetailedProject[] = [
       'Works on mobile for field use'
     ],
     keyFeatures: [
-      'JWT authentication',
-      'Role-based access control',
-      'Audit trail on every mutation',
-      'Client and cession management',
-      'Payment tracking and analytics',
-      'Mobile-first responsive UI'
+      'JWT authentication with role-based access',
+      'Client directory and cession files',
+      'Repayment schedules with payoff forecasting',
+      'Payment ledger and collection analytics',
+      'Inventory and selling surface',
+      'Monthly nominal bank report (CSV and print)',
+      'Mobile sync vault with QR handoff over local Wi-Fi',
+      'Tauri desktop build alongside the web UI'
     ],
     architecture:
-      'Spring Boot REST API with PostgreSQL and JWT authentication, consumed by a Svelte frontend.',
-    timeline: '2024 – 2025',
+      'Spring Boot REST API on an embedded H2 database with JWT authentication, consumed by a SvelteKit frontend that is also packaged as a Tauri desktop application. A sync service exports JSON snapshots for the mobile client.',
+    timeline: '2025 – 2026',
     teamSize: 'Team project',
     role: 'Full-stack developer'
   },

@@ -232,8 +232,7 @@ export default function OpenStackPremiumShowcase() {
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="text-center mb-20"
         >
@@ -256,8 +255,7 @@ export default function OpenStackPremiumShowcase() {
             <motion.div
               key={module.id}
               initial={{ opacity: 0, y: 60 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.1 }}
               className="relative"
             >
@@ -316,8 +314,7 @@ export default function OpenStackPremiumShowcase() {
                         <motion.div
                           key={fi}
                           initial={{ opacity: 0, x: -16 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          viewport={{ once: true }}
+                          animate={{ opacity: 1, x: 0 }}
                           transition={{ duration: 0.45, delay: fi * 0.1 }}
                           className="flex gap-3"
                         >
@@ -340,8 +337,7 @@ export default function OpenStackPremiumShowcase() {
                     <motion.div
                       key={ii}
                       initial={{ opacity: 0, scale: 0.97 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      viewport={{ once: true }}
+                      animate={{ opacity: 1, scale: 1 }}
                       transition={{ duration: 0.6, delay: ii * 0.1 }}
                     >
                       <ModuleImageCard
@@ -360,8 +356,7 @@ export default function OpenStackPremiumShowcase() {
         {/* Phase 1 CTA */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="mt-28"
         >
@@ -378,8 +373,7 @@ export default function OpenStackPremiumShowcase() {
                 <motion.span
                   key={i}
                   initial={{ opacity: 0, scale: 0.85 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
+                  animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.4, delay: i * 0.06 }}
                   className="px-4 py-1.5 bg-red-500/15 text-red-400 border border-red-500/20 rounded-full text-xs font-semibold"
                 >

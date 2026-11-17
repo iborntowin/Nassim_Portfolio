@@ -7,6 +7,7 @@ const NAV_LINKS = [
   { title: "Projects", href: "/#technical-portfolio" },
   { title: "Experience", href: "/#experience" },
   { title: "Skills", href: "/#skills" },
+  { title: "Recruiter FAQ", href: "/#faq" },
   { title: "Contact", href: "/#contact" },
   { title: "Terminal mode", href: "/terminal" },
 ]

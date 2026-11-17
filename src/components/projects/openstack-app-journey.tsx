@@ -152,8 +152,7 @@ export default function OpenStackAppJourney() {
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
@@ -186,8 +185,7 @@ export default function OpenStackAppJourney() {
                 {index === 6 && (
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
                     className="relative z-10 flex items-center gap-4 my-12 mb-20"
                   >

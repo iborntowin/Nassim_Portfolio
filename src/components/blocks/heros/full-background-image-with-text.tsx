@@ -32,7 +32,7 @@ export function FullBackgroundImageWithText({
       <div className="absolute inset-0 h-full w-full bg-black"></div>
       <motion.div
         initial={{ opacity: 0 }}
-        whileInView={{ opacity: [0, 0.3] }}
+        animate={{ opacity: [0, 0.3] }}
         transition={{ duration: 2 }}
         className="absolute inset-0 h-full w-full"
       >
