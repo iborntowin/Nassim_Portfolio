@@ -1,6 +1,16 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import {
+  CORE_KEYWORDS,
+  GITHUB_URL,
+  LINKEDIN_URL,
+  OG_IMAGE,
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  SITE_TITLE,
+  SITE_URL,
+} from "@/lib/seo-config";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -12,10 +22,18 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const SITE_URL = "https://nassimmaaoui.vercel.app";
-const TITLE = "Nassim Maaoui — Cloud & Infrastructure Engineer";
-const DESCRIPTION =
-  "Cloud and infrastructure engineering student at ESPRIT, graduating June 2027. OpenStack, Kubernetes, Ansible, Terraform, Prometheus and Linux — with an internal monitoring platform shipped at Huawei Technologies and used across 23 radio sites.";
+const TITLE = SITE_TITLE;
+const DESCRIPTION = SITE_DESCRIPTION;
+
+const OTHER_META: Record<string, string> = {
+  "profile:first_name": "Nassim",
+  "profile:last_name": "Maaoui",
+  "profile:username": "nassimmaaoui",
+};
+
+if (process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION) {
+  OTHER_META["msvalidate.01"] = process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION;
+}
 
 export const viewport: Viewport = {
   colorScheme: "dark",
@@ -27,33 +45,17 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: {
     default: TITLE,
-    template: "%s | Nassim Maaoui",
+    template: `%s | ${SITE_NAME}`,
   },
   description: DESCRIPTION,
-  keywords: [
-    "Nassim Maaoui",
-    "Cloud Engineer",
-    "Infrastructure Engineer",
-    "DevOps Engineer",
-    "OpenStack",
-    "Kubernetes",
-    "Ansible",
-    "Terraform",
-    "Prometheus",
-    "Grafana",
-    "Linux",
-    "Infrastructure as Code",
-    "Private Cloud",
-    "Site Reliability Engineering",
-    "Internship",
-    "ESPRIT",
-    "Tunisia",
-  ],
-  authors: [{ name: "Nassim Maaoui", url: SITE_URL }],
-  creator: "Nassim Maaoui",
-  publisher: "Nassim Maaoui",
-  applicationName: "Nassim Maaoui — Portfolio",
+  keywords: CORE_KEYWORDS,
+  authors: [{ name: SITE_NAME, url: SITE_URL }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  applicationName: `${SITE_NAME} — Portfolio`,
+  generator: "Next.js",
   category: "technology",
+  referrer: "origin-when-cross-origin",
   verification: {
     ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
       ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
@@ -68,9 +70,16 @@ export const metadata: Metadata = {
     telephone: false,
   },
   metadataBase: new URL(SITE_URL),
+  manifest: "/manifest.webmanifest",
   icons: {
     icon: [{ url: "/favicon.ico", sizes: "any" }],
     shortcut: "/favicon.ico",
+    apple: [{ url: "/favicon.ico" }],
+  },
+  appleWebApp: {
+    capable: true,
+    title: SITE_NAME,
+    statusBarStyle: "black-translucent",
   },
   openGraph: {
     type: "profile",
@@ -78,10 +87,13 @@ export const metadata: Metadata = {
     url: SITE_URL,
     title: TITLE,
     description: DESCRIPTION,
-    siteName: "Nassim Maaoui",
+    siteName: SITE_NAME,
+    firstName: "Nassim",
+    lastName: "Maaoui",
+    username: "nassimmaaoui",
     images: [
       {
-        url: "/images/og-image.jpg",
+        url: OG_IMAGE,
         type: "image/jpeg",
         width: 1200,
         height: 630,
@@ -93,7 +105,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: TITLE,
     description: DESCRIPTION,
-    images: ["/images/og-image.jpg"],
+    images: [{ url: OG_IMAGE, alt: "Nassim Maaoui — Cloud & Infrastructure Engineer" }],
   },
   robots: {
     index: true,
@@ -106,6 +118,7 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  other: OTHER_META,
 };
 
 export default function RootLayout({
@@ -119,6 +132,18 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable}`}
     >
+      <head>
+        {/* Identity signals: confirm the profiles that belong to this person. */}
+        <link rel="me" href={GITHUB_URL} />
+        <link rel="me" href={LINKEDIN_URL} />
+        <link rel="author" href={SITE_URL} />
+        <link
+          rel="alternate"
+          type="text/plain"
+          href="/llms.txt"
+          title="Machine-readable site summary"
+        />
+      </head>
       <body className="antialiased min-h-screen bg-background text-foreground" suppressHydrationWarning>
         <a
           href="#main"

@@ -1,11 +1,38 @@
 import { DetailedProject } from '@/lib/projects-data'
 import { FAQS } from '@/lib/faq-data'
+import {
+  GITHUB_URL,
+  LINKEDIN_URL,
+  OG_IMAGE,
+  PERSON_ALTERNATE_NAMES,
+  PERSON_ID,
+  PROFILE_LINKS,
+  SITE_DESCRIPTION,
+  SITE_EMAIL,
+  SITE_NAME,
+  SITE_ROLE,
+  SITE_URL,
+  WEBSITE_ID,
+} from '@/lib/seo-config'
 
-const SITE_URL = 'https://nassimmaaoui.vercel.app'
+const PERSON_DESCRIPTION =
+  'Nassim Maaoui is a cloud and infrastructure engineer from Tunis, Tunisia. Final-year computer engineering student at ESPRIT specialising in cloud and network architecture; built a private OpenStack cloud and an internal monitoring platform used at Huawei Technologies across 23 radio sites.'
 
-const PERSON_LINKS = [
-  'https://github.com/iborntowin',
-  'https://www.linkedin.com/in/maaoui-nassim',
+const KNOWS_ABOUT = [
+  'OpenStack',
+  'Kubernetes',
+  'Ansible',
+  'Terraform',
+  'Prometheus',
+  'Grafana',
+  'Linux administration',
+  'Infrastructure as Code',
+  'Computer networking',
+  'Python',
+  'CI/CD',
+  'Observability',
+  'Site reliability engineering',
+  'Private cloud',
 ]
 
 interface PersonStructuredDataProps {
@@ -16,22 +43,23 @@ export function PersonStructuredData({ className }: PersonStructuredDataProps) {
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'Person',
-    '@id': `${SITE_URL}/#person`,
-    name: 'Nassim Maaoui',
-    alternateName: ['Nassim Maoui', 'Nassim Maaoui Portfolio'],
-    jobTitle: 'Cloud & Infrastructure Engineer',
+    '@id': PERSON_ID,
+    name: SITE_NAME,
+    givenName: 'Nassim',
+    familyName: 'Maaoui',
+    alternateName: PERSON_ALTERNATE_NAMES,
+    jobTitle: SITE_ROLE,
     nationality: { '@type': 'Country', name: 'Tunisia' },
-    description:
-      'Final-year computer engineering student at ESPRIT specialising in cloud and network architecture. Built a private OpenStack cloud and an internal monitoring platform used at Huawei Technologies.',
+    description: PERSON_DESCRIPTION,
     url: SITE_URL,
-    email: 'mailto:nassimmaaoui@outlook.com',
+    email: `mailto:${SITE_EMAIL}`,
     image: {
       '@type': 'ImageObject',
-      url: `${SITE_URL}/images/og-image.jpg`,
+      url: `${SITE_URL}${OG_IMAGE}`,
       width: 1200,
       height: 630,
     },
-    sameAs: PERSON_LINKS,
+    sameAs: PROFILE_LINKS,
     knowsLanguage: ['en', 'fr', 'ar'],
     address: {
       '@type': 'PostalAddress',
@@ -39,22 +67,15 @@ export function PersonStructuredData({ className }: PersonStructuredDataProps) {
       addressCountry: 'TN',
     },
     alumniOf: [
-      { '@type': 'CollegeOrUniversity', name: 'ESPRIT' },
+      {
+        '@type': 'CollegeOrUniversity',
+        name: 'ESPRIT',
+        alternateName:
+          'École Supérieure Privée d’Ingénierie et de Technologies, Tunis',
+      },
       { '@type': 'CollegeOrUniversity', name: 'Faculté des Sciences de Bizerte' },
     ],
-    knowsAbout: [
-      'OpenStack',
-      'Kubernetes',
-      'Ansible',
-      'Terraform',
-      'Prometheus',
-      'Grafana',
-      'Linux',
-      'Infrastructure as Code',
-      'Networking',
-      'Python',
-      'CI/CD',
-    ],
+    knowsAbout: KNOWS_ABOUT,
     hasOccupation: {
       '@type': 'Occupation',
       name: 'Cloud Infrastructure Engineer',
@@ -72,6 +93,15 @@ export function PersonStructuredData({ className }: PersonStructuredDataProps) {
         'Linux administration',
       ],
     },
+    contactPoint: [
+      {
+        '@type': 'ContactPoint',
+        contactType: 'recruiting',
+        email: SITE_EMAIL,
+        availableLanguage: ['English', 'French', 'Arabic'],
+        areaServed: ['TN', 'EU', 'EEA', 'Remote'],
+      },
+    ],
     seeks: {
       '@type': 'Demand',
       name: 'Six-month end-of-studies internship in cloud, infrastructure, platform or SRE engineering',
@@ -87,14 +117,21 @@ export function PersonStructuredData({ className }: PersonStructuredDataProps) {
     '@type': 'ProfilePage',
     '@id': `${SITE_URL}/`,
     url: SITE_URL,
-    name: 'Nassim Maaoui — Cloud & Infrastructure Engineer',
+    name: `${SITE_NAME} — ${SITE_ROLE}`,
+    description: SITE_DESCRIPTION,
     inLanguage: 'en',
-    isPartOf: { '@type': 'WebSite', '@id': `${SITE_URL}/#website` },
-    mainEntity: { '@type': 'Person', '@id': `${SITE_URL}/#person` },
+    dateModified: '2026-11-18',
+    isPartOf: { '@type': 'WebSite', '@id': WEBSITE_ID },
+    mainEntity: { '@type': 'Person', '@id': PERSON_ID },
+    primaryImageOfPage: {
+      '@type': 'ImageObject',
+      url: `${SITE_URL}${OG_IMAGE}`,
+    },
     about: {
       '@type': 'Thing',
       name: 'Cloud infrastructure, platform and site reliability engineering',
     },
+    significantLink: [GITHUB_URL, LINKEDIN_URL],
   }
 
   return (
@@ -132,13 +169,13 @@ export function ProjectStructuredData({ project, className }: ProjectStructuredD
     url: projectUrl,
     inLanguage: 'en',
     mainEntityOfPage: { '@type': 'WebPage', '@id': projectUrl },
-    isPartOf: { '@type': 'WebSite', '@id': `${SITE_URL}/#website` },
+    isPartOf: { '@type': 'WebSite', '@id': WEBSITE_ID },
     author: {
       '@type': 'Person',
-      '@id': `${SITE_URL}/#person`,
-      name: 'Nassim Maaoui',
+      '@id': PERSON_ID,
+      name: SITE_NAME,
       url: SITE_URL,
-      sameAs: PERSON_LINKS,
+      sameAs: PROFILE_LINKS,
     },
     programmingLanguage: project.techStack.map((tech) => tech.name),
     applicationCategory: project.category,
@@ -154,14 +191,14 @@ export function ProjectStructuredData({ project, className }: ProjectStructuredD
     })),
     creator: {
       '@type': 'Person',
-      '@id': `${SITE_URL}/#person`,
-      name: 'Nassim Maaoui',
+      '@id': PERSON_ID,
+      name: SITE_NAME,
     },
     keywords: [
       project.name,
       ...project.techStack.map((tech) => tech.name),
       project.category,
-      'Nassim Maaoui',
+      SITE_NAME,
     ].join(', '),
   }
 
@@ -208,7 +245,8 @@ export function ItemListStructuredData({ projects }: ItemListStructuredDataProps
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: 'Engineering projects by Nassim Maaoui',
+    name: `Engineering projects by ${SITE_NAME}`,
+    numberOfItems: projects.length,
     itemListElement: projects.map((project, index) => ({
       '@type': 'ListItem',
       position: index + 1,
@@ -253,20 +291,27 @@ export function WebsiteStructuredData({ className }: { className?: string }) {
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    '@id': `${SITE_URL}/#website`,
-    name: 'Nassim Maaoui',
-    alternateName: 'Nassim Maaoui — Cloud & Infrastructure Engineer',
-    description:
-      'Portfolio of Nassim Maaoui, cloud and infrastructure engineering student at ESPRIT.',
+    '@id': WEBSITE_ID,
+    name: SITE_NAME,
+    alternateName: `${SITE_NAME} — ${SITE_ROLE}`,
+    description: SITE_DESCRIPTION,
     url: SITE_URL,
     inLanguage: 'en',
-    publisher: { '@type': 'Person', '@id': `${SITE_URL}/#person` },
+    publisher: { '@type': 'Person', '@id': PERSON_ID },
     author: {
       '@type': 'Person',
-      '@id': `${SITE_URL}/#person`,
-      name: 'Nassim Maaoui',
+      '@id': PERSON_ID,
+      name: SITE_NAME,
       url: SITE_URL,
     },
+    copyrightHolder: { '@type': 'Person', '@id': PERSON_ID },
+    hasPart: [
+      {
+        '@type': 'WebPage',
+        name: 'Interactive terminal',
+        url: `${SITE_URL}/terminal`,
+      },
+    ],
   }
 
   return (

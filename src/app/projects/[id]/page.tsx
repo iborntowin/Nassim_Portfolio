@@ -4,8 +4,7 @@ import { notFound } from 'next/navigation'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import OptimizedProjectDetailWrapper from '@/components/pages/optimized-project-detail-wrapper'
 import { getProjectById, getAllProjects } from '@/lib/projects-data'
-
-const SITE_URL = 'https://nassimmaaoui.vercel.app'
+import { SITE_NAME, SITE_URL } from '@/lib/seo-config'
 
 interface ProjectPageProps {
   params: Promise<{
@@ -39,17 +38,18 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
       project.name,
       ...project.techStack.map((tech) => tech.name),
       project.category,
-      'Nassim Maaoui',
+      SITE_NAME,
+      `${project.name} case study`,
     ],
-    authors: [{ name: 'Nassim Maaoui', url: SITE_URL }],
-    creator: 'Nassim Maaoui',
+    authors: [{ name: SITE_NAME, url: SITE_URL }],
+    creator: SITE_NAME,
     openGraph: {
-      title: `${project.name} — Nassim Maaoui`,
+      title: `${project.name} — ${SITE_NAME}`,
       description: project.description,
       type: 'article',
       locale: 'en_US',
       url: `${SITE_URL}/projects/${project.id}`,
-      siteName: 'Nassim Maaoui',
+      siteName: SITE_NAME,
       images: [
         {
           url: image,
@@ -59,7 +59,7 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${project.name} — Nassim Maaoui`,
+      title: `${project.name} — ${SITE_NAME}`,
       description: project.description,
       images: [image],
     },
